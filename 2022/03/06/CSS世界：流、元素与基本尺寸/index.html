@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"zxg0.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="对《CSS世界》的知识点简要总结">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS世界：流、元素与基本尺寸">
+<meta property="og:url" content="https://zxg0.github.io/2022/03/06/CSS%E4%B8%96%E7%95%8C%EF%BC%9A%E6%B5%81%E3%80%81%E5%85%83%E7%B4%A0%E4%B8%8E%E5%9F%BA%E6%9C%AC%E5%B0%BA%E5%AF%B8/index.html">
+<meta property="og:site_name" content="昧的个人博客">
+<meta property="og:description" content="对《CSS世界》的知识点简要总结">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-03-06T10:26:14.395Z">
+<meta property="article:modified_time" content="2022-03-06T10:33:39.488Z">
+<meta property="article:author" content="昧">
+<meta property="article:tag" content="笔记">
+<meta property="article:tag" content="CSS">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://zxg0.github.io/2022/03/06/CSS%E4%B8%96%E7%95%8C%EF%BC%9A%E6%B5%81%E3%80%81%E5%85%83%E7%B4%A0%E4%B8%8E%E5%9F%BA%E6%9C%AC%E5%B0%BA%E5%AF%B8/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://zxg0.github.io/2022/03/06/CSS%E4%B8%96%E7%95%8C%EF%BC%9A%E6%B5%81%E3%80%81%E5%85%83%E7%B4%A0%E4%B8%8E%E5%9F%BA%E6%9C%AC%E5%B0%BA%E5%AF%B8/","path":"2022/03/06/CSS世界：流、元素与基本尺寸/","title":"CSS世界：流、元素与基本尺寸"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>CSS世界：流、元素与基本尺寸 | 昧的个人博客</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="昧的个人博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">昧的个人博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">一邂逅，终难忘</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%9D%97%E7%BA%A7%E5%85%83%E7%B4%A0"><span class="nav-number">1.</span> <span class="nav-text">1. 块级元素</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-%E7%9B%92%E5%AD%90%E6%9E%84%E9%80%A0"><span class="nav-number">1.0.1.</span> <span class="nav-text">1.1 盒子构造</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-width-height%E4%BD%9C%E7%94%A8%E5%AF%B9%E8%B1%A1"><span class="nav-number">1.0.2.</span> <span class="nav-text">1.2 width&#x2F;height作用对象</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-width-height%E4%BD%9C%E7%94%A8%E7%BB%86%E8%8A%82"><span class="nav-number">2.</span> <span class="nav-text">2.width&#x2F;height作用细节</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-width-auto"><span class="nav-number">2.0.1.</span> <span class="nav-text">2.1 width: auto</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-1-%E5%A4%96%E9%83%A8%E5%B0%BA%E5%AF%B8%E4%B8%8E%E6%B5%81%E4%BD%93%E7%89%B9%E6%80%A7"><span class="nav-number">2.0.1.1.</span> <span class="nav-text">2.1.1 外部尺寸与流体特性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-2-%E5%86%85%E9%83%A8%E5%B0%BA%E5%AF%B8%E4%B8%8E%E6%B5%81%E4%BD%93%E7%89%B9%E6%80%A7"><span class="nav-number">2.0.1.2.</span> <span class="nav-text">2.1.2 内部尺寸与流体特性</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-width%E5%80%BC%E4%BD%9C%E7%94%A8%E7%9A%84%E7%BB%86%E8%8A%82"><span class="nav-number">2.0.2.</span> <span class="nav-text">2.2 width值作用的细节</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-%E5%AE%BD%E5%BA%A6%E5%88%86%E7%A6%BB%E5%8E%9F%E5%88%99"><span class="nav-number">2.0.3.</span> <span class="nav-text">2.3 宽度分离原则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-box-sizing"><span class="nav-number">2.0.4.</span> <span class="nav-text">2.4 box-sizing</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-height-auto"><span class="nav-number">2.0.5.</span> <span class="nav-text">2.5 height:auto</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-6-height-100"><span class="nav-number">2.0.6.</span> <span class="nav-text">2.6 height:100%</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-6-1-height-100-%E6%97%A0%E6%95%88%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="nav-number">2.0.6.1.</span> <span class="nav-text">2.6.1 height:100%无效的原因</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-6-2-%E8%AE%A9%E5%85%83%E7%B4%A0%E6%94%AF%E6%8C%81height-100-%E6%95%88%E6%9E%9C"><span class="nav-number">2.0.6.2.</span> <span class="nav-text">2.6.2 让元素支持height:100%效果</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-min-width-max-width%E3%80%81min-height-max-height"><span class="nav-number">3.</span> <span class="nav-text">3. min-width&#x2F;max-width、min-height&#x2F;max-height</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-min-width-max-width"><span class="nav-number">3.0.1.</span> <span class="nav-text">3.1 min-width&#x2F;max-width</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-%E5%88%9D%E5%A7%8B%E5%80%BC"><span class="nav-number">3.0.2.</span> <span class="nav-text">3.2 初始值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-%E8%B6%85%E8%B6%8A-important%EF%BC%8C%E8%B6%85%E8%B6%8A%E6%9C%80%E5%A4%A7"><span class="nav-number">3.0.3.</span> <span class="nav-text">3.3 超越!important，超越最大</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%86%85%E8%81%94%E5%85%83%E7%B4%A0"><span class="nav-number">4.</span> <span class="nav-text">4. 内联元素</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-%E8%BE%A8%E5%88%AB%E5%86%85%E8%81%94%E5%85%83%E7%B4%A0%EF%BC%9A"><span class="nav-number">4.0.1.</span> <span class="nav-text">4.1 辨别内联元素：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-%E5%86%85%E8%81%94%E7%9B%92%E6%A8%A1%E5%9E%8B"><span class="nav-number">4.0.2.</span> <span class="nav-text">4.2 内联盒模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-%E5%B9%BD%E7%81%B5%E7%A9%BA%E7%99%BD%E8%8A%82%E7%82%B9"><span class="nav-number">4.0.3.</span> <span class="nav-text">4.3 幽灵空白节点</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="昧"
+      src="/images/-424f50defabe407b.jpg">
+  <p class="site-author-name" itemprop="name">昧</p>
+  <div class="site-description" itemprop="description">不相识，又何妨</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zxg0" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zxg0" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:1697414153@qq.com" title="E-Mail → mailto:1697414153@qq.com" rel="noopener external nofollow noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+          </div>
+        </div>
+      </div>
+      
+        
+      
+      <div style="">
+  <canvas id="canvas" style="width:60%;">当前浏览器不支持canvas，请更换浏览器后再试</canvas>
+</div>
+<script>
+(function(){
+
+   var digit=
+    [
+        [
+            [0,0,1,1,1,0,0],
+            [0,1,1,0,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,0,1,1,0],
+            [0,0,1,1,1,0,0]
+        ],//0
+        [
+            [0,0,0,1,1,0,0],
+            [0,1,1,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [1,1,1,1,1,1,1]
+        ],//1
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,0,0,0],
+            [0,1,1,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,0,0,0,1,1],
+            [1,1,1,1,1,1,1]
+        ],//2
+        [
+            [1,1,1,1,1,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//3
+        [
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,1,0],
+            [0,0,1,1,1,1,0],
+            [0,1,1,0,1,1,0],
+            [1,1,0,0,1,1,0],
+            [1,1,1,1,1,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,1,1]
+        ],//4
+        [
+            [1,1,1,1,1,1,1],
+            [1,1,0,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,1,1,1,1,0],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//5
+        [
+            [0,0,0,0,1,1,0],
+            [0,0,1,1,0,0,0],
+            [0,1,1,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,0,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//6
+        [
+            [1,1,1,1,1,1,1],
+            [1,1,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0]
+        ],//7
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//8
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,1,1,0,0,0,0]
+        ],//9
+        [
+            [0,0,0,0,0,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,0,0,0]
+        ]//:
+    ];
+
+var canvas = document.getElementById('canvas');
+
+if(canvas.getContext){
+    var cxt = canvas.getContext('2d');
+    //声明canvas的宽高
+    var H = 100,W = 700;
+    canvas.height = H;
+    canvas.width = W;
+    cxt.fillStyle = '#f00';
+    cxt.fillRect(10,10,50,50);
+
+    //存储时间数据
+    var data = [];
+    //存储运动的小球
+    var balls = [];
+    //设置粒子半径
+    var R = canvas.height/20-1;
+    (function(){
+        var temp = /(\d)(\d):(\d)(\d):(\d)(\d)/.exec(new Date());
+        //存储时间数字，由十位小时、个位小时、冒号、十位分钟、个位分钟、冒号、十位秒钟、个位秒钟这7个数字组成
+        data.push(temp[1],temp[2],10,temp[3],temp[4],10,temp[5],temp[6]);
+    })();
+
+    /*生成点阵数字*/
+    function renderDigit(index,num){
+        for(var i = 0; i < digit[num].length; i++){
+            for(var j = 0; j < digit[num][i].length; j++){
+                if(digit[num][i][j] == 1){
+                    cxt.beginPath();
+                    cxt.arc(14*(R+2)*index + j*2*(R+1)+(R+1),i*2*(R+1)+(R+1),R,0,2*Math.PI);
+                    cxt.closePath();
+                    cxt.fill();
+                }
+            }
+        }
+    }
+
+    /*更新时钟*/
+    function updateDigitTime(){
+        var changeNumArray = [];
+        var temp = /(\d)(\d):(\d)(\d):(\d)(\d)/.exec(new Date());
+        var NewData = [];
+        NewData.push(temp[1],temp[2],10,temp[3],temp[4],10,temp[5],temp[6]);
+        for(var i = data.length-1; i >=0 ; i--){
+            //时间发生变化
+            if(NewData[i] !== data[i]){
+                //将变化的数字值和在data数组中的索引存储在changeNumArray数组中
+                changeNumArray.push(i+'_'+(Number(data[i])+1)%10);
+            }
+        }
+        //增加小球
+        for(var i = 0; i< changeNumArray.length; i++){
+            addBalls.apply(this,changeNumArray[i].split('_'));
+        }
+        data = NewData.concat();
+    }
+
+    /*更新小球状态*/
+    function updateBalls(){
+        for(var i = 0; i < balls.length; i++){
+            balls[i].stepY += balls[i].disY;
+            balls[i].x += balls[i].stepX;
+            balls[i].y += balls[i].stepY;
+            if(balls[i].x > W + R || balls[i].y > H + R){
+                balls.splice(i,1);
+                i--;
+            }
+        }
+    }
+
+    /*增加要运动的小球*/
+    function addBalls(index,num){
+        var numArray = [1,2,3];
+        var colorArray =  ["#3BE","#09C","#A6C","#93C","#9C0","#690","#FB3","#F80","#F44","#C00"];
+        for(var i = 0; i < digit[num].length; i++){
+            for(var j = 0; j < digit[num][i].length; j++){
+                if(digit[num][i][j] == 1){
+                    var ball = {
+                        x:14*(R+2)*index + j*2*(R+1)+(R+1),
+                        y:i*2*(R+1)+(R+1),
+                        stepX:Math.floor(Math.random() * 4 -2),
+                        stepY:-2*numArray[Math.floor(Math.random()*numArray.length)],
+                        color:colorArray[Math.floor(Math.random()*colorArray.length)],
+                        disY:1
+                    };
+                    balls.push(ball);
+                }
+            }
+        }
+    }
+
+    /*渲染*/
+    function render(){
+        //重置画布宽度，达到清空画布的效果
+        canvas.height = 100;
+        //渲染时钟
+        for(var i = 0; i < data.length; i++){
+            renderDigit(i,data[i]);
+        }
+        //渲染小球
+        for(var i = 0; i < balls.length; i++){
+            cxt.beginPath();
+            cxt.arc(balls[i].x,balls[i].y,R,0,2*Math.PI);
+            cxt.fillStyle = balls[i].color;
+            cxt.closePath();
+            cxt.fill();
+        }
+    }
+
+    clearInterval(oTimer);
+    var oTimer = setInterval(function(){
+        //更新时钟
+        updateDigitTime();
+        //更新小球状态
+        updateBalls();
+        //渲染
+        render();
+    },50);
+}
+
+})();
+</script>
+
+
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zxg0.github.io/2022/03/06/CSS%E4%B8%96%E7%95%8C%EF%BC%9A%E6%B5%81%E3%80%81%E5%85%83%E7%B4%A0%E4%B8%8E%E5%9F%BA%E6%9C%AC%E5%B0%BA%E5%AF%B8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/-424f50defabe407b.jpg">
+      <meta itemprop="name" content="昧">
+      <meta itemprop="description" content="不相识，又何妨">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="昧的个人博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CSS世界：流、元素与基本尺寸
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-03-06 18:26:14 / 修改时间：18:33:39" itemprop="dateCreated datePublished" datetime="2022-03-06T18:26:14+08:00">2022-03-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">读书笔记</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3.7k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>3 分钟</span>
+    </span>
+</div>
+
+            <div class="post-description">对《CSS世界》的知识点简要总结</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="1-块级元素"><a href="#1-块级元素" class="headerlink" title="1. 块级元素"></a>1. 块级元素</h2><p>基本特征：一个水平流上只能单独显示一个元素，多个块级元素则换行显示。利用此可<a target="_blank" rel="noopener external nofollow noreferrer" href="https://demo.cssworld.cn/3/1-1.php">用于清除浮动</a>。（一般不使用list-item，原因：字多、有项目符号、IE不支持）</p>
+<h4 id="1-1-盒子构造"><a href="#1-1-盒子构造" class="headerlink" title="1.1 盒子构造"></a>1.1 盒子构造</h4><p>原本只设计了单层盒子，在list-item显示项目符号和inline-block的需求下，形成了内外两个盒子的构造：如inline-block外盒子是inline，内盒子是block；inline-table外盒子是inline，内盒子为table。</p>
+<h4 id="1-2-width-height作用对象"><a href="#1-2-width-height作用对象" class="headerlink" title="1.2 width/height作用对象"></a>1.2 width/height作用对象</h4><p>width/height作用于内在盒子。</p>
+<h2 id="2-width-height作用细节"><a href="#2-width-height作用细节" class="headerlink" title="2.width/height作用细节"></a>2.width/height作用细节</h2><h4 id="2-1-width-auto"><a href="#2-1-width-auto" class="headerlink" title="2.1 width: auto"></a>2.1 width: auto</h4><p>width: auto为默认值，它至少包含了4 种不同的宽度表现：</p>
+<ol>
+<li>充分利用可用空间(fill-available)。如p、div.</li>
+<li>收缩与包裹（fit-content）。如浮动、绝对定位、inline-block、table。</li>
+<li>收缩到最小（min-content），容易出现在<a target="_blank" rel="noopener external nofollow noreferrer" href="https://demo.cssworld.cn/3/2-1.php">table-layout 为auto 的表格</a>中。</li>
+<li>超出容器限制（max-content）。<a target="_blank" rel="noopener external nofollow noreferrer" href="https://demo.cssworld.cn/3/2-2.php">内联元素被设置了white-space:nowrap</a>或者内容很长的连续的英文和数字</li>
+</ol>
+<p>盒子分“内在盒子”和“外在盒子”，尺寸也分“内部尺寸”和“外部尺寸”。</p>
+<ol>
+<li>内部尺寸：表示尺寸由内部元素决定。</li>
+<li>外部尺寸：表示尺寸由外部元素决定。</li>
+</ol>
+<p>除fill-available显示为“外部尺寸”外，其他显示都为“内部尺寸”。</p>
+<h5 id="2-1-1-外部尺寸与流体特性"><a href="#2-1-1-外部尺寸与流体特性" class="headerlink" title="2.1.1 外部尺寸与流体特性"></a>2.1.1 外部尺寸与流体特性</h5><ul>
+<li>正常流宽度：<ol>
+<li>块级元素默认会铺满容器，表现为“外部尺寸”的块级元素一旦设置了宽度，<a target="_blank" rel="noopener external nofollow noreferrer" href="http://demo.cssworld.cn/3/2-3.php">流动性就丢失了</a>。</li>
+<li>流动性：而是一种margin/border/padding和content 内容区域自动分配水平空间的机制，并不只是宽度100%显示。</li>
+</ol>
+</li>
+<li>格式化宽度：<ol>
+<li>格式化宽度：宽度大小相对于最近的具有定位特性（position 属性值不是static）的祖先元素计算。</li>
+<li>格式化宽度仅出现在“绝对定位模型”中。默认情况下，绝对定位元素表现“包裹性”。</li>
+<li>对于非替换元素，当left/top 或top/bottom 对立方位的属性值同时存在的时候，元素的宽度表现为“格式化宽度”。</li>
+</ol>
+</li>
+</ul>
+<h5 id="2-1-2-内部尺寸与流体特性"><a href="#2-1-2-内部尺寸与流体特性" class="headerlink" title="2.1.2 内部尺寸与流体特性"></a>2.1.2 内部尺寸与流体特性</h5><p>“内部尺寸”判断：一个元素里面没有内容时，宽度是0，这个元素应用的就是内部尺寸。</p>
+<ul>
+<li><p>包裹性：作者对“shrink-to-fit”的一种称谓，包含“包裹”，还有“自适应性”。</p>
+<ol>
+<li>自适应性，指的是元素尺寸由内部元素决定，但永远小于“包含块”容器的尺寸。</li>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://demo.cssworld.cn/3/2-4.php">体现</a>：按钮文字越多宽度越宽（内部尺寸特性），但如果文字足够多则会在容器的宽度处自动换行（自适应特性）。</li>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://demo.cssworld.cn/3/2-5.php">巧用</a>：一段文本文字少的时候居中显示，文字超过一行的时候居左显示。</li>
+</ol>
+</li>
+<li><p>首选最小宽度</p>
+<p>最小宽度即元素最适合的最小宽度</p>
+<ol>
+<li>中文最小宽度为每个汉字的宽度</li>
+<li>西方文字最小宽度由特定的连续的英文字符单元决定。</li>
+<li>替换元素（如图片）的最小宽度就是该元素内容本身的宽度。</li>
+</ol>
+<p><a target="_blank" rel="noopener external nofollow noreferrer" href="https://demo.cssworld.cn/3/2-6.php">巧用</a>：“凹”和“凸”效果</p>
+</li>
+<li><p>最大宽度：等同于“包裹性”元素设置white-space:nowrap 声明后的宽<br>度，如果内部没有块级元素或者块级元素没有设定宽度值，则“最大宽度”是最大的连续内联盒子的宽度。</p>
+<p><a target="_blank" rel="noopener external nofollow noreferrer" href="http://demo.cssworld.cn/3/2-7.php">巧用</a>：优化滚动。</p>
+</li>
+</ul>
+<h4 id="2-2-width值作用的细节"><a href="#2-2-width值作用的细节" class="headerlink" title="2.2 width值作用的细节"></a>2.2 width值作用的细节</h4><ul>
+<li>“内在盒子”被分成了4 个盒子：content-box、padding-box、border-box<br>和margin box。（规范中提及：margin 的背景永远是透明的，所以margin box没有名字）</li>
+<li>CSS2.1 的规范：content box 环绕着width 和height 给定的矩形。即width/height的值作用于content-box。</li>
+</ul>
+<h4 id="2-3-宽度分离原则"><a href="#2-3-宽度分离原则" class="headerlink" title="2.3 宽度分离原则"></a>2.3 宽度分离原则</h4><p>宽度分离原则：指CSS 中的width 属性不与影响宽度的padding/border（有<br>时候包括margin）属性共存。</p>
+<ul>
+<li><p>进行宽度分离的原因：便于维护。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">//设计师设定宽度<span class="number">102px</span>，有<span class="number">20px</span>留白</span><br><span class="line"></span><br><span class="line">//未使用宽度分离</span><br><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">60px</span>; // 通过计算，减去<span class="number">40</span> 像素</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">20px</span>;</span><br><span class="line">    <span class="attribute">border</span>: <span class="number">1px</span> solid;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//使用宽度分离</span><br><span class="line"><span class="selector-class">.father</span> &#123;</span><br><span class="line">	<span class="attribute">width</span>: <span class="number">102px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.son</span> &#123;</span><br><span class="line">	<span class="attribute">border</span>: <span class="number">1px</span> solid;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">20px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>不足：多了一层标签嵌套；更好的办法：使用box-sizing 属性。</p>
+</li>
+</ul>
+<h4 id="2-4-box-sizing"><a href="#2-4-box-sizing" class="headerlink" title="2.4 box-sizing"></a>2.4 box-sizing</h4><p>浏览器支持：IE8加ms-前缀后支持，以上版支持良好。</p>
+<ul>
+<li><p>box-sizing的作用：改变width的作用细节。属性值的选择：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.box1</span> &#123; <span class="attribute">box-sizing</span>: content-box; &#125; <span class="comment">/* 默认值 */</span></span><br><span class="line"><span class="selector-class">.box2</span> &#123; <span class="attribute">box-sizing</span>: padding-box; &#125; <span class="comment">/* Firefox 曾经支持 */</span></span><br><span class="line"><span class="selector-class">.box3</span> &#123; <span class="attribute">box-sizing</span>: border-box; &#125; <span class="comment">/* 全线支持 */</span></span><br><span class="line"><span class="selector-class">.box4</span> &#123; <span class="attribute">box-sizing</span>: margin-box; &#125; <span class="comment">/* 从未支持过 */</span></span><br></pre></td></tr></table></figure></li>
+<li><p>box-sizing 不支持margin-box的原因：本身没有价值，多余。</p>
+</li>
+<li><p>*{box-sizing:border-box}重置：易产生没必要的消耗、不能彻摆脱计算.可能合理的重置：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">input</span>, <span class="selector-tag">textarea</span>, <span class="selector-tag">img</span>, <span class="selector-tag">video</span>, <span class="selector-tag">object</span> &#123;</span><br><span class="line"><span class="attribute">box-sizing</span>: border-box;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>box-sizing的发明初衷：原生普通文本框input和文本域textarea的100%自适应父容器宽度。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">textarea</span> &#123;</span><br><span class="line"><span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">-ms-<span class="attribute">box-sizing</span>: border-box; <span class="comment">/* for IE8 */</span></span><br><span class="line"><span class="attribute">box-sizing</span>: border-box;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="2-5-height-auto"><a href="#2-5-height-auto" class="headerlink" title="2.5 height:auto"></a>2.5 height:auto</h4><ul>
+<li>CSS 的默认流是水平方向的，宽度是稀缺的，高度是无限的。</li>
+<li>height:auto 外部尺寸特性仅存在于绝对定位模型中，即“格式化高度”。</li>
+</ul>
+<h4 id="2-6-height-100"><a href="#2-6-height-100" class="headerlink" title="2.6 height:100%"></a>2.6 height:100%</h4><h5 id="2-6-1-height-100-无效的原因"><a href="#2-6-1-height-100-无效的原因" class="headerlink" title="2.6.1 height:100%无效的原因"></a>2.6.1 height:100%无效的原因</h5><ul>
+<li>规范指出：如果包含块的高度没有显式指定（即高度由内容决定），并且该元素不是绝对定位，则计算值为auto。’auto’ * 100/100 = NaN</li>
+<li>宽度有效的原因：规范中宽度的这种情况为“未定义行为”。</li>
+</ul>
+<h5 id="2-6-2-让元素支持height-100-效果"><a href="#2-6-2-让元素支持height-100-效果" class="headerlink" title="2.6.2 让元素支持height:100%效果"></a>2.6.2 让元素支持height:100%效果</h5><ul>
+<li><p>设定显式的高度值</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">html</span>, <span class="selector-tag">body</span> &#123;</span><br><span class="line"><span class="attribute">height</span>: <span class="number">100%</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>使用绝对定位：<a target="_blank" rel="noopener external nofollow noreferrer" href="http://demo.cssworld.cn/3/2-11.php">应用示例</a></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line"><span class="attribute">height</span>: <span class="number">100%</span>;</span><br><span class="line"><span class="attribute">position</span>: absolute;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>绝对定位元素的百分比计算和非绝对定位元素的百分比计算的区别：绝对定位的宽高百分比计算相对于padding-box，非绝对定位元素相对于content-box计算。</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-min-width-max-width、min-height-max-height"><a href="#3-min-width-max-width、min-height-max-height" class="headerlink" title="3. min-width/max-width、min-height/max-height"></a>3. min-width/max-width、min-height/max-height</h2><h4 id="3-1-min-width-max-width"><a href="#3-1-min-width-max-width" class="headerlink" title="3.1 min-width/max-width"></a>3.1 min-width/max-width</h4><p>min-width/max-width出现的场景一定是自适应布局或者流体布局中，</p>
+<h4 id="3-2-初始值"><a href="#3-2-初始值" class="headerlink" title="3.2 初始值"></a>3.2 初始值</h4><p>文档上显示min-width/min-height 的初始值是0，但根据测试，所有浏览器中min-*的初始值为auto。依据：</p>
+<ul>
+<li>min-wdith/height 值为auto 合法。</li>
+<li>初始值为0时，数值变化transition无动画。</li>
+</ul>
+<h4 id="3-3-超越-important，超越最大"><a href="#3-3-超越-important，超越最大" class="headerlink" title="3.3 超越!important，超越最大"></a>3.3 超越!important，超越最大</h4><ul>
+<li>超越!important：max-width 会覆盖width，即使width加了!important也会被max-width覆盖：<a target="_blank" rel="noopener external nofollow noreferrer" href="http://demo.cssworld.cn/3/3-1.php">示例</a>。</li>
+<li>超越最大：在min-width和max-width冲突的时候，min-width覆盖max-width。</li>
+<li>巧用：任意高度元素展开收起动画，需要展开的元素是动态的，无法直接指定height进行过渡，使用max-height为0到某一值<a target="_blank" rel="noopener external nofollow noreferrer" href="http://demo.cssworld.cn/3/3-2.php">实现</a>。</li>
+</ul>
+<h2 id="4-内联元素"><a href="#4-内联元素" class="headerlink" title="4. 内联元素"></a>4. 内联元素</h2><h4 id="4-1-辨别内联元素："><a href="#4-1-辨别内联元素：" class="headerlink" title="4.1 辨别内联元素："></a>4.1 辨别内联元素：</h4><ul>
+<li>从定义看：“内联元素”的“内联”特指“外在盒子”，即“外在盒子”是内联盒子。</li>
+<li>从表现看：可以和文字在一行显示。</li>
+</ul>
+<h4 id="4-2-内联盒模型"><a href="#4-2-内联盒模型" class="headerlink" title="4.2 内联盒模型"></a>4.2 内联盒模型</h4><ul>
+<li>内容区域：一种围绕文字看不见的盒子，其大小仅受字符本身特性控制，本质上是一个字符盒子，我们可以把文本选中的背景色区域作为内容区域。（chrome浏览器范围不准确）</li>
+<li>内联盒子：“内联盒子”（实际指元素的“外在盒子”）不会让内容成块显示，而是排成一行。外部有内联标签时称为内联盒子，否则为“匿名内联盒子”或“匿名块级盒子”。</li>
+<li>行框盒子：每一行就是一个“行框盒子”，每个“行框盒子”又是由一个一个“内联盒子”组成的。</li>
+<li>包含盒子：如p标签就是一个“包含盒子”，此盒子由一行一行的“行框盒子”组成。准确称呼应该是“包含块”（containing block）。</li>
+</ul>
+<h4 id="4-3-幽灵空白节点"><a href="#4-3-幽灵空白节点" class="headerlink" title="4.3 幽灵空白节点"></a>4.3 幽灵空白节点</h4><p>内联元素的所有解析和渲染表现就如同每个行框盒子的前面有一个“空白节点”一样。这个“空白节点”永远透明，不占据任何宽度，看不见也无法通过脚本获取，就好像幽灵一样，但又确确实实地存在，表现如同文本节点一样。规范中称为“strut”。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>昧
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://zxg0.github.io/2022/03/06/CSS%E4%B8%96%E7%95%8C%EF%BC%9A%E6%B5%81%E3%80%81%E5%85%83%E7%B4%A0%E4%B8%8E%E5%9F%BA%E6%9C%AC%E5%B0%BA%E5%AF%B8/" title="CSS世界：流、元素与基本尺寸">https://zxg0.github.io/2022/03/06/CSS世界：流、元素与基本尺寸/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E7%AC%94%E8%AE%B0/" rel="tag"># 笔记</a>
+              <a href="/tags/CSS/" rel="tag"># CSS</a>
+          </div>
+
+        
+
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+<div class="translate-style">
+繁/简：<a id="translateLink" href="javascript:translatePage();" rel="external nofollow noreferrer">繁体
+</a>
+</div>
+<script type="text/javascript" src="/js/tw_cn.js"></script>
+<script type="text/javascript">
+var defaultEncoding = 2; //网站编写字体是否繁体，1-繁体，2-简体
+var translateDelay = 0; //延迟时间,若不在前, 要设定延迟翻译时间, 如100表示100ms,默认为0
+var cookieDomain = "https://tding.top/"; //Cookie地址, 一定要设定, 通常为你的网址
+var msgToTraditionalChinese = "繁体"; //此处可以更改为你想要显示的文字
+var msgToSimplifiedChinese = "简体"; //同上，但两处均不建议更改
+var translateButtonId = "translateLink"; //默认互换id
+translateInitilization();
+</script>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">4k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">3 分钟</span>
+  </span>
+</div>
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">昧</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener external nofollow noreferrer" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener external nofollow noreferrer" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+
+</body>
+</html>

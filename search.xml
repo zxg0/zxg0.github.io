@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>CSS世界：流、元素与基本尺寸</title>
+    <url>/2022/03/06/CSS%E4%B8%96%E7%95%8C%EF%BC%9A%E6%B5%81%E3%80%81%E5%85%83%E7%B4%A0%E4%B8%8E%E5%9F%BA%E6%9C%AC%E5%B0%BA%E5%AF%B8/</url>
+    <content><![CDATA[<h2 id="1-块级元素"><a href="#1-块级元素" class="headerlink" title="1. 块级元素"></a>1. 块级元素</h2><p>基本特征：一个水平流上只能单独显示一个元素，多个块级元素则换行显示。利用此可<a href="https://demo.cssworld.cn/3/1-1.php">用于清除浮动</a>。（一般不使用list-item，原因：字多、有项目符号、IE不支持）</p>
+<h4 id="1-1-盒子构造"><a href="#1-1-盒子构造" class="headerlink" title="1.1 盒子构造"></a>1.1 盒子构造</h4><p>原本只设计了单层盒子，在list-item显示项目符号和inline-block的需求下，形成了内外两个盒子的构造：如inline-block外盒子是inline，内盒子是block；inline-table外盒子是inline，内盒子为table。</p>
+<h4 id="1-2-width-height作用对象"><a href="#1-2-width-height作用对象" class="headerlink" title="1.2 width/height作用对象"></a>1.2 width/height作用对象</h4><p>width/height作用于内在盒子。</p>
+<h2 id="2-width-height作用细节"><a href="#2-width-height作用细节" class="headerlink" title="2.width/height作用细节"></a>2.width/height作用细节</h2><h4 id="2-1-width-auto"><a href="#2-1-width-auto" class="headerlink" title="2.1 width: auto"></a>2.1 width: auto</h4><p>width: auto为默认值，它至少包含了4 种不同的宽度表现：</p>
+<ol>
+<li>充分利用可用空间(fill-available)。如p、div.</li>
+<li>收缩与包裹（fit-content）。如浮动、绝对定位、inline-block、table。</li>
+<li>收缩到最小（min-content），容易出现在<a href="https://demo.cssworld.cn/3/2-1.php">table-layout 为auto 的表格</a>中。</li>
+<li>超出容器限制（max-content）。<a href="https://demo.cssworld.cn/3/2-2.php">内联元素被设置了white-space:nowrap</a>或者内容很长的连续的英文和数字</li>
+</ol>
+<p>盒子分“内在盒子”和“外在盒子”，尺寸也分“内部尺寸”和“外部尺寸”。</p>
+<ol>
+<li>内部尺寸：表示尺寸由内部元素决定。</li>
+<li>外部尺寸：表示尺寸由外部元素决定。</li>
+</ol>
+<p>除fill-available显示为“外部尺寸”外，其他显示都为“内部尺寸”。</p>
+<h5 id="2-1-1-外部尺寸与流体特性"><a href="#2-1-1-外部尺寸与流体特性" class="headerlink" title="2.1.1 外部尺寸与流体特性"></a>2.1.1 外部尺寸与流体特性</h5><ul>
+<li>正常流宽度：<ol>
+<li>块级元素默认会铺满容器，表现为“外部尺寸”的块级元素一旦设置了宽度，<a href="http://demo.cssworld.cn/3/2-3.php">流动性就丢失了</a>。</li>
+<li>流动性：而是一种margin/border/padding和content 内容区域自动分配水平空间的机制，并不只是宽度100%显示。</li>
+</ol>
+</li>
+<li>格式化宽度：<ol>
+<li>格式化宽度：宽度大小相对于最近的具有定位特性（position 属性值不是static）的祖先元素计算。</li>
+<li>格式化宽度仅出现在“绝对定位模型”中。默认情况下，绝对定位元素表现“包裹性”。</li>
+<li>对于非替换元素，当left/top 或top/bottom 对立方位的属性值同时存在的时候，元素的宽度表现为“格式化宽度”。</li>
+</ol>
+</li>
+</ul>
+<h5 id="2-1-2-内部尺寸与流体特性"><a href="#2-1-2-内部尺寸与流体特性" class="headerlink" title="2.1.2 内部尺寸与流体特性"></a>2.1.2 内部尺寸与流体特性</h5><p>“内部尺寸”判断：一个元素里面没有内容时，宽度是0，这个元素应用的就是内部尺寸。</p>
+<ul>
+<li><p>包裹性：作者对“shrink-to-fit”的一种称谓，包含“包裹”，还有“自适应性”。</p>
+<ol>
+<li>自适应性，指的是元素尺寸由内部元素决定，但永远小于“包含块”容器的尺寸。</li>
+<li><a href="https://demo.cssworld.cn/3/2-4.php">体现</a>：按钮文字越多宽度越宽（内部尺寸特性），但如果文字足够多则会在容器的宽度处自动换行（自适应特性）。</li>
+<li><a href="https://demo.cssworld.cn/3/2-5.php">巧用</a>：一段文本文字少的时候居中显示，文字超过一行的时候居左显示。</li>
+</ol>
+</li>
+<li><p>首选最小宽度</p>
+<p>最小宽度即元素最适合的最小宽度</p>
+<ol>
+<li>中文最小宽度为每个汉字的宽度</li>
+<li>西方文字最小宽度由特定的连续的英文字符单元决定。</li>
+<li>替换元素（如图片）的最小宽度就是该元素内容本身的宽度。</li>
+</ol>
+<p><a href="https://demo.cssworld.cn/3/2-6.php">巧用</a>：“凹”和“凸”效果</p>
+</li>
+<li><p>最大宽度：等同于“包裹性”元素设置white-space:nowrap 声明后的宽<br>度，如果内部没有块级元素或者块级元素没有设定宽度值，则“最大宽度”是最大的连续内联盒子的宽度。</p>
+<p><a href="http://demo.cssworld.cn/3/2-7.php">巧用</a>：优化滚动。</p>
+</li>
+</ul>
+<h4 id="2-2-width值作用的细节"><a href="#2-2-width值作用的细节" class="headerlink" title="2.2 width值作用的细节"></a>2.2 width值作用的细节</h4><ul>
+<li>“内在盒子”被分成了4 个盒子：content-box、padding-box、border-box<br>和margin box。（规范中提及：margin 的背景永远是透明的，所以margin box没有名字）</li>
+<li>CSS2.1 的规范：content box 环绕着width 和height 给定的矩形。即width/height的值作用于content-box。</li>
+</ul>
+<h4 id="2-3-宽度分离原则"><a href="#2-3-宽度分离原则" class="headerlink" title="2.3 宽度分离原则"></a>2.3 宽度分离原则</h4><p>宽度分离原则：指CSS 中的width 属性不与影响宽度的padding/border（有<br>时候包括margin）属性共存。</p>
+<ul>
+<li><p>进行宽度分离的原因：便于维护。</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">//设计师设定宽度<span class="number">102px</span>，有<span class="number">20px</span>留白</span><br><span class="line"></span><br><span class="line">//未使用宽度分离</span><br><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">60px</span>; // 通过计算，减去<span class="number">40</span> 像素</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">20px</span>;</span><br><span class="line">    <span class="attribute">border</span>: <span class="number">1px</span> solid;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//使用宽度分离</span><br><span class="line"><span class="selector-class">.father</span> &#123;</span><br><span class="line">	<span class="attribute">width</span>: <span class="number">102px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.son</span> &#123;</span><br><span class="line">	<span class="attribute">border</span>: <span class="number">1px</span> solid;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">20px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>不足：多了一层标签嵌套；更好的办法：使用box-sizing 属性。</p>
+</li>
+</ul>
+<h4 id="2-4-box-sizing"><a href="#2-4-box-sizing" class="headerlink" title="2.4 box-sizing"></a>2.4 box-sizing</h4><p>浏览器支持：IE8加ms-前缀后支持，以上版支持良好。</p>
+<ul>
+<li><p>box-sizing的作用：改变width的作用细节。属性值的选择：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.box1</span> &#123; <span class="attribute">box-sizing</span>: content-box; &#125; <span class="comment">/* 默认值 */</span></span><br><span class="line"><span class="selector-class">.box2</span> &#123; <span class="attribute">box-sizing</span>: padding-box; &#125; <span class="comment">/* Firefox 曾经支持 */</span></span><br><span class="line"><span class="selector-class">.box3</span> &#123; <span class="attribute">box-sizing</span>: border-box; &#125; <span class="comment">/* 全线支持 */</span></span><br><span class="line"><span class="selector-class">.box4</span> &#123; <span class="attribute">box-sizing</span>: margin-box; &#125; <span class="comment">/* 从未支持过 */</span></span><br></pre></td></tr></table></figure></li>
+<li><p>box-sizing 不支持margin-box的原因：本身没有价值，多余。</p>
+</li>
+<li><p>*{box-sizing:border-box}重置：易产生没必要的消耗、不能彻摆脱计算.可能合理的重置：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">input</span>, <span class="selector-tag">textarea</span>, <span class="selector-tag">img</span>, <span class="selector-tag">video</span>, <span class="selector-tag">object</span> &#123;</span><br><span class="line"><span class="attribute">box-sizing</span>: border-box;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>box-sizing的发明初衷：原生普通文本框input和文本域textarea的100%自适应父容器宽度。</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">textarea</span> &#123;</span><br><span class="line"><span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">-ms-<span class="attribute">box-sizing</span>: border-box; <span class="comment">/* for IE8 */</span></span><br><span class="line"><span class="attribute">box-sizing</span>: border-box;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="2-5-height-auto"><a href="#2-5-height-auto" class="headerlink" title="2.5 height:auto"></a>2.5 height:auto</h4><ul>
+<li>CSS 的默认流是水平方向的，宽度是稀缺的，高度是无限的。</li>
+<li>height:auto 外部尺寸特性仅存在于绝对定位模型中，即“格式化高度”。</li>
+</ul>
+<h4 id="2-6-height-100"><a href="#2-6-height-100" class="headerlink" title="2.6 height:100%"></a>2.6 height:100%</h4><h5 id="2-6-1-height-100-无效的原因"><a href="#2-6-1-height-100-无效的原因" class="headerlink" title="2.6.1 height:100%无效的原因"></a>2.6.1 height:100%无效的原因</h5><ul>
+<li>规范指出：如果包含块的高度没有显式指定（即高度由内容决定），并且该元素不是绝对定位，则计算值为auto。’auto’ * 100/100 = NaN</li>
+<li>宽度有效的原因：规范中宽度的这种情况为“未定义行为”。</li>
+</ul>
+<h5 id="2-6-2-让元素支持height-100-效果"><a href="#2-6-2-让元素支持height-100-效果" class="headerlink" title="2.6.2 让元素支持height:100%效果"></a>2.6.2 让元素支持height:100%效果</h5><ul>
+<li><p>设定显式的高度值</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">html</span>, <span class="selector-tag">body</span> &#123;</span><br><span class="line"><span class="attribute">height</span>: <span class="number">100%</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>使用绝对定位：<a href="http://demo.cssworld.cn/3/2-11.php">应用示例</a></p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line"><span class="attribute">height</span>: <span class="number">100%</span>;</span><br><span class="line"><span class="attribute">position</span>: absolute;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>绝对定位元素的百分比计算和非绝对定位元素的百分比计算的区别：绝对定位的宽高百分比计算相对于padding-box，非绝对定位元素相对于content-box计算。</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-min-width-max-width、min-height-max-height"><a href="#3-min-width-max-width、min-height-max-height" class="headerlink" title="3. min-width/max-width、min-height/max-height"></a>3. min-width/max-width、min-height/max-height</h2><h4 id="3-1-min-width-max-width"><a href="#3-1-min-width-max-width" class="headerlink" title="3.1 min-width/max-width"></a>3.1 min-width/max-width</h4><p>min-width/max-width出现的场景一定是自适应布局或者流体布局中，</p>
+<h4 id="3-2-初始值"><a href="#3-2-初始值" class="headerlink" title="3.2 初始值"></a>3.2 初始值</h4><p>文档上显示min-width/min-height 的初始值是0，但根据测试，所有浏览器中min-*的初始值为auto。依据：</p>
+<ul>
+<li>min-wdith/height 值为auto 合法。</li>
+<li>初始值为0时，数值变化transition无动画。</li>
+</ul>
+<h4 id="3-3-超越-important，超越最大"><a href="#3-3-超越-important，超越最大" class="headerlink" title="3.3 超越!important，超越最大"></a>3.3 超越!important，超越最大</h4><ul>
+<li>超越!important：max-width 会覆盖width，即使width加了!important也会被max-width覆盖：<a href="http://demo.cssworld.cn/3/3-1.php">示例</a>。</li>
+<li>超越最大：在min-width和max-width冲突的时候，min-width覆盖max-width。</li>
+<li>巧用：任意高度元素展开收起动画，需要展开的元素是动态的，无法直接指定height进行过渡，使用max-height为0到某一值<a href="http://demo.cssworld.cn/3/3-2.php">实现</a>。</li>
+</ul>
+<h2 id="4-内联元素"><a href="#4-内联元素" class="headerlink" title="4. 内联元素"></a>4. 内联元素</h2><h4 id="4-1-辨别内联元素："><a href="#4-1-辨别内联元素：" class="headerlink" title="4.1 辨别内联元素："></a>4.1 辨别内联元素：</h4><ul>
+<li>从定义看：“内联元素”的“内联”特指“外在盒子”，即“外在盒子”是内联盒子。</li>
+<li>从表现看：可以和文字在一行显示。</li>
+</ul>
+<h4 id="4-2-内联盒模型"><a href="#4-2-内联盒模型" class="headerlink" title="4.2 内联盒模型"></a>4.2 内联盒模型</h4><ul>
+<li>内容区域：一种围绕文字看不见的盒子，其大小仅受字符本身特性控制，本质上是一个字符盒子，我们可以把文本选中的背景色区域作为内容区域。（chrome浏览器范围不准确）</li>
+<li>内联盒子：“内联盒子”（实际指元素的“外在盒子”）不会让内容成块显示，而是排成一行。外部有内联标签时称为内联盒子，否则为“匿名内联盒子”或“匿名块级盒子”。</li>
+<li>行框盒子：每一行就是一个“行框盒子”，每个“行框盒子”又是由一个一个“内联盒子”组成的。</li>
+<li>包含盒子：如p标签就是一个“包含盒子”，此盒子由一行一行的“行框盒子”组成。准确称呼应该是“包含块”（containing block）。</li>
+</ul>
+<h4 id="4-3-幽灵空白节点"><a href="#4-3-幽灵空白节点" class="headerlink" title="4.3 幽灵空白节点"></a>4.3 幽灵空白节点</h4><p>内联元素的所有解析和渲染表现就如同每个行框盒子的前面有一个“空白节点”一样。这个“空白节点”永远透明，不占据任何宽度，看不见也无法通过脚本获取，就好像幽灵一样，但又确确实实地存在，表现如同文本节点一样。规范中称为“strut”。</p>
+]]></content>
+      <categories>
+        <category>读书笔记</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+        <tag>CSS</tag>
+      </tags>
+  </entry>
+</search>

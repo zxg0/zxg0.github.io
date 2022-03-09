@@ -2909,8 +2909,8 @@ body {
 @media (max-width: 767px) {
   body {
     background-image: url("https://source.unsplash.com/random/500x900") !important;
-    background-repeat: no-repeat;
-    background-attachment: round;
+    background-repeat: round;
+    background-attachment: fixed;
     background-size: 100% auto;
   }
 }

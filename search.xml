@@ -126,4 +126,367 @@
         <tag>CSS</tag>
       </tags>
   </entry>
+  <entry>
+    <title>CSS世界：盒尺寸四大家族</title>
+    <url>/2022/03/09/CSS%E4%B8%96%E7%95%8C%EF%BC%9A%E7%9B%92%E5%B0%BA%E5%AF%B8%E5%9B%9B%E5%A4%A7%E5%AE%B6%E6%97%8F/</url>
+    <content><![CDATA[<h2 id="1-深入理解content"><a href="#1-深入理解content" class="headerlink" title="1. 深入理解content"></a>1. 深入理解content</h2><h4 id="1-1-content与替换元素"><a href="#1-1-content与替换元素" class="headerlink" title="1.1 content与替换元素"></a>1.1 content与替换元素</h4><h5 id="1-1-1-替换元素的定义"><a href="#1-1-1-替换元素的定义" class="headerlink" title="1.1.1 替换元素的定义"></a>1.1.1 替换元素的定义</h5><p>替换元素，顾名思义，内容可以被替换。还具有特性：</p>
+<ol>
+<li>内容的外观不受页面上的CSS 的影响，即其样式表现在CSS 作<br>用域之外。如input[type=’checkbox’]{}无法更改内间距、背<br>景色等样式。</li>
+<li>有自己的尺寸。一些默认为300*500，少部分为0，表单元素的替换元素的尺寸和浏览器有关。</li>
+<li>在很多CSS 属性上有自己的一套表现规则。如vertical-align</li>
+</ol>
+<h5 id="1-1-2替换元素display默认值"><a href="#1-1-2替换元素display默认值" class="headerlink" title="1.1.2替换元素display默认值"></a>1.1.2替换元素display默认值</h5><p>各个替换元素的默认display 属性值</p>
+<table>
+<thead>
+<tr>
+<th>元素</th>
+<th>Chrome</th>
+<th>Firefox</th>
+<th>IE</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>img</td>
+<td>inline</td>
+<td>inline</td>
+<td>inline</td>
+</tr>
+<tr>
+<td>iframe</td>
+<td>inline</td>
+<td>inline</td>
+<td>inline</td>
+</tr>
+<tr>
+<td>video</td>
+<td>inline</td>
+<td>inline</td>
+<td>inline</td>
+</tr>
+<tr>
+<td>select</td>
+<td>inline-block</td>
+<td>inline-block</td>
+<td>inline-block</td>
+</tr>
+<tr>
+<td>input</td>
+<td>inline-block</td>
+<td>inline</td>
+<td>inline-block</td>
+</tr>
+<tr>
+<td>range file</td>
+<td>input</td>
+<td>inline-block</td>
+<td>inline-block</td>
+</tr>
+<tr>
+<td>hidden input</td>
+<td>none</td>
+<td>none</td>
+<td>none</td>
+</tr>
+<tr>
+<td>button</td>
+<td>inline-block</td>
+<td>inline-block</td>
+<td>inline-block</td>
+</tr>
+<tr>
+<td>textarea</td>
+<td>inline-block</td>
+<td>inline</td>
+<td>inline-block</td>
+</tr>
+</tbody></table>
+<p>区别：Firefox 浏览器在textarea和绝大多数类型的input元素上是inline 而不是inline-block。</p>
+<h5 id="1-1-3-替换元素的尺寸计算规则"><a href="#1-1-3-替换元素的尺寸计算规则" class="headerlink" title="1.1.3 替换元素的尺寸计算规则"></a>1.1.3 替换元素的尺寸计算规则</h5><p>替换元素的尺寸从内而外分为 3 类：</p>
+<ul>
+<li>固有尺寸：替换内容原本的尺寸。如图片、视频作为一个独立文件存在的时候，有自己的宽度高度；如input默认尺寸。</li>
+<li>HTML尺寸：能通过HTML 原生属性改变。有img的width 和height 属性、input的size 属性、textarea的cols 和rows 属性等。</li>
+<li>CSS尺寸：特指可以通过CSS 的width 和height 或者max-width/min-width 和max-height/min-height 设置的尺寸，对应盒尺寸中的content box。</li>
+</ul>
+<p>计算规则（内联替换元素和块级替换元素相同）：</p>
+<ul>
+<li><p>如果没有CSS 尺寸和HTML 尺寸，则使用固有尺寸作为最终的宽高。</p>
+</li>
+<li><p>如果没有CSS 尺寸，则使用HTML尺寸作为最终的宽高。</p>
+</li>
+<li><p>如果有CSS 尺寸，则最终尺寸由CSS 属性决定。</p>
+</li>
+<li><p>如果“固有尺寸”含有固有的宽高比例，同时仅设置了宽度或仅设置了高度，则元素依然按照固有的宽高比例显示。</p>
+</li>
+<li><p>如果上面的条件都不符合，则最终宽度表现为元素“自己的尺寸”。</p>
+</li>
+<li><p>特例：<code>&lt;img&gt;</code>不同浏览器有不同的尺寸以及表现。使用时建议设置宽高。建议的CSS重置：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">img</span> &#123; <span class="attribute">display</span>: inline-block; &#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>注：我们始终无法改变替换元素内容的固有尺寸，<a href="http://demo.cssworld.cn/4/1-1.php">示例</a>。但设定width和 height 会影响图片的尺寸，原因在于填充方式是fill。（CSS3中可通过object-fit修改）</p>
+<h5 id="1-1-4-替换元素和非替换元素的距离"><a href="#1-1-4-替换元素和非替换元素的距离" class="headerlink" title="1.1.4 替换元素和非替换元素的距离"></a>1.1.4 替换元素和非替换元素的距离</h5><ul>
+<li>src属性：Firefox浏览器下<code>&lt;img&gt;</code>标签和chrome下<code>&lt;img alt=&quot;不为空&quot;</code>时的表现与<code>&lt;span&gt;</code>表现相同。<a href="https://demo.cssworld.cn/4/1-2.php">妙用</a></li>
+<li>content 属性：<code>img &#123; content: url(1.jpg); &#125; &lt;img&gt;</code>的视觉效果等同于<code>&lt;img src=&quot;1.jpg&quot;&gt;</code></li>
+</ul>
+<p>注：1. content 属性改变的仅仅是视觉呈现。2. 如果图片原来有src ，可以使用content 属性把图片内容给置换掉。<a href="https://demo.cssworld.cn/4/1-4.php">示例1</a>，<a href="https://demo.cssworld.cn/4/1-5.php">示例2</a></p>
+<h5 id="1-1-5-content-与替换元素关系"><a href="#1-1-5-content-与替换元素关系" class="headerlink" title="1.1.5 content 与替换元素关系"></a>1.1.5 content 与替换元素关系</h5><p>content 属性生成的对象称为“匿名替换元素”；content 属性生成的内容都是替换元素。</p>
+<ul>
+<li>使用content 生成的文本是无法选中、无法复制的，好像设置了userselect:none 声明一般。</li>
+<li>:empty伪类选择器不识别生成的内容。</li>
+<li>content 动态生成值无法获取。</li>
+</ul>
+<h4 id="1-2-content-内容生成技术"><a href="#1-2-content-内容生成技术" class="headerlink" title="1.2 content 内容生成技术"></a>1.2 content 内容生成技术</h4><ul>
+<li><p>辅助元素生成：核心点不在于content 生成的内容，而是伪元素本身。<a href="http://demo.cssworld.cn/4/1-7.php">应用</a></p>
+</li>
+<li><p>content 字符内容生成：直接写入字符或者配合<br>@font-face 规则实现图标字体效果。<a href="http://demo.cssworld.cn/4/1-8.php">应用</a>，<a href="http://demo.cssworld.cn/4/1-9.php">妙用</a></p>
+</li>
+<li><p>图片生成：实际使用并不多，原因在于图片的尺寸不好控制（无法改变图片的固有尺寸）。所以更多的是使用background-image 模拟。除非是base64URL地址。<a href="http://demo.cssworld.cn/4/1-10.php">应用</a></p>
+</li>
+<li><p>开启闭合符号生成：content支持的属性值一对不常用的open-quote和close-quote关键字。但quote可以通过CSS自定义。如<code>.ask&#123;quotes:&#39;提问：“&#39; &#39;”&#39;&#125;</code></p>
+</li>
+<li><p>attr 属性值内容生成：除了原生的HTML 属性，自定义的HTML 属性也是可以生产。</p>
+</li>
+<li><p>计数器：</p>
+<ol>
+<li><p>属性counter-reset：给计数器起个名字，顺便告诉下从哪个数字开始计数，默认是0。</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="comment">/* 计数器名称是&#x27;wangxiaoer&#x27;, 并且默认起始值是2，可以为负数，小数IE和Firefox不识别 */</span></span><br><span class="line"><span class="selector-class">.xxx</span> &#123; <span class="attribute">counter-reset</span>: wangxiaoer <span class="number">2</span>; &#125;</span><br><span class="line"><span class="comment">/* 多个一起命名 还可以设置为none 和inherit。取消重置以及继承重置。*/</span></span><br><span class="line"><span class="selector-class">.xxx</span> &#123; <span class="attribute">counter-reset</span>: wangxiaoer <span class="number">2</span> wangxiaosan <span class="number">3</span>; &#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>属性counter-increment：。值为counterreset的1 个或多个关键字，后面可以跟随数字，表示每次计数的变化值，默认为1。</p>
+</li>
+<li><p>规则：counter-reset唯一，每counter-increment一次，计数器增加一次计数值。<a href="http://demo.cssworld.cn/4/1-13.php">例子</a></p>
+</li>
+<li><p>方法counter()/counters()：</p>
+<ul>
+<li>counter(name, style)，style可选，name为计数器名字。style的值为list-style-type 支持的值。counter 还支持级联。也就是说，一个content 属性值可以有多个counter()方法。<a href="http://demo.cssworld.cn/4/1-17.php">例子</a>。</li>
+<li>counters(name, string)：string 参数为字符串（需要引号包围，是必需参数），表示子序号的连接字符串。例如，1.1 的string 就是’.’，1-1 就是’-‘。<a href="https://demo.cssworld.cn/4/1-18.php">例子</a>，<a href="https://demo.cssworld.cn/4/1-19.php">错误示例</a></li>
+</ul>
+</li>
+<li><p>显示 content 计数值的那个DOM元素在文档流中的位置要在counter-increment元素的后面，否则没有计数效果。</p>
+</li>
+</ol>
+</li>
+<li><p>content 内容生成的混合特性：各种content 内容生成语法是可以混合在一起使用的。</p>
+</li>
+</ul>
+<h2 id="2-温和的padding"><a href="#2-温和的padding" class="headerlink" title="2.温和的padding"></a>2.温和的padding</h2><p>温和：我们在使用padding进行页面开发的时候很少会出现意想不到的情况。</p>
+<h4 id="2-1-padding-与元素的尺寸"><a href="#2-1-padding-与元素的尺寸" class="headerlink" title="2.1 padding 与元素的尺寸"></a>2.1 padding 与元素的尺寸</h4><ul>
+<li>CSS 中默认的box-sizing 是content-box，所以使用padding 会增加元素的尺寸。如果padding 值足够大，会覆盖width（表现“首选最小宽度”）。</li>
+<li>padding 在垂直方向会影响布局，影响视觉表现。但垂直方向的行为表现完全受line-height 和vertical-align 的影响，视觉上并没有改变和上一行下一行内容的间距。如果给内联元素加个背景色或者边框，可以看到其尺寸空间受 padding影响，<a href="https://demo.cssworld.cn/4/2-1.php">例子</a>。利用此，可以增加链接的点击区域大小，并不影响当前的内容布局；内联元素的padding 实现高度可控的分隔线，<a href="http://demo.cssworld.cn/4/2-2.php">示例</a>。</li>
+<li>妙用：利用内联元素的padding实现将锚点定位元素，标题距离页面的顶部有一段距离。</li>
+</ul>
+<h4 id="2-2-padding的百分比"><a href="#2-2-padding的百分比" class="headerlink" title="2.2 padding的百分比"></a>2.2 padding的百分比</h4><p>padding 百分比值无论是水平方向还是垂直方向均是相对于宽度计算。如<code>div &#123;padding: 50%; &#125;</code>，就会实现一个正方形。<a href="http://demo.cssworld.cn/4/2-3.php">示例</a>。若是作用于内联元素则：</p>
+<ul>
+<li>同样相对于宽度计算；</li>
+<li>默认的高度和宽度细节有差异；</li>
+<li>padding 会断行。</li>
+</ul>
+<p>内联元素无内容时，<code>&#123;padding: 50%; &#125;</code>不能形成一个正方形区域，因为有“幽灵空白节点”的作用，使用<code>font-size: 0</code>消除。</p>
+<h4 id="2-3-标签元素内置的padding"><a href="#2-3-标签元素内置的padding" class="headerlink" title="2.3 标签元素内置的padding"></a>2.3 标签元素内置的padding</h4><ol>
+<li><p>ol/ul 列表内置padding-left。单位是px而不是em，因此容易出现样式混乱。一般情况12px 至14px 时，22px 是比较好的一个值。若要求高，content 计数器模拟或是更好的选择。</p>
+</li>
+<li><p>很多表单元素都内置padding。最难控制的为button的padding，同样的设置在不同浏览器表现不同，a标签难以模拟自带的交互行为。可如下使用：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">&lt;<span class="selector-tag">button</span> id=&quot;btn&quot;&gt;&lt;/<span class="selector-tag">button</span>&gt;</span><br><span class="line">&lt;<span class="selector-tag">label</span> for=&quot;btn&quot;&gt;按钮&lt;/<span class="selector-tag">label</span>&gt;</span><br><span class="line"><span class="selector-tag">button</span> &#123;</span><br><span class="line"><span class="attribute">position</span>: absolute;</span><br><span class="line"><span class="attribute">clip</span>: <span class="built_in">rect</span>(<span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">label</span> &#123;</span><br><span class="line"><span class="attribute">display</span>: inline-block;</span><br><span class="line"><span class="attribute">line-height</span>: <span class="number">20px</span>;</span><br><span class="line"><span class="attribute">padding</span>: <span class="number">10px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h4 id="2-4-padding与图形绘制"><a href="#2-4-padding与图形绘制" class="headerlink" title="2.4 padding与图形绘制"></a>2.4 padding与图形绘制</h4><p>padding 属性和background-clip 属性配合，可以在有限的标签下实现一些CSS 图形绘制效果。例：</p>
+<ol>
+<li>不使用伪元素，仅一层标签实现大队长的“三道杠”分类图标效果。</li>
+<li>不使用伪元素，仅一层标签实现双层圆点效果。此效果在移动端也比较常见。</li>
+</ol>
+<p><a href="http://demo.cssworld.cn/4/2-4.php">效果查看</a></p>
+<h2 id="3-激进的margin"><a href="#3-激进的margin" class="headerlink" title="3. 激进的margin"></a>3. 激进的margin</h2><h4 id="3-1-margin-与元素尺寸以及相关布局"><a href="#3-1-margin-与元素尺寸以及相关布局" class="headerlink" title="3.1 margin 与元素尺寸以及相关布局"></a>3.1 margin 与元素尺寸以及相关布局</h4><h5 id="3-1-1-元素尺寸相关概念"><a href="#3-1-1-元素尺寸相关概念" class="headerlink" title="3.1.1 元素尺寸相关概念"></a>3.1.1 元素尺寸相关概念</h5><ul>
+<li><p>元素尺寸：对应jQuery 中的$().width()和$().height()方法，包括padding和border。在原生的DOM API 中写offsetWidth<br>和offsetHeight，有时候也称为“元素偏移尺寸”。</p>
+</li>
+<li><p>元素内部尺寸：对应jQuery 中的$().innerWidth()和$().innerHeight()方法，包括padding 但不包括border。在原生的DOM API 中写作clientWidth 和clientHeight，有时候也称为“元素可视尺寸”</p>
+</li>
+<li><p>元素外部尺寸：对应jQuery 中的$().outerWidth(true)和$().outerHeight(true)方法，不仅包括padding 和border，还包括margin。没有相对应的原生的DOM API。</p>
+</li>
+</ul>
+<p>注：“外部尺寸”的大小有可能是负数，可理解为“元素占据的空间尺寸”。</p>
+<h5 id="3-3-2-margin与元素的内部尺寸"><a href="#3-3-2-margin与元素的内部尺寸" class="headerlink" title="3.3.2 margin与元素的内部尺寸"></a>3.3.2 margin与元素的内部尺寸</h5><p>margin 可以改变元素的可视尺寸，但是和padding 几乎是互补态势。规则：对于padding，元素设定了width 或者保持“包裹性”的时候，会改变元素可视尺寸；对于margin 则相反，元素设定了width 值或者保持“包裹性”的时候，margin 对尺寸没有影响，只有元素是“充分利用可用空间”状态的时候，margin 才可以改变元素的可视尺寸。应用示例：</p>
+<ul>
+<li><p>实现一侧定宽的两栏自适应布局<a href="https://demo.cssworld.cn/4/3-1.php">效果</a>。</p>
+</li>
+<li><p>实现两端对齐布局效果。如列表块两端对齐，一行显示3个，中间有2 个20 像素的间隙。</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">ul</span> &#123;</span><br><span class="line"><span class="attribute">margin-right</span>: -<span class="number">20px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">ul</span> &gt; <span class="selector-tag">li</span> &#123;</span><br><span class="line"><span class="attribute">float</span>: left;</span><br><span class="line"><span class="attribute">width</span>: <span class="number">100px</span>;</span><br><span class="line"><span class="attribute">margin-right</span>: <span class="number">20px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h5 id="3-3-3-margin-与元素的外部尺寸"><a href="#3-3-3-margin-与元素的外部尺寸" class="headerlink" title="3.3.3 margin 与元素的外部尺寸"></a>3.3.3 margin 与元素的外部尺寸</h5><ul>
+<li>一个padding兼容性：如果容器可以滚动，在IE 和Firefox 浏览器下是会忽略padding-bottom 值的，Chrome 等浏览器则不会。此时使用使用子元素的 margin-bottom 可以实现滚动容器的底部留白。</li>
+<li>利用margin 外部尺寸实现等高布局：不足：如果需要有子元素定位到容器之外，父级的overflow:hidden 是一个棘手的限制；其次，当触发锚点定位或者使用DOM.scrollIntoview()方法的时候，可能就会出现奇怪的定位问题。<a href="https://demo.cssworld.cn/4/3-2.php">效果</a></li>
+</ul>
+<p>注：上述 margin 对尺寸的对于纯内联元素则不适用。内联元素垂直方向的margin 是没有任何影响的，既不会影响外部尺寸，也不会影响内部尺寸。对于水平方向，由于内联元素宽度表现为“包裹性”，也不会影响内部尺寸。</p>
+<h4 id="3-2-margin的百分比值"><a href="#3-2-margin的百分比值" class="headerlink" title="3.2 margin的百分比值"></a>3.2 margin的百分比值</h4><ol>
+<li>margin 的百分比值无论是水平方向还是垂直方向都是相对于宽度计算的。</li>
+<li>元素设置margin 在垂直方向上无法改变元素自身的内部尺寸，往往需要父元素作为载体，此外，由于margin 合并的存在，垂直方向往往需要双倍尺寸才能和padding 表现一致。</li>
+</ol>
+<h4 id="3-3-margin合并"><a href="#3-3-margin合并" class="headerlink" title="3.3 margin合并"></a>3.3 margin合并</h4><h5 id="3-3-1-概念"><a href="#3-3-1-概念" class="headerlink" title="3.3.1 概念"></a>3.3.1 概念</h5><p>块级元素的上外边距（margin-top）与下外边距（margin-bottom）有时会合并为单个外边距，称为“margin 合并”。</p>
+<ol>
+<li>块级元素，但不包括浮动和绝对定位元素。</li>
+<li>只发生在垂直方向，前提是不考虑writing-mode 的情况下。严格地讲：只发生在和当前文档流方向的相垂直的方向上。</li>
+</ol>
+<h5 id="3-3-2-margin合并的场景"><a href="#3-3-2-margin合并的场景" class="headerlink" title="3.3.2 margin合并的场景"></a>3.3.2 margin合并的场景</h5><ol>
+<li><p>相邻兄弟元素margin 合并。如：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">p</span> &#123; <span class="attribute">margin</span>: <span class="number">1em</span> <span class="number">0</span>; &#125;</span><br><span class="line">&lt;<span class="selector-tag">p</span>&gt;第一行&lt;/<span class="selector-tag">p</span>&gt;</span><br><span class="line">&lt;<span class="selector-tag">p</span>&gt;第二行&lt;/<span class="selector-tag">p</span>&gt;</span><br></pre></td></tr></table></figure>
+
+<p>此时第一行和第二行之间的间距还是1em。</p>
+</li>
+<li><p>父级和第一个/最后一个子元素。<a href="https://demo.cssworld.cn/4/3-3.php">示例</a></p>
+<p>阻止margin-top合并：</p>
+<ul>
+<li>父元素设置为块状格式化上下文元素；</li>
+<li>父元素设置border-top 值；</li>
+<li>父元素设置padding-top 值；</li>
+<li>父元素和第一个子元素之间添加内联元素进行分隔。</li>
+</ul>
+<p>阻止margin-bottom合并：</p>
+<ul>
+<li>父元素设置为块状格式化上下文元素；</li>
+<li>父元素设置border-bottom 值；</li>
+<li>父元素设置padding-bottom 值；</li>
+<li>父元素和最后一个子元素之间添加内联元素进行分隔；</li>
+<li>父元素设置height、min-height 或max-height。</li>
+</ul>
+<p>注：jQuery 中$().slideUp()/$().slideDown()方法，如果使用的时候，内容在动画开始或结束的时候跳一下，极大可能是margin 合并造成的。</p>
+</li>
+<li><p>空块级元素的margin 合并</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.father</span> &#123; <span class="attribute">overflow</span>: hidden; &#125;</span><br><span class="line"><span class="selector-class">.son</span> &#123; <span class="attribute">margin</span>: <span class="number">1em</span> <span class="number">0</span>; &#125;</span><br><span class="line">&lt;<span class="selector-tag">div</span> class=&quot;father&quot;&gt;</span><br><span class="line">&lt;<span class="selector-tag">div</span> class=&quot;son&quot;&gt;&lt;/<span class="selector-tag">div</span>&gt;</span><br><span class="line">&lt;/<span class="selector-tag">div</span>&gt;</span><br></pre></td></tr></table></figure>
+
+<p>此时.father元素高度仅仅是1em，因为.son 元素的margin-top 和margin-bottom 合并在一起了。防止此类合并：</p>
+<ul>
+<li>设置垂直方向的border；</li>
+<li>设置垂直方向的padding；</li>
+<li>里面添加内联元素（空格没用）；</li>
+<li>设置height 或者min-height。</li>
+</ul>
+</li>
+</ol>
+<h5 id="3-3-3-margin-合并的计算规则"><a href="#3-3-3-margin-合并的计算规则" class="headerlink" title="3.3.3 margin 合并的计算规则"></a>3.3.3 margin 合并的计算规则</h5><ul>
+<li>正正取大值</li>
+<li>正负值相加</li>
+<li>负负最负值</li>
+</ul>
+<h5 id="3-3-4-margin-合并的意义"><a href="#3-3-4-margin-合并的意义" class="headerlink" title="3.3.4 margin 合并的意义"></a>3.3.4 margin 合并的意义</h5><ol>
+<li>兄弟元素的margin 合并其作用和em 类似，是让图文信息的排版更加舒服自然。</li>
+<li>父子margin 合并的意义：在页面中任何地方嵌套或直接放入任何裸div，都不会影响原来的块状布局。</li>
+<li>自身 margin 合并的意义：可以避免不小心遗落或者生成的空标签影响排版和布局。</li>
+</ol>
+<h4 id="3-4-margin-auto"><a href="#3-4-margin-auto" class="headerlink" title="3.4 margin:auto"></a>3.4 margin:auto</h4><h5 id="3-4-1-预备知识"><a href="#3-4-1-预备知识" class="headerlink" title="3.4.1 预备知识"></a>3.4.1 预备知识</h5><ul>
+<li><p>元素没有设置width 或height，会自动填充。如：<code>&lt;div&gt;&lt;/div&gt;</code></p>
+</li>
+<li><p>元素没有设置width 或height，会自动填充对应的方位，但如果设置 width 或height，自动填充特性会被覆盖：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line"><span class="attribute">position</span>: absolute;</span><br><span class="line"><span class="attribute">left</span>: <span class="number">0</span>; <span class="attribute">right</span>: <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h5 id="3-4-2-填充规则"><a href="#3-4-2-填充规则" class="headerlink" title="3.4.2 填充规则"></a>3.4.2 填充规则</h5><ol>
+<li>如果一侧定值，一侧auto，则auto 为剩余空间大小。<a href="http://demo.cssworld.cn/4/3-4.php">示例</a></li>
+<li>如果两侧均是auto，则平分剩余空间。</li>
+</ol>
+<h5 id="3-4-3-margin-auto实现垂直居中"><a href="#3-4-3-margin-auto实现垂直居中" class="headerlink" title="3.4.3 margin:auto实现垂直居中"></a>3.4.3 margin:auto实现垂直居中</h5><ol>
+<li>writing-mode 改变文档流的方向。</li>
+<li>对于“格式化宽度和格式化高度”的元素，设置height和margin，同样有垂直居中的效果。</li>
+</ol>
+<h4 id="3-5-margin无效的情况"><a href="#3-5-margin无效的情况" class="headerlink" title="3.5 margin无效的情况"></a>3.5 margin无效的情况</h4><ol>
+<li><p>display计算值inline的非替换元素，虽然规范提到有渲染，但浏览器表现却未寻得一点踪迹。对于内联替换元素，垂直margin有效，并且没有margin合并的问题，因此图片不会发生margin合并。</p>
+</li>
+<li><p>表格中的tr和td元素或者设置display 计算值是table-cell 或table-row 的元素，计算值是table-caption、table 或者inline-table<br>有效，可通过margin 控制外间距，::first-letter 伪元素也可以解析margin。</p>
+</li>
+<li><p>margin 合并的时候，更改margin 值可能是没有效果的。是margin合并计算规则导致的。</p>
+</li>
+<li><p>绝对定位元素非定位方位的margin 值“无效”。即表现不是格式化高度/宽度的情况。</p>
+</li>
+<li><p>定高容器的子元素的margin-bottom或者宽度定死的子元素的margin-right的定位“失效”。</p>
+</li>
+<li><p>鞭长莫及导致的margin 无效。如：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">&lt;<span class="selector-tag">div</span> class=&quot;box&quot;&gt;</span><br><span class="line">&lt;<span class="selector-tag">img</span> <span class="attribute">src</span>=&quot;mm1<span class="selector-class">.jpg</span>&quot;&gt;</span><br><span class="line">&lt;<span class="selector-tag">p</span>&gt;内容&lt;/<span class="selector-tag">p</span>&gt;</span><br><span class="line">&lt;/<span class="selector-tag">div</span>&gt;</span><br><span class="line"><span class="selector-class">.box</span> &gt; <span class="selector-tag">img</span> &#123;</span><br><span class="line"><span class="attribute">float</span>: left;</span><br><span class="line"><span class="attribute">width</span>: <span class="number">256px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.box</span> &gt; <span class="selector-tag">p</span> &#123;</span><br><span class="line"><span class="attribute">overflow</span>: hidden;</span><br><span class="line">//此时<span class="attribute">margin-left</span> 从负无穷到<span class="number">256px</span> 都无效</span><br><span class="line"><span class="attribute">margin-left</span>: <span class="number">200px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>内联特性导致的margin 无效，如：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">&lt;<span class="selector-tag">div</span> class=&quot;box&quot;&gt;</span><br><span class="line">&lt;<span class="selector-tag">img</span> <span class="attribute">src</span>=&quot;mm1<span class="selector-class">.jpg</span>&quot;&gt;</span><br><span class="line">&lt;/<span class="selector-tag">div</span>&gt;</span><br><span class="line"><span class="selector-class">.box</span> &gt; <span class="selector-tag">img</span> &#123;</span><br><span class="line"><span class="attribute">height</span>: <span class="number">96px</span>;</span><br><span class="line">//减小<span class="attribute">margin-top</span>到一特定值时，之后表现为此特定值</span><br><span class="line"><span class="attribute">margin-top</span>: -<span class="number">200px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="4-border属性"><a href="#4-border属性" class="headerlink" title="4 border属性"></a>4 border属性</h2><p>除元素边框，border 属性在图形构建、体验优化以及网页布局大放异彩，同时保证良好的兼容性和稳定的特性。</p>
+<h4 id="4-1-border-width-的值"><a href="#4-1-border-width-的值" class="headerlink" title="4.1 border-width 的值"></a>4.1 border-width 的值</h4><p>除固定的数值外，border-width也支持关键字：</p>
+<ul>
+<li>thin：薄薄的，等同于1px。</li>
+<li>medium（默认值）：薄厚均匀，等同于3px。</li>
+<li>thick：厚厚的，等同于4px。</li>
+</ul>
+<h4 id="4-2-border-style-类型"><a href="#4-2-border-style-类型" class="headerlink" title="4.2 border-style 类型"></a>4.2 border-style 类型</h4><ol>
+<li><p>none：border-style 的默认值是none。因此但border-width 或border-color 没有边框。多用于重置边框样式。</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line"><span class="attribute">border</span>: <span class="number">1px</span> solid;</span><br><span class="line"><span class="attribute">border-bottom</span>: <span class="number">0</span> none;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>solid：常见</p>
+</li>
+<li><p>dashed：比较常见。虚线颜色区的宽高比以及颜色区和透明区的宽度比例在不同浏览器下有差异。如，在Chrome 和Firefox 浏览器下，颜色区的宽高比是3:1，颜色区和透明区的宽度比例是1:1；IE 浏览器颜色区的宽高比是2:1，颜色区和透明区的宽度比例也是2:1。</p>
+</li>
+<li><p>dotted：Chrome 、Firefox 浏览器下虚点是个小方点；IE 浏览器下是小圆点。因此IE8可以利用此实现圆角。</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line"><span class="attribute">width</span>: <span class="number">150px</span>; <span class="attribute">height</span>: <span class="number">150px</span>;</span><br><span class="line"><span class="comment">/* 超出区域隐藏，只显示一个圆 */</span></span><br><span class="line"><span class="attribute">overflow</span>: hidden;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.dotted</span> &#123;</span><br><span class="line"><span class="attribute">width</span>: <span class="number">100%</span>; <span class="attribute">height</span>: <span class="number">100%</span>;</span><br><span class="line"><span class="attribute">border</span>: <span class="number">149px</span> dotted <span class="number">#cd0000</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>任意大小圆角：4 个圆点，作为圆角的4 个角，再覆盖2 层矩形实色。</p>
+</li>
+<li><p>double：根据border-width不同，表现不同</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>双边框规则</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1px</td>
+<td>0+1+0</td>
+</tr>
+<tr>
+<td>2px</td>
+<td>1+0+1</td>
+</tr>
+<tr>
+<td>3px</td>
+<td>1+1+1</td>
+</tr>
+<tr>
+<td>4px</td>
+<td>1+2+1</td>
+</tr>
+<tr>
+<td>5px</td>
+<td>2+1+2</td>
+</tr>
+<tr>
+<td>6px</td>
+<td>2+2+2</td>
+</tr>
+<tr>
+<td>7px</td>
+<td>2+3+2</td>
+</tr>
+</tbody></table>
+<p>  可借助border-style:double 实现一些等宽的图形效果。如，等比例“三道杠”图标效果：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.icon-menu</span> &#123;</span><br><span class="line"><span class="attribute">width</span>: <span class="number">120px</span>;</span><br><span class="line"><span class="attribute">height</span>: <span class="number">20px</span>;</span><br><span class="line"><span class="attribute">border-top</span>: <span class="number">60px</span> double;</span><br><span class="line"><span class="attribute">border-bottom</span>: <span class="number">20px</span> solid;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>其他：inset（内凹）、outset（外凸）、groove（沟槽）、ridge<br>（山脊）</p>
+</li>
+</ol>
+<h4 id="4-3-border-color-和color"><a href="#4-3-border-color-和color" class="headerlink" title="4.3 border-color 和color"></a>4.3 border-color 和color</h4><p>border-color 默认颜色就是color 色值，类似属性还有outline、box-shadow 和text-shadow 等。<a href="https://demo.cssworld.cn/4/4-1.php">例子</a></p>
+<h4 id="4-4-border透明边框"><a href="#4-4-border透明边框" class="headerlink" title="4.4 border透明边框"></a>4.4 border透明边框</h4><p>可以解决一些棘手问题：</p>
+<ol>
+<li><p>距离不定宽度的元素右边缘50 像素的位置设置一个背景图片：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line"><span class="attribute">border-right</span>: <span class="number">50px</span> solid transparent;</span><br><span class="line"><span class="attribute">background-position</span>: <span class="number">100%</span> <span class="number">50%</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>增加点击区域大小。<a href="http://demo.cssworld.cn/4/4-2.php">例子</a></p>
+</li>
+<li><p>三角等图形绘制，如一个朝下的等腰三角形：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line"><span class="attribute">width</span>: <span class="number">0</span>;</span><br><span class="line"><span class="attribute">border</span>: <span class="number">10px</span> solid;</span><br><span class="line"><span class="attribute">border-color</span>: <span class="number">#f30</span> transparent transparent;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h4 id="4-5-border与图形构建"><a href="#4-5-border与图形构建" class="headerlink" title="4.5 border与图形构建"></a>4.5 border与图形构建</h4><ul>
+<li><p>四色边框：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line"><span class="attribute">width</span>: <span class="number">10px</span>; <span class="attribute">height</span>: <span class="number">10px</span>;</span><br><span class="line"><span class="attribute">border</span>: <span class="number">10px</span> solid;</span><br><span class="line"><span class="attribute">border-color</span>: <span class="number">#f30</span> <span class="number">#00f</span> <span class="number">#396</span> <span class="number">#0f0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>梯形：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line"><span class="attribute">width</span>: <span class="number">0</span>;</span><br><span class="line"><span class="attribute">border</span>: <span class="number">10px</span> solid;</span><br><span class="line"><span class="attribute">border-color</span>: <span class="number">#f30</span> transparent transparent;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>一侧开口的三角形</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line"><span class="attribute">width</span>: <span class="number">0</span>;</span><br><span class="line"><span class="attribute">border-width</span>: <span class="number">10px</span> <span class="number">20px</span>;</span><br><span class="line"><span class="attribute">border-style</span>: solid;</span><br><span class="line"><span class="attribute">border-color</span>: <span class="number">#f30</span> <span class="number">#f30</span> transparent transparent;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>借助border 生成的梯形实现包括IE8浏览器在内的小圆角<a href="http://demo.cssworld.cn/4/4-3.php">效果</a></p>
+</li>
+</ul>
+<h4 id="4-6-border-等高布局"><a href="#4-6-border-等高布局" class="headerlink" title="4.6 border 等高布局"></a>4.6 border 等高布局</h4><p><a href="http://demo.cssworld.cn/4/4-4.php">效果</a></p>
+<p>注：父级容器不能使用overflow:hidden 清除浮动，由于溢出隐藏基于padding-box，如果设置了overflow:hidden，则左浮动的导航列表元素会被隐藏掉。</p>
+]]></content>
+      <categories>
+        <category>读书笔记</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+        <tag>CSS</tag>
+      </tags>
+  </entry>
 </search>

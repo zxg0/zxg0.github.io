@@ -6,7 +6,7 @@
   <link href="https://zxg0.github.io/atom.xml" rel="self"/>
   
   <link href="https://zxg0.github.io/"/>
-  <updated>2022-03-06T11:25:31.386Z</updated>
+  <updated>2022-03-09T06:09:48.755Z</updated>
   <id>https://zxg0.github.io/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>CSS世界：盒尺寸四大家族</title>
+    <link href="https://zxg0.github.io/2022/03/09/CSS%E4%B8%96%E7%95%8C%EF%BC%9A%E7%9B%92%E5%B0%BA%E5%AF%B8%E5%9B%9B%E5%A4%A7%E5%AE%B6%E6%97%8F/"/>
+    <id>https://zxg0.github.io/2022/03/09/CSS%E4%B8%96%E7%95%8C%EF%BC%9A%E7%9B%92%E5%B0%BA%E5%AF%B8%E5%9B%9B%E5%A4%A7%E5%AE%B6%E6%97%8F/</id>
+    <published>2022-03-09T06:08:25.521Z</published>
+    <updated>2022-03-09T06:09:48.755Z</updated>
+    
+    
+    <summary type="html">对《CSS世界》第四章知识点的简要总结</summary>
+    
+    
+    
+    <category term="读书笔记" scheme="https://zxg0.github.io/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    
+    
+    <category term="笔记" scheme="https://zxg0.github.io/tags/%E7%AC%94%E8%AE%B0/"/>
+    
+    <category term="CSS" scheme="https://zxg0.github.io/tags/CSS/"/>
+    
+  </entry>
   
   <entry>
     <title>CSS世界：流、元素与基本尺寸</title>

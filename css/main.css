@@ -2910,7 +2910,7 @@ body {
   body {
     background-image: url("https://source.unsplash.com/random/500x900") !important;
     background-repeat: no-repeat;
-    background-attachment: fixed;
+    background-attachment: round;
     background-size: 100% auto;
   }
 }

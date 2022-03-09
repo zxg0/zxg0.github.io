@@ -2914,3 +2914,15 @@ body {
     background-size: 100% auto;
   }
 }
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 6px;
+  background: rgba(0,0,0,0.3);
+}
+::-webkit-scrollbar-track {
+  background: #ddd;
+  border-radius: 6px;
+}

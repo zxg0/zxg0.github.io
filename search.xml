@@ -489,4 +489,155 @@
         <tag>CSS</tag>
       </tags>
   </entry>
+  <entry>
+    <title>CSS世界：内联元素与流</title>
+    <url>/2022/03/19/CSS%E4%B8%96%E7%95%8C%EF%BC%9A%E5%86%85%E8%81%94%E5%85%83%E7%B4%A0%E4%B8%8E%E6%B5%81/</url>
+    <content><![CDATA[<h2 id="1-字母x"><a href="#1-字母x" class="headerlink" title="1. 字母x"></a>1. 字母x</h2><h4 id="1-1-字母x与CSS世界基线"><a href="#1-1-字母x与CSS世界基线" class="headerlink" title="1.1 字母x与CSS世界基线"></a>1.1 字母x与CSS世界基线</h4><p>在各种内联相关模型中，凡是涉及垂直方向的排版或者对齐的，都离不开基线（baseline），如：line-height 行高就是两基线的间距，vertical-align 的默认值就是基线。基线：即字母x 的下边缘（线）</p>
+<h4 id="1-2-x与CSS中的x-height"><a href="#1-2-x与CSS中的x-height" class="headerlink" title="1.2 x与CSS中的x-height"></a>1.2 x与CSS中的x-height</h4><ul>
+<li>x-height：通俗地说指小写字母x 的高度，术语描述就是基线和等分线（mean line也称作中线，midline）之间的距离。</li>
+<li>在CSS 中，middle 指的是基线往上1/2 x-height 高度。由于某些字体下沉明显，vertical-align:middle 并不是绝对的垂直居中对齐。</li>
+</ul>
+<h4 id="1-3-x与CSS中的ex"><a href="#1-3-x与CSS中的ex" class="headerlink" title="1.3 x与CSS中的ex"></a>1.3 x与CSS中的ex</h4><ul>
+<li>ex是css中的尺寸单位，为相对单位，指字母x的高度，即x-height。</li>
+<li>巧用ex实现不受字体和字号影响的内联元素的垂直居中对齐<a href="http://demo.cssworld.cn/5/1-1.php">效果</a>。</li>
+</ul>
+<h2 id="2-line-height"><a href="#2-line-height" class="headerlink" title="2. line-height"></a>2. line-height</h2><h4 id="2-1-内联元素的高度之本"><a href="#2-1-内联元素的高度之本" class="headerlink" title="2.1 内联元素的高度之本"></a>2.1 内联元素的高度之本</h4><p>对于非替换元素的纯内联元素，其可视高度完全由line-height 决定，line-height作用于内联元素的细节：</p>
+<ul>
+<li>内联元素的高度由固定高度和不固定高度组成，不固定的部分就是“行距”。换句话说，line-height通过改变“行距”起作用。</li>
+<li>在CSS 中，“行距”分散在当前文字的上方和下方，即使是第一行文字，上方也有“行距”，这个“行距”高度仅仅是完整“行距”高度的一半，也被称为“半行距”。</li>
+<li>业界共识：行距 = 行高− em-box。转换成CSS语言：行距 = line-height - font-size。em-box无法有效感知，但其高度为1em，1em 等于当前font-size 大小。</li>
+<li>根据印刷字体宋体证明半行距。<a href="https://demo.cssworld.cn/5/2-2.php">示例</a>。</li>
+<li>半行距为小数时：如果是文字上边距，则向下取整；如果是文字下边距，则向上取整。</li>
+<li>line-height不影响替换元素（如图片）的高度。</li>
+<li>内联替换元素和内联非替换元素混合时：共同形成一个“行框盒子”，line-heigh决定这个行盒的最小高度。</li>
+</ul>
+<h4 id="2-2-内联元素“垂直居中”"><a href="#2-2-内联元素“垂直居中”" class="headerlink" title="2.2 内联元素“垂直居中”"></a>2.2 内联元素“垂直居中”</h4><ul>
+<li>line-height 可以让单行或多行元素近似垂直居中，说“近似”是因为文字字形的垂直中线位置普遍比真正的“行框盒子”的垂直中线位置低。</li>
+<li>多行文本或者替换元素的垂直居中需要vertical-align 属性帮助，<a href="https://demo.cssworld.cn/5/2-4.php">示例</a>。</li>
+</ul>
+<h4 id="2-3-line-height-的各类属性值"><a href="#2-3-line-height-的各类属性值" class="headerlink" title="2.3 line-height 的各类属性值"></a>2.3 line-height 的各类属性值</h4><p>默认值为normal，还支持数值、百分比值以及长度值。</p>
+<ul>
+<li><p>normal：实际上是一个和font-family 有着密切关联的变量值。</p>
+<table>
+<thead>
+<tr>
+<th>字体</th>
+<th>chrome</th>
+<th>firefox</th>
+<th>ie</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>微软雅黑</td>
+<td>1.32</td>
+<td>1.321</td>
+<td>1.32</td>
+</tr>
+<tr>
+<td>宋体</td>
+<td>1.141</td>
+<td>1.142</td>
+<td>1.141</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>数值，如line-height:1.5，其最终的计算值是和当前font-size 相乘后的值。</p>
+</li>
+<li><p>百分比值，如line-height:150%，其最终的计算值是和当前font-size 相乘后的值。</p>
+</li>
+<li><p>长度值。</p>
+</li>
+<li><p>如果使用数值作为line-height 的属性值，那么所有的子元素继承的都是这个值；但是，如果使用百分比值或者长度值作为属性值，那么所有的子元素继承的是最终的计算值。<a href="https://demo.cssworld.cn/5/2-5.php">示例</a>。</p>
+</li>
+<li><p>可行的折中重置：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">body</span> &#123;</span><br><span class="line"><span class="attribute">line-height</span>: <span class="number">1.5</span>; </span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">input</span>, <span class="selector-tag">button</span> &#123;</span><br><span class="line"><span class="attribute">line-height</span>: inherit;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="2-4-line-height-的“大值特性”"><a href="#2-4-line-height-的“大值特性”" class="headerlink" title="2.4 line-height 的“大值特性”"></a>2.4 line-height 的“大值特性”</h4><p>无论内联元素line-height 如何设置，最终父级元素的高度都是由数值大的line-height 决定的。原因：行框盒子的高度是由高度最高的那个“内联盒子”决定的。</p>
+<h2 id="3-vertical-align"><a href="#3-vertical-align" class="headerlink" title="3. vertical-align"></a>3. vertical-align</h2><p>凡是line-height 起作用的地方vertical-align 也一定起作用。</p>
+<h4 id="3-1-基本认识"><a href="#3-1-基本认识" class="headerlink" title="3.1 基本认识"></a>3.1 基本认识</h4><ul>
+<li>线类，如baseline（默认值）、top、middle、bottom；</li>
+<li>文本类，如text-top、text-bottom；</li>
+<li>上标下标类，如sub、super；</li>
+<li>数值百分比类，如20px、-2em、20%等。支持负值且兼容性好，百分比计算相对于行高。baseline相当于0。<a href="https://demo.cssworld.cn/5/3-2.php">示例</a>。</li>
+</ul>
+<h4 id="3-2-vertical-align-作用前提"><a href="#3-2-vertical-align-作用前提" class="headerlink" title="3.2 vertical-align 作用前提"></a>3.2 vertical-align 作用前提</h4><ul>
+<li>vertical-align 属性只能作用在display 计算值为inline、inline-block，inline-table 或table-cell 的元素上。</li>
+</ul>
+<h4 id="3-3-vertical-align和line-height的关系"><a href="#3-3-vertical-align和line-height的关系" class="headerlink" title="3.3 vertical-align和line-height的关系"></a>3.3 vertical-align和line-height的关系</h4><ol>
+<li><p>vertical-align 的百分比值相对于line-height 计算</p>
+</li>
+<li><p>line-height、vertical-align共同影响高度表现；很多时候相互作用会出现意外的效果，<a href="https://demo.cssworld.cn/5/3-5.php">示例</a>。</p>
+</li>
+</ol>
+<h4 id="3-4-vertical-align-线性类属性值"><a href="#3-4-vertical-align-线性类属性值" class="headerlink" title="3.4 vertical-align 线性类属性值"></a>3.4 vertical-align 线性类属性值</h4><h5 id="3-4-1-inline-block-与baseline"><a href="#3-4-1-inline-block-与baseline" class="headerlink" title="3.4.1 inline-block 与baseline"></a>3.4.1 inline-block 与baseline</h5><ul>
+<li><p>vertical-align 默认值baseline 在内联元素中是字符x 的下边缘，在替换元素中是替换元素的下边缘</p>
+</li>
+<li><p>inline-block 元素中：若里面没有内联元素，或者overflow 不是visible，则该元素的基线就是其margin 底边缘；否则其基线就是元素里面最后一行内联元素的基线。<a href="https://demo.cssworld.cn/5/3-6.php">综合示例</a>。</p>
+</li>
+<li><p>20px 图标对齐的处理技巧，<a href="https://demo.cssworld.cn/5/3-7.php">示例</a>。</p>
+<ol>
+<li><p>图标高度和当前行高都是20px</p>
+</li>
+<li><p>图标标签里面永远有字符</p>
+</li>
+<li><p>图标CSS 不使用overflow:hidden 保证基线为里面字符的基线，但是要让里面潜在的字符不可见</p>
+</li>
+</ol>
+</li>
+</ul>
+<h5 id="3-4-2-vertial-align-top-bottom"><a href="#3-4-2-vertial-align-top-bottom" class="headerlink" title="3.4.2 vertial-align:top/bottom"></a>3.4.2 vertial-align:top/bottom</h5><p>vertial-align:top 即垂直上边缘对齐，定义：</p>
+<ol>
+<li><p>内联元素：元素底部和当前行框盒子的顶部对齐。（和这一行位置最高的内联元素的顶部对齐）</p>
+</li>
+<li><p>table-cell 元素：元素底padding 边缘和表格行的顶部对齐。</p>
+</li>
+</ol>
+<p>vertial-align:bottom 声明类似</p>
+<p>注：内联元素的上下边缘对齐的“边缘”是当前“行框盒子”的上下边缘，并非块状容器的上下边缘。</p>
+<h5 id="3-4-3-vertial-align-middle-与近似垂直居中"><a href="#3-4-3-vertial-align-middle-与近似垂直居中" class="headerlink" title="3.4.3 vertial-align:middle 与近似垂直居中"></a>3.4.3 vertial-align:middle 与近似垂直居中</h5><ol>
+<li><p>内联元素：元素的垂直中心点和行框盒子基线往上1/2 x-height 处对齐。</p>
+</li>
+<li><p>table-cell 元素：单元格填充盒子相对于外面的表格行居中对齐。</p>
+</li>
+</ol>
+<p>注：基本上所有的字体中，字符x 的位置都偏下，因此，vertial-align:middle 实现的都是“近似垂直居中”。若要实现垂直居中，可以将字体大小设置为0。</p>
+<h4 id="3-5-vertical-align-文本类属性值"><a href="#3-5-vertical-align-文本类属性值" class="headerlink" title="3.5 vertical-align 文本类属性值"></a>3.5 vertical-align 文本类属性值</h4><ul>
+<li><p>文本类属性值指 text-top 和text-bottom：</p>
+<ol>
+<li><p>vertical-align:text-top：盒子的顶部和父级内容区域的顶部对齐。</p>
+</li>
+<li><p>vertical-align:text-bottom：盒子的底部和父级内容区域的底部对齐。</p>
+</li>
+</ol>
+</li>
+<li><p>父级内容区域：在父级元素当前font-size 和font-family 下应有的内容区域大小。<a href="https://demo.cssworld.cn/5/3-9.php">示例</a></p>
+</li>
+</ul>
+<h4 id="3-6-vertical-align-上标下标类属性值"><a href="#3-6-vertical-align-上标下标类属性值" class="headerlink" title="3.6 vertical-align 上标下标类属性值"></a>3.6 vertical-align 上标下标类属性值</h4><p>上标下标类属性值指的就是sub 和super：</p>
+<ol>
+<li><p>vertical-align:super：提高盒子的基线到父级合适的上标基线位置。</p>
+</li>
+<li><p>vertical-align:sub：降低盒子的基线到父级合适的下标基线位置。</p>
+</li>
+</ol>
+<h4 id="3-7-vertical-align无处不在"><a href="#3-7-vertical-align无处不在" class="headerlink" title="3.7 vertical-align无处不在"></a>3.7 vertical-align无处不在</h4><p>对于内联元素，若有不易理解的现象，考虑“幽灵空白节点”以及无处不在的vertical-align 属性。必要时，可以加一个字母x进行调试。</p>
+<h4 id="3-8-基于vertical-align-属性的水平垂直居中弹框"><a href="#3-8-基于vertical-align-属性的水平垂直居中弹框" class="headerlink" title="3.8 基于vertical-align 属性的水平垂直居中弹框"></a>3.8 基于vertical-align 属性的水平垂直居中弹框</h4><p><a href="https://demo.cssworld.cn/5/3-10.php">查看</a>。</p>
+<p>原理：</p>
+<ol>
+<li><p>由于font-size 设置为0，所以x 中心点位置就是.container 的上边缘，此时，高度100%的宽度为0 的伪元素和这个中心点对齐。如果中心点位置不动，这个伪元素上面一半的位置应该在.container 的外面，但是CSS 中默认是左上方排列对齐的，所以，伪元素和这个原本在容器上边缘的x 中心点一起往下移动了半个容器高度，也就是此时x 中心点就在容器的垂直中心线上。</p>
+</li>
+<li><p>弹框元素.dialog 也设置了vertical-align:middle。根据定义，弹框的垂直中心位置和x 中心点位置对齐，此时，x 中心点就在容器的垂直中心位置，于是.dialog 元素就和容器的垂直中心位置对齐了，从而实现了垂直居中效果。</p>
+</li>
+<li><p>水平居中就text-align:center 实现，非常好理解。按照初衷，块级元素负责布局，内联元素设置内容。但是，这里的弹框居中却是把块级元素内联化，利用一些内联属性实现垂直居中效果，这也是不得已而为之，因为vertical-align等内联属性确实比块级属性强悍。</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>读书笔记</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+        <tag>CSS</tag>
+      </tags>
+  </entry>
 </search>

@@ -641,7 +641,7 @@
       </tags>
   </entry>
   <entry>
-    <title>CSS世界：内联元素与流</title>
+    <title>CSS世界：流的破环与保护</title>
     <url>/2022/09/29/CSS%E4%B8%96%E7%95%8C%EF%BC%9A%E6%B5%81%E7%9A%84%E7%A0%B4%E7%8E%AF%E4%B8%8E%E4%BF%9D%E6%8A%A4/</url>
     <content><![CDATA[<h2 id="1-float"><a href="#1-float" class="headerlink" title="1. float"></a>1. float</h2><h4 id="1-1-float本质与特性"><a href="#1-1-float本质与特性" class="headerlink" title="1.1 float本质与特性"></a>1.1 float本质与特性</h4><ul>
 <li><p>CSS2 属性的设计都是为图文展示服务，浮动的本质就是为了实现文字环绕效果</p>

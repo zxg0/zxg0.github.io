@@ -866,4 +866,74 @@
         <tag>CSS</tag>
       </tags>
   </entry>
+  <entry>
+    <title>CSS世界：CSS世界的层叠顺序</title>
+    <url>/2023/03/02/CSS%E4%B8%96%E7%95%8C%EF%BC%9ACSS%20%E4%B8%96%E7%95%8C%E7%9A%84%E5%B1%82%E5%8F%A0%E8%A7%84%E5%88%99/</url>
+    <content><![CDATA[<h2 id="1-z-index只是CSS层叠规则中的一叶小舟"><a href="#1-z-index只是CSS层叠规则中的一叶小舟" class="headerlink" title="1.z-index只是CSS层叠规则中的一叶小舟"></a>1.z-index只是CSS层叠规则中的一叶小舟</h2><ul>
+<li>在CSS世界中，z-index属性只有和定位元素（position不为static的元素）在一起的时候才有作用，可以是正数也可以是负数。</li>
+<li>随着CSS3新世界的到来，z-index已经并非只对定位元素有效，flex盒子的子元素也可以设置z-index属性。</li>
+</ul>
+<h2 id="2-CSS世界的层叠上下文和层叠水平"><a href="#2-CSS世界的层叠上下文和层叠水平" class="headerlink" title="2.CSS世界的层叠上下文和层叠水平"></a>2.CSS世界的层叠上下文和层叠水平</h2><h4 id="2-1-层叠上下文"><a href="#2-1-层叠上下文" class="headerlink" title="2.1 层叠上下文"></a>2.1 层叠上下文</h4><p>如果一个元素含有层叠上下文，我们可以理解为这个元素在z轴上就“高人一等”。</p>
+<h4 id="2-2-层叠水平"><a href="#2-2-层叠水平" class="headerlink" title="2.2 层叠水平"></a>2.2 层叠水平</h4><ul>
+<li>层叠水平，英文称作 stacking level，决定了同一个层叠上下文中元素在z轴上的显示顺序。</li>
+<li>尽管某些情况下z-index确实可以影响层叠水平，但是只限于定位元素以及flex盒子的孩子元素；而层叠水平所有的元素都存在。</li>
+</ul>
+<h2 id="3-元素的层叠顺序"><a href="#3-元素的层叠顺序" class="headerlink" title="3.元素的层叠顺序"></a>3.元素的层叠顺序</h2><p>css2.1层叠顺序从低到高：层叠上下文（background/border）、负z-index、block水平盒子、float浮动盒子、inline水平盒子、z-index为0/auto、正z-index。</p>
+<ul>
+<li>位于最下面的background/border特指层叠上下文元素的边框和背景色。每一个层叠顺序规则仅适用于当前层叠上下文元素的小世界。</li>
+<li>inline水平盒子指的是包括inline/inline-block/inline-table元素的“层叠顺序”，它们都是同等级别的。</li>
+<li>单纯从层叠水平上看，实际上z-index:0和z-index:auto是可以看成是一样的。实际上，两者在层叠上下文领域有着根本性的差异。</li>
+</ul>
+<p>浮动元素和文字重叠时文字在上面。</p>
+<h2 id="4-层叠准则"><a href="#4-层叠准则" class="headerlink" title="4.层叠准则"></a>4.层叠准则</h2><ul>
+<li>谁大谁上：当具有明显的层叠水平标识的时候，如生效的z-index属性值，在同一个层叠上下文领域，层叠水平值大的那一个覆盖小的那一个。</li>
+<li>后来居上：当元素的层叠水平一致、层叠顺序相同的时候，在DOM流中处于后面的元素会覆盖前面的元素。</li>
+</ul>
+<h2 id="5-深入了解层叠上下文"><a href="#5-深入了解层叠上下文" class="headerlink" title="5.深入了解层叠上下文"></a>5.深入了解层叠上下文</h2><h4 id="5-1-层叠上下文的特性"><a href="#5-1-层叠上下文的特性" class="headerlink" title="5.1 层叠上下文的特性"></a>5.1 层叠上下文的特性</h4><ul>
+<li>层叠上下文的层叠水平要比普通元素高。</li>
+<li>层叠上下文可以阻断元素的混合模式（参考<a href="http://www.zhangxinxu.com/wordpress/?p=5155">此文章</a>第二部分说明）</li>
+<li>层叠上下文可以嵌套，内部层叠上下文及其所有子元素均受制于外部的“层叠上下文”。</li>
+<li>每个层叠上下文和兄弟元素独立，也就是说，当进行层叠变化或渲染的时候，只需要考虑后代元素。</li>
+<li>每个层叠上下文是自成体系的，当元素发生层叠的时候，整个元素被认为是在父层叠上下文的层叠顺序中</li>
+</ul>
+<h4 id="5-2-层叠上下文的创建"><a href="#5-2-层叠上下文的创建" class="headerlink" title="5.2 层叠上下文的创建"></a>5.2 层叠上下文的创建</h4><p>层叠上下文基本上是由一些特定的CSS属性创建</p>
+<ul>
+<li>根层叠上下文：指的是页面根元素，可以看成是<code>&lt;html&gt;</code>元素。因此，页面中所有的元素一定处于至少一个“层叠结界”中。</li>
+<li>定位元素与传统层叠上下文：对于position值为relative/absolute以及Firefox/IE浏览器（不包括Chrome浏览器）下含有position:fixed声明的定位元素，当其z-index值不是auto的时候，会创建层叠上下文。</li>
+<li>CSS3与新时代的层叠上下文：<ol>
+<li>元素为flex布局元素（父元素display:flex|inline-flex），同时z-index值不是auto。</li>
+<li>元素的opacity值不是1。</li>
+<li>元素的transform值不是none。</li>
+<li>元素mix-blend-mode值不是normal。</li>
+<li>元素的filter值不是none。</li>
+<li>元素的isolation值是isolate。</li>
+<li>元素的will-change属性值为上面2～6的任意一个（如will-change:opacity、will-chang:transform等）。</li>
+<li>元素的-webkit-overflow-scrolling设为touch。</li>
+</ol>
+</li>
+</ul>
+<h4 id="5-3-层叠上下文与层叠顺序"><a href="#5-3-层叠上下文与层叠顺序" class="headerlink" title="5.3 层叠上下文与层叠顺序"></a>5.3 层叠上下文与层叠顺序</h4><ol>
+<li>如果层叠上下文元素不依赖z-index数值，则其层叠顺序是z-index:auto，可看成z:index:0级别。<a href="https://demo.cssworld.cn/7/5-2.php">示例</a></li>
+<li>如果层叠上下文元素依赖z-index数值，则其层叠顺序由z-index值决定。</li>
+</ol>
+<h2 id="6-z-index-负值"><a href="#6-z-index-负值" class="headerlink" title="6.z-index 负值"></a>6.z-index 负值</h2><p>作用：</p>
+<ol>
+<li>可访问性隐藏：z-index负值可以隐藏元素，只需要层叠上下文内的某一个父元素加个背景色就可以。与clip隐藏相比的一个优势是，元素无须绝对定位，设置position:relative也可以隐藏，另一个优势是它对原来的布局以及元素的行为没有任何影响，而clip隐藏会导致控件focus的焦点发生细微的变化，在特定条件下有体验问题。不足之处就是不具有普遍适用性，需要其他元素配合进行隐藏。</li>
+<li>IE8下的多背景模拟。</li>
+<li>定位在元素的后面。<a href="https://demo.cssworld.cn/7/6-2.php">模拟纸张效果</a></li>
+</ol>
+<h2 id="7-z-index“不犯二”准则"><a href="#7-z-index“不犯二”准则" class="headerlink" title="7.z-index“不犯二”准则"></a>7.z-index“不犯二”准则</h2><p>对于非浮层元素，避免设置z-index值，z-index值没有任何道理需要超过2</p>
+<ol>
+<li>定位元素一旦设置了z-index值，就从普通定位元素变成了层叠上下文元素，相互间的层叠顺序就发生了根本的变化，很容易出现设置了巨大的z-index值也无法覆盖其他元素的问题。</li>
+<li>避免z-index“一山比一山高”的样式混乱问题。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>读书笔记</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+        <tag>CSS</tag>
+      </tags>
+  </entry>
 </search>

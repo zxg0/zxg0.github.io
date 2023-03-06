@@ -1,6 +1,487 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>CSS世界：CSS世界的层叠顺序</title>
+    <url>/2023/03/02/CSS%E4%B8%96%E7%95%8C%EF%BC%9ACSS%20%E4%B8%96%E7%95%8C%E7%9A%84%E5%B1%82%E5%8F%A0%E8%A7%84%E5%88%99/</url>
+    <content><![CDATA[<h2 id="1-z-index只是CSS层叠规则中的一叶小舟"><a href="#1-z-index只是CSS层叠规则中的一叶小舟" class="headerlink" title="1.z-index只是CSS层叠规则中的一叶小舟"></a>1.z-index只是CSS层叠规则中的一叶小舟</h2><ul>
+<li>在CSS世界中，z-index属性只有和定位元素（position不为static的元素）在一起的时候才有作用，可以是正数也可以是负数。</li>
+<li>随着CSS3新世界的到来，z-index已经并非只对定位元素有效，flex盒子的子元素也可以设置z-index属性。</li>
+</ul>
+<h2 id="2-CSS世界的层叠上下文和层叠水平"><a href="#2-CSS世界的层叠上下文和层叠水平" class="headerlink" title="2.CSS世界的层叠上下文和层叠水平"></a>2.CSS世界的层叠上下文和层叠水平</h2><h4 id="2-1-层叠上下文"><a href="#2-1-层叠上下文" class="headerlink" title="2.1 层叠上下文"></a>2.1 层叠上下文</h4><p>如果一个元素含有层叠上下文，我们可以理解为这个元素在z轴上就“高人一等”。</p>
+<h4 id="2-2-层叠水平"><a href="#2-2-层叠水平" class="headerlink" title="2.2 层叠水平"></a>2.2 层叠水平</h4><ul>
+<li>层叠水平，英文称作 stacking level，决定了同一个层叠上下文中元素在z轴上的显示顺序。</li>
+<li>尽管某些情况下z-index确实可以影响层叠水平，但是只限于定位元素以及flex盒子的孩子元素；而层叠水平所有的元素都存在。</li>
+</ul>
+<h2 id="3-元素的层叠顺序"><a href="#3-元素的层叠顺序" class="headerlink" title="3.元素的层叠顺序"></a>3.元素的层叠顺序</h2><p>css2.1层叠顺序从低到高：层叠上下文（background/border）、负z-index、block水平盒子、float浮动盒子、inline水平盒子、z-index为0/auto、正z-index。</p>
+<ul>
+<li>位于最下面的background/border特指层叠上下文元素的边框和背景色。每一个层叠顺序规则仅适用于当前层叠上下文元素的小世界。</li>
+<li>inline水平盒子指的是包括inline/inline-block/inline-table元素的“层叠顺序”，它们都是同等级别的。</li>
+<li>单纯从层叠水平上看，实际上z-index:0和z-index:auto是可以看成是一样的。实际上，两者在层叠上下文领域有着根本性的差异。</li>
+</ul>
+<p>浮动元素和文字重叠时文字在上面。</p>
+<h2 id="4-层叠准则"><a href="#4-层叠准则" class="headerlink" title="4.层叠准则"></a>4.层叠准则</h2><ul>
+<li>谁大谁上：当具有明显的层叠水平标识的时候，如生效的z-index属性值，在同一个层叠上下文领域，层叠水平值大的那一个覆盖小的那一个。</li>
+<li>后来居上：当元素的层叠水平一致、层叠顺序相同的时候，在DOM流中处于后面的元素会覆盖前面的元素。</li>
+</ul>
+<h2 id="5-深入了解层叠上下文"><a href="#5-深入了解层叠上下文" class="headerlink" title="5.深入了解层叠上下文"></a>5.深入了解层叠上下文</h2><h4 id="5-1-层叠上下文的特性"><a href="#5-1-层叠上下文的特性" class="headerlink" title="5.1 层叠上下文的特性"></a>5.1 层叠上下文的特性</h4><ul>
+<li>层叠上下文的层叠水平要比普通元素高。</li>
+<li>层叠上下文可以阻断元素的混合模式（参考<a href="http://www.zhangxinxu.com/wordpress/?p=5155">此文章</a>第二部分说明）</li>
+<li>层叠上下文可以嵌套，内部层叠上下文及其所有子元素均受制于外部的“层叠上下文”。</li>
+<li>每个层叠上下文和兄弟元素独立，也就是说，当进行层叠变化或渲染的时候，只需要考虑后代元素。</li>
+<li>每个层叠上下文是自成体系的，当元素发生层叠的时候，整个元素被认为是在父层叠上下文的层叠顺序中</li>
+</ul>
+<h4 id="5-2-层叠上下文的创建"><a href="#5-2-层叠上下文的创建" class="headerlink" title="5.2 层叠上下文的创建"></a>5.2 层叠上下文的创建</h4><p>层叠上下文基本上是由一些特定的CSS属性创建</p>
+<ul>
+<li>根层叠上下文：指的是页面根元素，可以看成是<code>&lt;html&gt;</code>元素。因此，页面中所有的元素一定处于至少一个“层叠结界”中。</li>
+<li>定位元素与传统层叠上下文：对于position值为relative/absolute以及Firefox/IE浏览器（不包括Chrome浏览器）下含有position:fixed声明的定位元素，当其z-index值不是auto的时候，会创建层叠上下文。</li>
+<li>CSS3与新时代的层叠上下文：<ol>
+<li>元素为flex布局元素（父元素display:flex|inline-flex），同时z-index值不是auto。</li>
+<li>元素的opacity值不是1。</li>
+<li>元素的transform值不是none。</li>
+<li>元素mix-blend-mode值不是normal。</li>
+<li>元素的filter值不是none。</li>
+<li>元素的isolation值是isolate。</li>
+<li>元素的will-change属性值为上面2～6的任意一个（如will-change:opacity、will-chang:transform等）。</li>
+<li>元素的-webkit-overflow-scrolling设为touch。</li>
+</ol>
+</li>
+</ul>
+<h4 id="5-3-层叠上下文与层叠顺序"><a href="#5-3-层叠上下文与层叠顺序" class="headerlink" title="5.3 层叠上下文与层叠顺序"></a>5.3 层叠上下文与层叠顺序</h4><ol>
+<li>如果层叠上下文元素不依赖z-index数值，则其层叠顺序是z-index:auto，可看成z:index:0级别。<a href="https://demo.cssworld.cn/7/5-2.php">示例</a></li>
+<li>如果层叠上下文元素依赖z-index数值，则其层叠顺序由z-index值决定。</li>
+</ol>
+<h2 id="6-z-index-负值"><a href="#6-z-index-负值" class="headerlink" title="6.z-index 负值"></a>6.z-index 负值</h2><p>作用：</p>
+<ol>
+<li>可访问性隐藏：z-index负值可以隐藏元素，只需要层叠上下文内的某一个父元素加个背景色就可以。与clip隐藏相比的一个优势是，元素无须绝对定位，设置position:relative也可以隐藏，另一个优势是它对原来的布局以及元素的行为没有任何影响，而clip隐藏会导致控件focus的焦点发生细微的变化，在特定条件下有体验问题。不足之处就是不具有普遍适用性，需要其他元素配合进行隐藏。</li>
+<li>IE8下的多背景模拟。</li>
+<li>定位在元素的后面。<a href="https://demo.cssworld.cn/7/6-2.php">模拟纸张效果</a></li>
+</ol>
+<h2 id="7-z-index“不犯二”准则"><a href="#7-z-index“不犯二”准则" class="headerlink" title="7.z-index“不犯二”准则"></a>7.z-index“不犯二”准则</h2><p>对于非浮层元素，避免设置z-index值，z-index值没有任何道理需要超过2</p>
+<ol>
+<li>定位元素一旦设置了z-index值，就从普通定位元素变成了层叠上下文元素，相互间的层叠顺序就发生了根本的变化，很容易出现设置了巨大的z-index值也无法覆盖其他元素的问题。</li>
+<li>避免z-index“一山比一山高”的样式混乱问题。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>读书笔记</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+        <tag>CSS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CSS世界：内联元素与流</title>
+    <url>/2022/03/19/CSS%E4%B8%96%E7%95%8C%EF%BC%9A%E5%86%85%E8%81%94%E5%85%83%E7%B4%A0%E4%B8%8E%E6%B5%81/</url>
+    <content><![CDATA[<h2 id="1-字母x"><a href="#1-字母x" class="headerlink" title="1. 字母x"></a>1. 字母x</h2><h4 id="1-1-字母x与CSS世界基线"><a href="#1-1-字母x与CSS世界基线" class="headerlink" title="1.1 字母x与CSS世界基线"></a>1.1 字母x与CSS世界基线</h4><p>在各种内联相关模型中，凡是涉及垂直方向的排版或者对齐的，都离不开基线（baseline），如：line-height 行高就是两基线的间距，vertical-align 的默认值就是基线。基线：即字母x 的下边缘（线）</p>
+<h4 id="1-2-x与CSS中的x-height"><a href="#1-2-x与CSS中的x-height" class="headerlink" title="1.2 x与CSS中的x-height"></a>1.2 x与CSS中的x-height</h4><ul>
+<li>x-height：通俗地说指小写字母x 的高度，术语描述就是基线和等分线（mean line也称作中线，midline）之间的距离。</li>
+<li>在CSS 中，middle 指的是基线往上1/2 x-height 高度。由于某些字体下沉明显，vertical-align:middle 并不是绝对的垂直居中对齐。</li>
+</ul>
+<h4 id="1-3-x与CSS中的ex"><a href="#1-3-x与CSS中的ex" class="headerlink" title="1.3 x与CSS中的ex"></a>1.3 x与CSS中的ex</h4><ul>
+<li>ex是css中的尺寸单位，为相对单位，指字母x的高度，即x-height。</li>
+<li>巧用ex实现不受字体和字号影响的内联元素的垂直居中对齐<a href="http://demo.cssworld.cn/5/1-1.php">效果</a>。</li>
+</ul>
+<h2 id="2-line-height"><a href="#2-line-height" class="headerlink" title="2. line-height"></a>2. line-height</h2><h4 id="2-1-内联元素的高度之本"><a href="#2-1-内联元素的高度之本" class="headerlink" title="2.1 内联元素的高度之本"></a>2.1 内联元素的高度之本</h4><p>对于非替换元素的纯内联元素，其可视高度完全由line-height 决定，line-height作用于内联元素的细节：</p>
+<ul>
+<li>内联元素的高度由固定高度和不固定高度组成，不固定的部分就是“行距”。换句话说，line-height通过改变“行距”起作用。</li>
+<li>在CSS 中，“行距”分散在当前文字的上方和下方，即使是第一行文字，上方也有“行距”，这个“行距”高度仅仅是完整“行距”高度的一半，也被称为“半行距”。</li>
+<li>业界共识：行距 = 行高− em-box。转换成CSS语言：行距 = line-height - font-size。em-box无法有效感知，但其高度为1em，1em 等于当前font-size 大小。</li>
+<li>根据印刷字体宋体证明半行距。<a href="https://demo.cssworld.cn/5/2-2.php">示例</a>。</li>
+<li>半行距为小数时：如果是文字上边距，则向下取整；如果是文字下边距，则向上取整。</li>
+<li>line-height不影响替换元素（如图片）的高度。</li>
+<li>内联替换元素和内联非替换元素混合时：共同形成一个“行框盒子”，line-heigh决定这个行盒的最小高度。</li>
+</ul>
+<h4 id="2-2-内联元素“垂直居中”"><a href="#2-2-内联元素“垂直居中”" class="headerlink" title="2.2 内联元素“垂直居中”"></a>2.2 内联元素“垂直居中”</h4><ul>
+<li>line-height 可以让单行或多行元素近似垂直居中，说“近似”是因为文字字形的垂直中线位置普遍比真正的“行框盒子”的垂直中线位置低。</li>
+<li>多行文本或者替换元素的垂直居中需要vertical-align 属性帮助，<a href="https://demo.cssworld.cn/5/2-4.php">示例</a>。</li>
+</ul>
+<h4 id="2-3-line-height-的各类属性值"><a href="#2-3-line-height-的各类属性值" class="headerlink" title="2.3 line-height 的各类属性值"></a>2.3 line-height 的各类属性值</h4><p>默认值为normal，还支持数值、百分比值以及长度值。</p>
+<ul>
+<li><p>normal：实际上是一个和font-family 有着密切关联的变量值。</p>
+<table>
+<thead>
+<tr>
+<th>字体</th>
+<th>chrome</th>
+<th>firefox</th>
+<th>ie</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>微软雅黑</td>
+<td>1.32</td>
+<td>1.321</td>
+<td>1.32</td>
+</tr>
+<tr>
+<td>宋体</td>
+<td>1.141</td>
+<td>1.142</td>
+<td>1.141</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>数值，如line-height:1.5，其最终的计算值是和当前font-size 相乘后的值。</p>
+</li>
+<li><p>百分比值，如line-height:150%，其最终的计算值是和当前font-size 相乘后的值。</p>
+</li>
+<li><p>长度值。</p>
+</li>
+<li><p>如果使用数值作为line-height 的属性值，那么所有的子元素继承的都是这个值；但是，如果使用百分比值或者长度值作为属性值，那么所有的子元素继承的是最终的计算值。<a href="https://demo.cssworld.cn/5/2-5.php">示例</a>。</p>
+</li>
+<li><p>可行的折中重置：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">body</span> &#123;</span><br><span class="line"><span class="attribute">line-height</span>: <span class="number">1.5</span>; </span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">input</span>, <span class="selector-tag">button</span> &#123;</span><br><span class="line"><span class="attribute">line-height</span>: inherit;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="2-4-line-height-的“大值特性”"><a href="#2-4-line-height-的“大值特性”" class="headerlink" title="2.4 line-height 的“大值特性”"></a>2.4 line-height 的“大值特性”</h4><p>无论内联元素line-height 如何设置，最终父级元素的高度都是由数值大的line-height 决定的。原因：行框盒子的高度是由高度最高的那个“内联盒子”决定的。</p>
+<h2 id="3-vertical-align"><a href="#3-vertical-align" class="headerlink" title="3. vertical-align"></a>3. vertical-align</h2><p>凡是line-height 起作用的地方vertical-align 也一定起作用。</p>
+<h4 id="3-1-基本认识"><a href="#3-1-基本认识" class="headerlink" title="3.1 基本认识"></a>3.1 基本认识</h4><ul>
+<li>线类，如baseline（默认值）、top、middle、bottom；</li>
+<li>文本类，如text-top、text-bottom；</li>
+<li>上标下标类，如sub、super；</li>
+<li>数值百分比类，如20px、-2em、20%等。支持负值且兼容性好，百分比计算相对于行高。baseline相当于0。<a href="https://demo.cssworld.cn/5/3-2.php">示例</a>。</li>
+</ul>
+<h4 id="3-2-vertical-align-作用前提"><a href="#3-2-vertical-align-作用前提" class="headerlink" title="3.2 vertical-align 作用前提"></a>3.2 vertical-align 作用前提</h4><ul>
+<li>vertical-align 属性只能作用在display 计算值为inline、inline-block，inline-table 或table-cell 的元素上。</li>
+</ul>
+<h4 id="3-3-vertical-align和line-height的关系"><a href="#3-3-vertical-align和line-height的关系" class="headerlink" title="3.3 vertical-align和line-height的关系"></a>3.3 vertical-align和line-height的关系</h4><ol>
+<li><p>vertical-align 的百分比值相对于line-height 计算</p>
+</li>
+<li><p>line-height、vertical-align共同影响高度表现；很多时候相互作用会出现意外的效果，<a href="https://demo.cssworld.cn/5/3-5.php">示例</a>。</p>
+</li>
+</ol>
+<h4 id="3-4-vertical-align-线性类属性值"><a href="#3-4-vertical-align-线性类属性值" class="headerlink" title="3.4 vertical-align 线性类属性值"></a>3.4 vertical-align 线性类属性值</h4><h5 id="3-4-1-inline-block-与baseline"><a href="#3-4-1-inline-block-与baseline" class="headerlink" title="3.4.1 inline-block 与baseline"></a>3.4.1 inline-block 与baseline</h5><ul>
+<li><p>vertical-align 默认值baseline 在内联元素中是字符x 的下边缘，在替换元素中是替换元素的下边缘</p>
+</li>
+<li><p>inline-block 元素中：若里面没有内联元素，或者overflow 不是visible，则该元素的基线就是其margin 底边缘；否则其基线就是元素里面最后一行内联元素的基线。<a href="https://demo.cssworld.cn/5/3-6.php">综合示例</a>。</p>
+</li>
+<li><p>20px 图标对齐的处理技巧，<a href="https://demo.cssworld.cn/5/3-7.php">示例</a>。</p>
+<ol>
+<li><p>图标高度和当前行高都是20px</p>
+</li>
+<li><p>图标标签里面永远有字符</p>
+</li>
+<li><p>图标CSS 不使用overflow:hidden 保证基线为里面字符的基线，但是要让里面潜在的字符不可见</p>
+</li>
+</ol>
+</li>
+</ul>
+<h5 id="3-4-2-vertial-align-top-bottom"><a href="#3-4-2-vertial-align-top-bottom" class="headerlink" title="3.4.2 vertial-align:top/bottom"></a>3.4.2 vertial-align:top/bottom</h5><p>vertial-align:top 即垂直上边缘对齐，定义：</p>
+<ol>
+<li><p>内联元素：元素底部和当前行框盒子的顶部对齐。（和这一行位置最高的内联元素的顶部对齐）</p>
+</li>
+<li><p>table-cell 元素：元素底padding 边缘和表格行的顶部对齐。</p>
+</li>
+</ol>
+<p>vertial-align:bottom 声明类似</p>
+<p>注：内联元素的上下边缘对齐的“边缘”是当前“行框盒子”的上下边缘，并非块状容器的上下边缘。</p>
+<h5 id="3-4-3-vertial-align-middle-与近似垂直居中"><a href="#3-4-3-vertial-align-middle-与近似垂直居中" class="headerlink" title="3.4.3 vertial-align:middle 与近似垂直居中"></a>3.4.3 vertial-align:middle 与近似垂直居中</h5><ol>
+<li><p>内联元素：元素的垂直中心点和行框盒子基线往上1/2 x-height 处对齐。</p>
+</li>
+<li><p>table-cell 元素：单元格填充盒子相对于外面的表格行居中对齐。</p>
+</li>
+</ol>
+<p>注：基本上所有的字体中，字符x 的位置都偏下，因此，vertial-align:middle 实现的都是“近似垂直居中”。若要实现垂直居中，可以将字体大小设置为0。</p>
+<h4 id="3-5-vertical-align-文本类属性值"><a href="#3-5-vertical-align-文本类属性值" class="headerlink" title="3.5 vertical-align 文本类属性值"></a>3.5 vertical-align 文本类属性值</h4><ul>
+<li><p>文本类属性值指 text-top 和text-bottom：</p>
+<ol>
+<li><p>vertical-align:text-top：盒子的顶部和父级内容区域的顶部对齐。</p>
+</li>
+<li><p>vertical-align:text-bottom：盒子的底部和父级内容区域的底部对齐。</p>
+</li>
+</ol>
+</li>
+<li><p>父级内容区域：在父级元素当前font-size 和font-family 下应有的内容区域大小。<a href="https://demo.cssworld.cn/5/3-9.php">示例</a></p>
+</li>
+</ul>
+<h4 id="3-6-vertical-align-上标下标类属性值"><a href="#3-6-vertical-align-上标下标类属性值" class="headerlink" title="3.6 vertical-align 上标下标类属性值"></a>3.6 vertical-align 上标下标类属性值</h4><p>上标下标类属性值指的就是sub 和super：</p>
+<ol>
+<li><p>vertical-align:super：提高盒子的基线到父级合适的上标基线位置。</p>
+</li>
+<li><p>vertical-align:sub：降低盒子的基线到父级合适的下标基线位置。</p>
+</li>
+</ol>
+<h4 id="3-7-vertical-align无处不在"><a href="#3-7-vertical-align无处不在" class="headerlink" title="3.7 vertical-align无处不在"></a>3.7 vertical-align无处不在</h4><p>对于内联元素，若有不易理解的现象，考虑“幽灵空白节点”以及无处不在的vertical-align 属性。必要时，可以加一个字母x进行调试。</p>
+<h4 id="3-8-基于vertical-align-属性的水平垂直居中弹框"><a href="#3-8-基于vertical-align-属性的水平垂直居中弹框" class="headerlink" title="3.8 基于vertical-align 属性的水平垂直居中弹框"></a>3.8 基于vertical-align 属性的水平垂直居中弹框</h4><p><a href="https://demo.cssworld.cn/5/3-10.php">查看</a>。</p>
+<p>原理：</p>
+<ol>
+<li><p>由于font-size 设置为0，所以x 中心点位置就是.container 的上边缘，此时，高度100%的宽度为0 的伪元素和这个中心点对齐。如果中心点位置不动，这个伪元素上面一半的位置应该在.container 的外面，但是CSS 中默认是左上方排列对齐的，所以，伪元素和这个原本在容器上边缘的x 中心点一起往下移动了半个容器高度，也就是此时x 中心点就在容器的垂直中心线上。</p>
+</li>
+<li><p>弹框元素.dialog 也设置了vertical-align:middle。根据定义，弹框的垂直中心位置和x 中心点位置对齐，此时，x 中心点就在容器的垂直中心位置，于是.dialog 元素就和容器的垂直中心位置对齐了，从而实现了垂直居中效果。</p>
+</li>
+<li><p>水平居中就text-align:center 实现，非常好理解。按照初衷，块级元素负责布局，内联元素设置内容。但是，这里的弹框居中却是把块级元素内联化，利用一些内联属性实现垂直居中效果，这也是不得已而为之，因为vertical-align等内联属性确实比块级属性强悍。</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>读书笔记</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+        <tag>CSS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CSS世界：强大的文本处理能力</title>
+    <url>/2023/03/06/CSS%E4%B8%96%E7%95%8C%EF%BC%9A%E5%BC%BA%E5%A4%A7%E7%9A%84%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86%E8%83%BD%E5%8A%9B/</url>
+    <content><![CDATA[<h2 id="1-line-height的另一个朋友font-size"><a href="#1-line-height的另一个朋友font-size" class="headerlink" title="1. line-height的另一个朋友font-size"></a>1. line-height的另一个朋友font-size</h2><p>line-height 的数值属性值和 百分比值属性值都是相对于 font-size 计算的。</p>
+<h4 id="1-1-font-size-和-vertical-align：朋友的朋友也是朋友"><a href="#1-1-font-size-和-vertical-align：朋友的朋友也是朋友" class="headerlink" title="1.1 font-size 和 vertical-align：朋友的朋友也是朋友"></a>1.1 font-size 和 vertical-align：朋友的朋友也是朋友</h4><p>line-height 的部分类别属性值是相对于 font-size 计算的，vertical-align 百分比值属性值又是相对于 line-height 计算的。</p>
+<h4 id="1-2-font-size-与-ex、em-和-rem-的关系"><a href="#1-2-font-size-与-ex、em-和-rem-的关系" class="headerlink" title="1.2 font-size 与 ex、em 和 rem 的关系"></a>1.2 font-size 与 ex、em 和 rem 的关系</h4><ul>
+<li>ex ：字符 x 高度，font-size 值越大，自然 ex 也越大。</li>
+<li>em：传统排版中指一个字模的高度，其一般由’M’的宽度决 定（因为宽高相同），所以叫 em。汉字的一个字（宋体效果最为明显）。CSS 中，1em 的计算值等同于当前元素所在的 font-size 计算值，可以将 其想象成当前元素中（如果有）汉字的高度。</li>
+<li>rem：em 相对于当前元素，rem 相对于根元素。</li>
+</ul>
+<p>使用svg图标时：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">svg &#123; </span><br><span class="line"> <span class="attribute">width</span>: <span class="number">1em</span>; <span class="attribute">height</span>: <span class="number">1em</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>无论图标是个大号文字混在一起还是和小号文字混在一起，都能和当前文字大小保持一 致。</p>
+<h4 id="1-3-font-size关键字属性"><a href="#1-3-font-size关键字属性" class="headerlink" title="1.3 font-size关键字属性"></a>1.3 font-size关键字属性</h4><p>font-size 支持长度值，如 1em，也支持百分比值（相对于父元素的font-size），关键字值：</p>
+<ol>
+<li>相对尺寸关键字：相对于当前元素 font-size 计算<ul>
+<li>larger：是元素<code>&lt;big&gt;</code>的默认 font-size 属性值。</li>
+<li>smaller：是元素<code>&lt;small&gt;</code>的默认 font-size 属性值。</li>
+</ul>
+</li>
+<li>绝对尺寸关键字：仅受浏览器设置的字号影响。<ul>
+<li>xx-large：与h1元素计算值一样。</li>
+<li>x-large：与h2元素计算值一样。</li>
+<li>large：与h3元素计算值近似。（近似：偏差在1px内）</li>
+<li>medium：是 font-size 的初始值，和h4元素计算值一样。</li>
+<li>small：与h5元素计算值近似。</li>
+<li>x-small：与h6元素计算值近似。</li>
+<li>xx-small：很小很小</li>
+</ul>
+</li>
+</ol>
+<p>权衡“易于实现维护”“视觉还原”“可访问性”三者的两个小建议：</p>
+<ol>
+<li>即使是定宽的传统桌面端网页，也需要做响应式处理，尤其是针对 1200 像素宽度设计的网页，但只需要响应到 800 像素即可，可以保证至少有 1.5 倍的缩放空间，做到这一步，那么是否需要响应浏览器的字号设置这一点就可以忽略。</li>
+<li>如果困各种原因无法做响应式处理，也没有必要全局都使用相对单位。只需要在图文内容为主的重要局部区域使用可缩放的 font-size处理即可。例如，小说网站的阅读页、微信公众号文章展示区、评论区等，都强烈建议摒弃 px 单位。而采用下面的实践策略：<ul>
+<li>容器设置 font-size:medium。</li>
+<li>容器内的文字字号全部使用相对单位，如百分比值或者 em 都可以，然后基于 16px 进 行转换。同时使用自适应流体布局，间距什么的也使用相对单位。</li>
+</ul>
+</li>
+</ol>
+<h4 id="1-4-font-size-0与文本的隐藏"><a href="#1-4-font-size-0与文本的隐藏" class="headerlink" title="1.4 font-size: 0与文本的隐藏"></a>1.4 font-size: 0与文本的隐藏</h4><p>桌面 Chrome 浏览器字号限制：</p>
+<ul>
+<li><p>文字的 font-size 计算值不能小于 12px</p>
+</li>
+<li><p>并不是所有小于12px的font-size都会被当作12px 处理，、如果 font-size:0 的字号表现就是 0，那么文字会直接被隐藏掉。</p>
+</li>
+</ul>
+<h2 id="2-字体属性家族的大家长-font-family"><a href="#2-字体属性家族的大家长-font-family" class="headerlink" title="2. 字体属性家族的大家长 font-family"></a>2. 字体属性家族的大家长 font-family</h2><ul>
+<li>font-family 默认值由操作系统和浏览器共同决定、</li>
+<li>font-family 支持两类属性值，一类是“字体名”，一类是“字体族”。字体名：如果字体名包含空格，需要使用引号包起来。</li>
+</ul>
+<p>字体族分类：</p>
+<ul>
+<li> serif：衬线字体。</li>
+<li>sans-serif：无衬线字体。</li>
+<li>monospace：等宽字体。</li>
+<li>cursive：手写字体。</li>
+<li>fantasy：奇幻字体。</li>
+<li>system-ui：系统 UI 字体。</li>
+</ul>
+<h4 id="2-1-衬线字体和无衬线字体"><a href="#2-1-衬线字体和无衬线字体" class="headerlink" title="2.1 衬线字体和无衬线字体"></a>2.1 衬线字体和无衬线字体</h4><ul>
+<li>衬线字体：通俗讲就是笔画开始、结束的地方有额外装饰而且笔画的粗细会有所不同的字体。网页中常用中文衬线字体是“宋体”，常用英文衬线字 体有 Times New Roman、Georgia 等。</li>
+<li>无衬线字体：没有额外的装饰，而且笔画的粗细差不多， 如中文的“雅黑”字体，英文包括 Arial、Verdana、Tahoma、Helivetica、Calibri 等。</li>
+<li>在移动端 Web 开发的时候，虽然设备的默认中文字体不一样，但都是无衬线。</li>
+<li>实现时，serif 和 sans-serif 一定要写在最后，因为在大多数浏览器下， 写在 serif 和 sans-serif 后面的所有字体都会被忽略。</li>
+</ul>
+<h4 id="2-2-等宽字体"><a href="#2-2-等宽字体" class="headerlink" title="2.2 等宽字体"></a>2.2 等宽字体</h4><p>等宽字体，一般是针对英文字体而言的。</p>
+<ol>
+<li>等宽字体与代码呈现： 等宽字体利于代码呈现。因此，一般编辑器使用的字体或者 Web 上需要呈 现源代码的字体都是等宽字体。</li>
+<li>等宽字体与图形呈现：使用等宽字体可以模拟 borderStyle：solid、dashed 和 dotted。</li>
+<li>ch 单位（CSS3 单位）与等宽字体布局 ：1ch 表示一个 0 字符的宽度。用于：11位手机号输入的等宽布局、等宽代码的显隐等</li>
+</ol>
+<h4 id="2-3-中文字体和英文名称"><a href="#2-3-中文字体和英文名称" class="headerlink" title="2.3 中文字体和英文名称"></a>2.3 中文字体和英文名称</h4><p>常见中文字体，如宋体、微软雅黑等，直接使用中文名称作为 CSS font-family 的属性值也能生效，一般不推荐中文名称，而是使用英文名称，主要是为了规避乱码的风险。</p>
+<h4 id="2-4-补充说明"><a href="#2-4-补充说明" class="headerlink" title="2.4 补充说明"></a>2.4 补充说明</h4><ul>
+<li>虽然说 CSS font-family 对名称的大小写不怎么敏感，但最好至少首字母要大写，否则在使用 CSS  unicode-range 的时候可能会遇到一些麻烦。</li>
+<li>常见付费的字体对应的英文名称：<a href="http://www.zhangxinxu.com/wordpress/?p=5474">查看</a></li>
+</ul>
+<h2 id="3-字体家族其他成员"><a href="#3-字体家族其他成员" class="headerlink" title="3.  字体家族其他成员"></a>3.  字体家族其他成员</h2><h4 id="3-1-font-weight"><a href="#3-1-font-weight" class="headerlink" title="3.1 font-weight"></a>3.1 font-weight</h4><ol>
+<li>属性值：<ul>
+<li>常用：normal、bold</li>
+<li>相对于父级元素：lighter、bolder</li>
+<li>精细控制：100、200、……、900。400等同于normal，700等同于bold</li>
+</ul>
+</li>
+<li>渲染：400 和 700 是文字粗细与否的重要临界点，加上最小的 100 和最大的 900， 就构成了 font-weight 完整的字重临界点。而lighter 和 bolder 这两个具有相对特定的关键字就是基于这 4 个临界点进行解析和渲染的。</li>
+<li>表现：设置300、500等数值时有时并没有变化，因为系统没有安装该字体家族的对应字重字体。</li>
+</ol>
+<h4 id="3-2-font-style"><a href="#3-2-font-style" class="headerlink" title="3.2  font-style"></a>3.2  font-style</h4><ul>
+<li>属性值：normal、oblique、italic。</li>
+<li>italic 是使用当前字体的斜体字体，而 oblique 只是单纯地让文字倾斜。 如果当前字体没有对应的斜体字体，则退而求其次，解析为 oblique，也就是单纯形状倾斜。</li>
+<li>由于单纯倾斜的字体不好看，在实际开发的 时候，几乎没有任何理由需要使用 font-style:oblique。</li>
+</ul>
+<h4 id="3-3-不适合国情的-font-variant（几乎没用）"><a href="#3-3-不适合国情的-font-variant（几乎没用）" class="headerlink" title="3.3 不适合国情的 font-variant（几乎没用）"></a>3.3 不适合国情的 font-variant（几乎没用）</h4><ul>
+<li>属性值：normal、small-caps。</li>
+<li>small-caps ：让英文字符表现为小体型大写字母。</li>
+</ul>
+<h2 id="4-font"><a href="#4-font" class="headerlink" title="4. font"></a>4. font</h2><h4 id="4-1-缩写属性"><a href="#4-1-缩写属性" class="headerlink" title="4.1 缩写属性"></a>4.1 缩写属性</h4><ul>
+<li>font-size 和font-family 是必需的，是不可以省略的。</li>
+<li>font 缩写会破坏部分属性的继承性：在使用 font 缩写的时候，如果不设定行高值，一定会出现不兼容的问题。</li>
+<li>是 font 缩写必须要带上 font-family，解决方法：<ol>
+<li>随便找一个系统根本不存在的字体名占位</li>
+<li>利用@font face 规则将我们的字体列表重定义为一个字体</li>
+</ol>
+</li>
+</ul>
+<h4 id="4-2-使用关键字值的-font-属性"><a href="#4-2-使用关键字值的-font-属性" class="headerlink" title="4.2 使用关键字值的 font 属性"></a>4.2 使用关键字值的 font 属性</h4><ul>
+<li>caption：活动窗口标题栏使用的字体。</li>
+<li>icon：包含图标内容所使用的字体，如所有文件夹名称、文件名称所使用的字体。</li>
+<li>menu：菜单使用的字体，如文件夹菜单。</li>
+<li>message-box：消息盒里面使用的字体。</li>
+<li>small-caption：调色板标题所使用的字体。</li>
+<li>status-bar：窗体状态栏使用的字体。</li>
+<li>非标准的关键字：button、checkbox、checkbox-group、combo-box、 desktop、dialog、document等，但浏览器大多不支持。</li>
+</ul>
+<p>font 关键字属性值本质上也是一种缩写，里面已经包含了诸如 font-size 等</p>
+<h4 id="4-3-关键字属性值的应用价值"><a href="#4-3-关键字属性值的应用价值" class="headerlink" title="4.3 关键字属性值的应用价值"></a>4.3 关键字属性值的应用价值</h4><p>使得不同的操作系统下能够使用对应的系统字体。</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">html</span> &#123; <span class="attribute">font</span>: menu; &#125; //还可以是 small-<span class="selector-tag">caption</span>、status-bar</span><br><span class="line"><span class="selector-tag">body</span> &#123; <span class="attribute">font-size</span>: <span class="number">16px</span>; &#125; </span><br></pre></td></tr></table></figure>
+
+<h2 id="5-font-face-规则"><a href="#5-font-face-规则" class="headerlink" title="5. @font face 规则"></a>5. @font face 规则</h2><h4 id="5-1-font-face-的本质是变量"><a href="#5-1-font-face-的本质是变量" class="headerlink" title="5.1 @font face 的本质是变量"></a>5.1 @font face 的本质是变量</h4><p>@font face 规则支持的 CSS 属性有 font-family、src、font-style、font-weigh、 unicode-range、font-variant、font-stretch 和 font-feature-settings。</p>
+<h5 id="5-1-1-font-family"><a href="#5-1-1-font-family" class="headerlink" title="5.1.1 font-family"></a>5.1.1 font-family</h5><ul>
+<li>font-family 可以看成是一个字体变量，名称可以非常随意</li>
+<li>非 IE 浏览器下甚至可以直接使用纯空格’ ‘</li>
+<li>使用稀奇古怪的字符或者空格的时候，一定要加引号</li>
+</ul>
+<h5 id="5-1-2-src"><a href="#5-1-2-src" class="headerlink" title="5.1.2 src"></a>5.1.2 src</h5><ul>
+<li>如果是使用系统安装字体， 则使用 local()功能符</li>
+<li>如果是使用外链字体，则使用 url()功能符</li>
+<li>format()功能符的作用是让浏览器提前知道字体的格式，以决定是否需要加载这个字体</li>
+</ul>
+<p><a href="http://www.zhangxinxu.com/wordpress/?p=6063">详解</a></p>
+<p>字体格式权衡：</p>
+<ul>
+<li>svg 格式果断舍弃。</li>
+<li>如果无须兼容 IE8 浏览器，eot 格式果断舍弃。</li>
+<li>如果无须兼容 Android 4.3 之前版本手机，ttf 格式果断舍弃。</li>
+</ul>
+<h5 id="5-1-3-font-style"><a href="#5-1-3-font-style" class="headerlink" title="5.1.3 font-style"></a>5.1.3 font-style</h5><p>@font face 规则中的 font-style 和 font-weight 类似，都是用来设置对应字体样式或字重下该使用什么字体</p>
+<h5 id="5-1-4-font-weight"><a href="#5-1-4-font-weight" class="headerlink" title="5.1.4 font-weight"></a>5.1.4 font-weight</h5><p>它定义了不同字重、使用不同字体。<a href="http://demo.cssworld.cn/8/5-1.php">根据具体场景细化图标显示细节</a></p>
+<h5 id="5-1-5-unicode-range"><a href="#5-1-5-unicode-range" class="headerlink" title="5.1.5 unicode-range"></a>5.1.5 unicode-range</h5><p>以让特定的字符或者特定范围的字符使用指定的字体。<a href="http://www.zhangxinxu.com/wordpress/?p=6063">详解</a></p>
+<h4 id="5-2-font-face-与字体图标技术"><a href="#5-2-font-face-与字体图标技术" class="headerlink" title="5.2 @font face 与字体图标技术"></a>5.2 @font face 与字体图标技术</h4><ul>
+<li>和 SVG 图标技术相比， 字体图标技术唯一的优势就是兼容一些老的 IE 浏览器。</li>
+<li>SVG 图标同样是矢量的，同样颜色可控，但资源占用更少，加载体验更好，呈现效果更佳， 更加符合语义。</li>
+</ul>
+<h2 id="6-文本的控制"><a href="#6-文本的控制" class="headerlink" title="6. 文本的控制"></a>6. 文本的控制</h2><h4 id="6-1-text-indent-与内联元素缩进"><a href="#6-1-text-indent-与内联元素缩进" class="headerlink" title="6.1 text-indent 与内联元素缩进"></a>6.1 text-indent 与内联元素缩进</h4><ul>
+<li>text-indent 的百分比值是相对于当前元素的“包含块”计算的，而不是当前元素。</li>
+<li>text-indent 仅对第一行内联盒子内容有效。</li>
+<li>非替换元素以外的 display 计算值为 inline 的内联元素设置 text-indent 值无效，如果计算值是 inline-block/inline-table 则会生效。因此，如果父级块状元素设置 了 text-indent 属性值，子 inline-block/inline-table 需要设置 text-indent:0 重置。</li>
+<li>input标签按钮 text-indent 值无效。</li>
+<li>button标签按钮 text-indent 值有效，但是存在兼容性差异。</li>
+<li>input和textarea输入框的 text-indent 在低版本 IE 浏览器下有兼容问题。</li>
+</ul>
+<h4 id="6-2-letter-spacing-与字符间距"><a href="#6-2-letter-spacing-与字符间距" class="headerlink" title="6.2 letter-spacing 与字符间距"></a>6.2 letter-spacing 与字符间距</h4><p>letter-spacing 可以用来控制字符之间的间距，具有以下一些特性：</p>
+<ul>
+<li>继承性。</li>
+<li>默认值是 normal 而不是 0。</li>
+<li>支持负值（<a href="http://demo.cssworld.cn/8/6-4.php">文字依次飞入的效果</a>）、支持小数值、暂不支持百分比值。</li>
+<li>无论值多大或多小，第一行一定会保留至少一个字符。在默认的左对齐情况下，无论值如何设置，第一个字符的位置一定是不动的。</li>
+</ul>
+<h4 id="6-3-word-spacing-与单词间距"><a href="#6-3-word-spacing-与单词间距" class="headerlink" title="6.3 word-spacing 与单词间距"></a>6.3 word-spacing 与单词间距</h4><p>word-spacing 和 letter-spacing 特性也有很多共通之处：</p>
+<ul>
+<li>都具有继承性。</li>
+<li>默认值都是 normal 而不是 0。</li>
+<li>都支持负值，都可以让字符重叠，但是对于 inline-block 和 inline-table 元素存在兼容性差异、都支持小数值</li>
+<li>在目前的 CSS2.1 规范中，并不支持百分比值，但新的草案中新增了对百分值的支持</li>
+<li>间隔算法都会受到 text-align:justify 两端对齐的影响</li>
+</ul>
+<p>差异：letter-spacing 作用于所有字符，但 word-spacing 仅作用于空格字符。</p>
+<h4 id="6-4-word-break-和-word-wrap-的区别"><a href="#6-4-word-break-和-word-wrap-的区别" class="headerlink" title="6.4 word-break 和 word-wrap 的区别"></a>6.4 word-break 和 word-wrap 的区别</h4><p>word-break 属性：</p>
+<ul>
+<li>normal：使用默认的换行规则。</li>
+<li>break-all：允许任意非 CJK（Chinese/Japanese/Korean）文本间的单词断行。</li>
+<li>keep-all：不允许 CJK 文本中的单词换行，只能在半角空格或连字符处换行。非 CJK 文本的行为实际上和 normal 一致。</li>
+</ul>
+<p>word-wrap属性：</p>
+<ul>
+<li>normal：正常的换行规则。</li>
+<li>break-word：一行单词中实在没有其他靠谱的换行点的时候换行</li>
+</ul>
+<p>word-break:break-all 的作用是所有的都换行，毫不留情，一点儿空隙都不放过，而 word-wrap:break-word则是如果这一行文字有可以换行的点，在这些换行点换行，至于对不对齐、好不好看则不关心。<a href="http://demo.cssworld.cn/8/6-5.php">示例</a></p>
+<h4 id="6-5-white-space-与换行和空格的控制"><a href="#6-5-white-space-与换行和空格的控制" class="headerlink" title="6.5 white-space 与换行和空格的控制"></a>6.5 white-space 与换行和空格的控制</h4><h5 id="6-5-1-white-space-的处理模型"><a href="#6-5-1-white-space-的处理模型" class="headerlink" title="6.5.1 white-space 的处理模型"></a>6.5.1 white-space 的处理模型</h5><p>white-space 属性声明了如何处理元素内的空白字符，包括 Space（空格） 键、Enter（回车）键、Tab（制表符）键产生的空白。</p>
+<ul>
+<li>normal：合并空白字符和换行符。</li>
+<li>pre：空白字符不合并，并且内容只在有换行符的地方换行。</li>
+<li>nowrap：该值和 normal 一样会合并空白字符，但不允许文本环绕。</li>
+<li>pre-wrap：空白字符不合并，并且内容只在有换行符的地方换行，同时允许文本环绕。</li>
+<li>pre-line：合并空白字符，但只在有换行符的地方换行，允许文本环绕。</li>
+</ul>
+<p>文本环绕：一行文字内容超出容器宽度时，会自动从下一行开始显示。</p>
+<h5 id="6-5-2-white-space-与最大可用宽度"><a href="#6-5-2-white-space-与最大可用宽度" class="headerlink" title="6.5.2 white-space 与最大可用宽度"></a>6.5.2 white-space 与最大可用宽度</h5><p> white-space 设置为 nowrap 的时候，元素的宽度此时表现为“最大可用宽度”，换 行符和一些空格全部合并，文本一行显示。应用：</p>
+<ol>
+<li>“包含块”尺寸过小处理。</li>
+<li>单行文字溢出点点点效果。</li>
+<li>水平列表切换效果。<a href="https://demo.cssworld.cn/8/6-6.php">示例</a></li>
+</ol>
+<p>使用 white-space:nowrap 而不是使用一个绝对安全的固定宽度值 的好处在于没有多余的空间浪费，同时通过一行简单的 box.clientWidth  - box.scrollWidth 代码就可以知道最大的滚动宽度。</p>
+<h4 id="6-6-text-align-与元素对齐"><a href="#6-6-text-align-与元素对齐" class="headerlink" title="6.6 text-align 与元素对齐"></a>6.6 text-align 与元素对齐</h4><p>全部浏览器都兼容的中文 两端对齐效果：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.justify</span> &#123; </span><br><span class="line"> <span class="attribute">text-align</span>: justify; </span><br><span class="line"> text-justify: inter-ideograph;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<p>text-align:justify 要想有两端对齐的效果，需要满足两点：一是有分隔点，如空格；二是要超过一行，此时非最后一行内容会两端对齐。</p>
+<p>单行图文实现两端对齐<a href="https://demo.cssworld.cn/8/6-8.php">效果</a>。</p>
+<h4 id="6-7-text-decoration-下划线和文本重叠的问题"><a href="#6-7-text-decoration-下划线和文本重叠的问题" class="headerlink" title="6.7 text-decoration 下划线和文本重叠的问题"></a>6.7 text-decoration 下划线和文本重叠的问题</h4><p>使用border代替：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">a</span> &#123; </span><br><span class="line"> <span class="attribute">text-decoration</span>: none; </span><br><span class="line"> <span class="attribute">border-bottom</span>: <span class="number">1px</span> solid; </span><br><span class="line"> <span class="attribute">padding-bottom</span>: <span class="number">5px</span>; </span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<h4 id="6-8-text-transform-字符大小写"><a href="#6-8-text-transform-字符大小写" class="headerlink" title="6.8 text-transform 字符大小写"></a>6.8 text-transform 字符大小写</h4><p>多种实用场景：</p>
+<ol>
+<li>身份证输入：身份证最后一位有可能是字母 X，且各种场合都是指定必须大写，给input设置<code>text-transform: uppercase</code>。</li>
+<li>验证码输入：用户不确定是否区分大小写，设置为统一大写或者小写消除用户揣测心理。</li>
+</ol>
+<h2 id="7-first-letter-first-line-伪元素"><a href="#7-first-letter-first-line-伪元素" class="headerlink" title="7. :first-letter :first-line 伪元素"></a>7. :first-letter :first-line 伪元素</h2><h4 id="7-1-first-letter"><a href="#7-1-first-letter" class="headerlink" title="7.1 ::first-letter"></a>7.1 ::first-letter</h4><h5 id="7-1-1生效前提"><a href="#7-1-1生效前提" class="headerlink" title="7.1.1生效前提"></a>7.1.1生效前提</h5><ol>
+<li>元素的 display 计算值必须是 block、inline-block、list-item、tablecell 或者 table-caption。</li>
+<li>常见的标点符号、各类括号和引号 在::first-letter 伪元素眼中全部都是“辅助类”字符。不当作首字符。</li>
+<li>字符前面不能有图片或者 inline-block/inline-table 之类的元素</li>
+</ol>
+<h5 id="7-1-2-first-letter-伪元素可以生效的-CSS-属性"><a href="#7-1-2-first-letter-伪元素可以生效的-CSS-属性" class="headerlink" title="7.1.2 ::first-letter 伪元素可以生效的 CSS 属性"></a>7.1.2 ::first-letter 伪元素可以生效的 CSS 属性</h5><ul>
+<li>所有字体相关属性：font、font-style、font-variant、font-weight、 font-size、line-height 和 font-family。</li>
+<li>所有背景相关属性：background-color、background-image、backgroundposition、background-repeat、background-size 和 background-attachment。</li>
+<li>所有 margin 相关属性：margin、margin-top、margin-right、margin-bottom 和 margin-left。</li>
+<li>所有 padding 相关属性：padding、padding-top、padding-right、paddingbottom 和 padding-left。</li>
+<li>所有 border 相关属性：缩写的 border、border-style、border-color、 border-width 和普通书写的属性。</li>
+<li>color 属性。</li>
+<li>text-decoration、text-transform、letter-spacing、word-spacing（合 适情境下）、line-height、float 和 vertical-align（只有当 float 为 none 的时候）等属性</li>
+</ul>
+<h5 id="7-1-3-first-letter-伪元素的特点"><a href="#7-1-3-first-letter-伪元素的特点" class="headerlink" title="7.1.3 ::first-letter 伪元素的特点"></a>7.1.3 ::first-letter 伪元素的特点</h5><ol>
+<li><p>支持部分 display 属性值标签嵌套。display 值如果是 inline、block、table、table-row、table-caption、table-cell、list-item 都是可以的，但是不能是 inline-block 和 inline-table，否则::first-letter 伪元素会直接无效；而 display:flex 则 改变了规则，直接选择下一行的字符内容。</p>
+</li>
+<li><p>颜色等权重总是多了一层。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></span><br><span class="line"><span class="css"><span class="selector-tag">p</span><span class="selector-pseudo">:first</span>-letter &#123; </span></span><br><span class="line"><span class="css"> <span class="attribute">color</span>: red; </span></span><br><span class="line"><span class="css">&#125; </span></span><br><span class="line"><span class="css"><span class="selector-tag">p</span> &gt; <span class="selector-tag">span</span> &#123; </span></span><br><span class="line"><span class="css"> <span class="attribute">color</span>: blue<span class="meta">!important</span>; </span></span><br><span class="line"><span class="css">&#125;</span></span><br><span class="line"><span class="css"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>第一个<span class="tag">&lt;/<span class="name">span</span>&gt;</span>字符看看会不会变红？<span class="tag">&lt;/<span class="name">p</span>&gt;</span> </span><br></pre></td></tr></table></figure>
+
+<p>第变红。因为::first-letter 伪元素其实 是作为子元素存在的。相当于选择了span的子元素。</p>
+</li>
+</ol>
+<h5 id="7-1-4-first-letter-实际应用举例"><a href="#7-1-4-first-letter-实际应用举例" class="headerlink" title="7.1.4 ::first-letter 实际应用举例"></a>7.1.4 ::first-letter 实际应用举例</h5><p>电商产品价格前面的¥符号：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></span><br><span class="line"><span class="css"><span class="selector-class">.price</span><span class="selector-pseudo">:first</span>-letter &#123; </span></span><br><span class="line"><span class="css"> <span class="attribute">margin-right</span>: <span class="number">5px</span>; </span></span><br><span class="line"><span class="css"> <span class="attribute">font-size</span>: xx-large; </span></span><br><span class="line"><span class="css"> <span class="attribute">vertical-align</span>: -<span class="number">2px</span>; </span></span><br><span class="line"><span class="css">&#125; </span></span><br><span class="line"><span class="css"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">&quot;price&quot;</span>&gt;</span>¥399<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="7-2-first-line-伪元素"><a href="#7-2-first-line-伪元素" class="headerlink" title="7.2 :first-line 伪元素"></a>7.2 :first-line 伪元素</h4><ul>
+<li>:first-line 和:first-letter 伪元素一样，IE9 及以上版本浏览器支持双冒 号::first-line{}写法，IE8 浏览器只认识单冒号写法。</li>
+<li>:first-line 和:first-letter 伪元素一样，只能作用在块级元素上，也就是 display 为 block、inline-block、list-item、table-cell 或者 tablecaption 的元素设置:first-line 才有效，table、flex 之类都是无效的。</li>
+<li>:first-line 和:first-letter 伪元素一样，仅支持部分 CSS 属性:<ol>
+<li>所有字体相关属性</li>
+<li>color 属性</li>
+<li>所有背景相关属性</li>
+<li>text-decoration、text-transfor、letter-spacing、word-spacing、 line-height 和 vertical-align 等属性。</li>
+</ol>
+</li>
+<li>:first-line 和:first-letter 伪元素一样，color 等继承属性的权重总是多了 一层。如果:first-line 和:firstletter 同时设置颜色，:first-letter 级别比:first-line 高，即使:firstline 写在后面，甚至加!important（如果浏览器支持）也是如此。</li>
+<li>:first-line 和:first-letter 伪元素一样，也支持标签嵌套，但是具体细则 和:first-letter 出入较大。</li>
+</ul>
+<p>::first-line 实际应用举例：网站小标签、线框按钮和实色按钮全部都可以使用 color 颜色控制：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span> <span class="attr">class</span>=<span class="string">&quot;btn-normal red&quot;</span> <span class="attr">role</span>=<span class="string">&quot;button&quot;</span>&gt;</span>红色按钮<span class="tag">&lt;/<span class="name">a</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span> <span class="attr">class</span>=<span class="string">&quot;btn-normal blue&quot;</span> <span class="attr">role</span>=<span class="string">&quot;button&quot;</span>&gt;</span>蓝色按钮<span class="tag">&lt;/<span class="name">a</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span> <span class="attr">class</span>=<span class="string">&quot;btn-normal green&quot;</span> <span class="attr">role</span>=<span class="string">&quot;button&quot;</span>&gt;</span>绿色按钮<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></span><br><span class="line"><span class="css"><span class="selector-class">.btn-normal</span> &#123; </span></span><br><span class="line"><span class="css"> <span class="attribute">background-color</span>: currentColor; </span></span><br><span class="line"><span class="css">&#125;</span></span><br><span class="line"><span class="css"><span class="selector-class">.btn-normal</span><span class="selector-pseudo">::first-line</span> &#123; </span></span><br><span class="line"><span class="css"> <span class="attribute">color</span>: <span class="number">#fff</span>; </span></span><br><span class="line"><span class="css">&#125;</span></span><br><span class="line"><span class="css"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>读书笔记</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+        <tag>CSS</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CSS世界：流、元素与基本尺寸</title>
     <url>/2022/03/06/CSS%E4%B8%96%E7%95%8C%EF%BC%9A%E6%B5%81%E3%80%81%E5%85%83%E7%B4%A0%E4%B8%8E%E5%9F%BA%E6%9C%AC%E5%B0%BA%E5%AF%B8/</url>
     <content><![CDATA[<h2 id="1-块级元素"><a href="#1-块级元素" class="headerlink" title="1. 块级元素"></a>1. 块级元素</h2><p>基本特征：一个水平流上只能单独显示一个元素，多个块级元素则换行显示。利用此可<a href="https://demo.cssworld.cn/3/1-1.php">用于清除浮动</a>。（一般不使用list-item，原因：字多、有项目符号、IE不支持）</p>
@@ -117,6 +598,232 @@
 <li>包含盒子：如p标签就是一个“包含盒子”，此盒子由一行一行的“行框盒子”组成。准确称呼应该是“包含块”（containing block）。</li>
 </ul>
 <h4 id="4-3-幽灵空白节点"><a href="#4-3-幽灵空白节点" class="headerlink" title="4.3 幽灵空白节点"></a>4.3 幽灵空白节点</h4><p>内联元素的所有解析和渲染表现就如同每个行框盒子的前面有一个“空白节点”一样。这个“空白节点”永远透明，不占据任何宽度，看不见也无法通过脚本获取，就好像幽灵一样，但又确确实实地存在，表现如同文本节点一样。规范中称为“strut”。</p>
+]]></content>
+      <categories>
+        <category>读书笔记</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+        <tag>CSS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CSS世界：流的破环与保护</title>
+    <url>/2022/09/29/CSS%E4%B8%96%E7%95%8C%EF%BC%9A%E6%B5%81%E7%9A%84%E7%A0%B4%E7%8E%AF%E4%B8%8E%E4%BF%9D%E6%8A%A4/</url>
+    <content><![CDATA[<h2 id="1-float"><a href="#1-float" class="headerlink" title="1. float"></a>1. float</h2><h4 id="1-1-float本质与特性"><a href="#1-1-float本质与特性" class="headerlink" title="1.1 float本质与特性"></a>1.1 float本质与特性</h4><ul>
+<li><p>CSS2 属性的设计都是为图文展示服务，浮动的本质就是为了实现文字环绕效果</p>
+</li>
+<li><p>特性：</p>
+<ol>
+<li><p>包裹性；</p>
+</li>
+<li><p>块状化并格式化上下文：，元素float 的属性值不为none，则其display 计算值就是block或者table；</p>
+</li>
+<li><p>破坏文档流；</p>
+</li>
+<li><p>没有任何margin 合并；</p>
+</li>
+</ol>
+</li>
+</ul>
+<h4 id="1-2-作用机制"><a href="#1-2-作用机制" class="headerlink" title="1.2 作用机制"></a>1.2 作用机制</h4><p>要使得内容可以和浮动元素在一个水平线上：</p>
+<ul>
+<li><p>“高度塌陷”</p>
+</li>
+<li><p>行框盒子和浮动元素的不可重叠性</p>
+</li>
+</ul>
+<h4 id="1-3-深入的作用机制"><a href="#1-3-深入的作用机制" class="headerlink" title="1.3 深入的作用机制"></a>1.3 深入的作用机制</h4><ul>
+<li><p>浮动锚点：float 元素所在的“流”中的一个点，这个点本身并不浮动，就表现而言更像一个没有margin、border 和padding 的空的内联元素。</p>
+</li>
+<li><p>浮动参考：浮动元素对齐参考的实体。float 元素的“浮动参考”是“行框盒子”，也就是float 元素在当前“行框盒子”内定位。</p>
+</li>
+</ul>
+<h4 id="1-4-float-与流体布局"><a href="#1-4-float-与流体布局" class="headerlink" title="1.4 float 与流体布局"></a>1.4 float 与流体布局</h4><ul>
+<li><p>一侧定宽的两栏自适应布局。<a href="https://demo.cssworld.cn/6/1-2.php">示例</a>。</p>
+</li>
+<li><p>多栏布局</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;box&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span> <span class="attr">class</span>=<span class="string">&quot;prev&quot;</span>&gt;</span>« 上一章<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span> <span class="attr">class</span>=<span class="string">&quot;next&quot;</span>&gt;</span>下一章 »<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h3</span> <span class="attr">class</span>=<span class="string">&quot;title&quot;</span>&gt;</span>第112 章 动物环绕<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.prev</span> &#123;</span><br><span class="line"><span class="attribute">float</span>: left;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.next</span> &#123;</span><br><span class="line"><span class="attribute">float</span>: right;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.title</span> &#123;</span><br><span class="line"><span class="attribute">margin</span>: <span class="number">0</span> <span class="number">70px</span>;</span><br><span class="line"><span class="attribute">text-align</span>: center;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="2-clear"><a href="#2-clear" class="headerlink" title="2. clear"></a>2. clear</h2><h4 id="2-1-clear属性"><a href="#2-1-clear属性" class="headerlink" title="2.1 clear属性"></a>2.1 clear属性</h4><ul>
+<li><p>none：默认值，左右浮动来就来。</p>
+</li>
+<li><p>left：左侧抗浮动。</p>
+</li>
+<li><p>right：右侧抗浮动。</p>
+</li>
+<li><p>both：两侧抗浮动。</p>
+</li>
+</ul>
+<p>clear 属性让自身不能和前面的浮动元素相邻，凡是可以用left和right的地方，都能用both代替</p>
+<h4 id="2-2-clear缺陷"><a href="#2-2-clear缺陷" class="headerlink" title="2.2 clear缺陷"></a>2.2 clear缺陷</h4><ul>
+<li><p>如果clear:both 元素前面的元素就是float 元素，则margin-top 负值即使设成-9999px，也不见任何效果。</p>
+</li>
+<li><p>clear:both 后面的元素依旧可能会发生文字环绕的现象。</p>
+</li>
+</ul>
+<h2 id="3-BFC"><a href="#3-BFC" class="headerlink" title="3. BFC"></a>3. BFC</h2><h4 id="3-1-BFC定义"><a href="#3-1-BFC定义" class="headerlink" title="3.1 BFC定义"></a>3.1 BFC定义</h4><ul>
+<li><p>BFC全称为block formatting context，即块级格式化上下文。表现规则：BFC 特性的元素的子元素不会受外部元素影响，也不会影响外部元素。</p>
+</li>
+<li><p>常见的触发BFC的情况：</p>
+<ul>
+<li><p>html根元素；</p>
+</li>
+<li><p>float 的值不为none；</p>
+</li>
+<li><p>overflow 的值为auto、scroll 或hidden；</p>
+</li>
+<li><p>display 的值为table-cell、table-caption 和inline-block 中的任何一个；</p>
+</li>
+<li><p>position 的值不为relative 和static。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-2-BFC与流体布局"><a href="#3-2-BFC与流体布局" class="headerlink" title="3.2 BFC与流体布局"></a>3.2 BFC与流体布局</h4><p>和基于纯流体特性实现的两栏或多栏自适应布局相比，基于BFC 特性的自适应布局有如下优点：</p>
+<ol>
+<li><p>自适应内容由于封闭而更健壮，容错性更强</p>
+</li>
+<li><p>自适应内容自动填满浮动以外区域，无须关心浮动元素宽度，可以整站大规模应用</p>
+</li>
+</ol>
+<p>能兼顾流体特性和BFC 特性来实现自适应布局的属性：</p>
+<ol>
+<li><p>float:left。浮动元素本身BFC 化，然而浮动元素有破坏性和包裹性，失去了元素本身的流体自适应性，因此，无法用来实现自动填满容器的自适应布局。</p>
+</li>
+<li><p>position:absolute。难以使用</p>
+</li>
+<li><p>overflow:hidden。常用，但如果子元素要定位到父元素的外面可能会被隐藏</p>
+</li>
+<li><p>display:inline-block。会让元素尺寸包裹收缩，不是我们想要的block 水平的流动特性。</p>
+</li>
+<li><p>display:table-cell。需要IE8 及以上版本的浏览器；对连续英文字符不友好，解决：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.word-break</span> &#123;</span><br><span class="line"><span class="attribute">display</span>: table;</span><br><span class="line"><span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line"><span class="attribute">table-layout</span>: fixed;</span><br><span class="line"><span class="attribute">word-break</span>: break-all;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>display:table-row。对width 无感，无法自适应剩余容器空间。</p>
+</li>
+<li><p>display:table-caption。此属性一无是处。</p>
+</li>
+</ol>
+<p>总结：有两套IE7 及以上版本浏览器适配的自适应解决方案：</p>
+<ol>
+<li><p><code>.lbf-content &#123; overflow: hidden; &#125;</code></p>
+</li>
+<li><p>```css<br>.lbf-content {<br>display: table-cell; width: 9999px;<br>/* 如果不需要兼容IE7，下面样式可以省略 */<br>*display: inline-block; *width: auto;<br>}</p>
+<figure class="highlight scss"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">## 4<span class="selector-class">.overflow</span></span><br><span class="line"></span><br><span class="line">#### 4<span class="selector-class">.1</span> <span class="attribute">overflow</span> 剪裁界线</span><br><span class="line"></span><br><span class="line">当子元素内容超出容器宽度高度限制的时候，剪裁的边界是<span class="attribute">border</span> box 的内边缘。</span><br><span class="line"></span><br><span class="line">#### 4<span class="selector-class">.2</span> <span class="attribute">overflow-x</span> 和<span class="attribute">overflow-y</span></span><br><span class="line"></span><br><span class="line">+ 属性值：</span><br><span class="line">  </span><br><span class="line">  1. visible：默认值。</span><br><span class="line">  </span><br><span class="line">  2. hidden：剪裁。</span><br><span class="line">  </span><br><span class="line">  3. scroll：滚动条区域一直在。</span><br><span class="line">  </span><br><span class="line">  4. <span class="attribute">auto</span>：不足以滚动时没有滚动条，可以滚动时滚动条出现。</span><br><span class="line"></span><br><span class="line">+ 如果<span class="attribute">overflow-x</span> 和<span class="attribute">overflow-y</span> 属性中的一个值设置为visible 而另外一个设置为scroll、<span class="attribute">auto</span> 或hidden，则visible 的样式表现会如同<span class="attribute">auto</span>。</span><br><span class="line"></span><br><span class="line">#### 4<span class="selector-class">.3</span> <span class="attribute">overflow</span> 与滚动条</span><br><span class="line"></span><br><span class="line">+ 在PC 端，无论是什么浏览器，默认滚动条均来自&lt;<span class="selector-tag">html</span>&gt;，而不是&lt;<span class="selector-tag">body</span>&gt;标签。</span><br><span class="line">+ 滚动条会占用容器的可用宽度或高度。</span><br><span class="line"></span><br><span class="line">#### 4<span class="selector-class">.4</span> 依赖<span class="attribute">overflow</span> 的样式表现</span><br><span class="line"></span><br><span class="line">+ 单行文字溢出点点点效果</span><br><span class="line">  </span><br><span class="line">  ```css</span><br><span class="line">  <span class="selector-class">.ell</span> &#123;</span><br><span class="line">  <span class="attribute">text-overflow</span>: ellipsis;</span><br><span class="line">  <span class="attribute">white-space</span>: nowrap;</span><br><span class="line">  <span class="attribute">overflow</span>: hidden;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<ul>
+<li>-webkit-私有前缀支持良好的浏览器可以实现多行文字打点效果<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.ell-rows-2</span> &#123;</span><br><span class="line"><span class="attribute">display</span>: -webkit-box;</span><br><span class="line">-webkit-box-orient: vertical;</span><br><span class="line">-webkit-line-clamp: <span class="number">2</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="4-5-overflow-与锚点定位"><a href="#4-5-overflow-与锚点定位" class="headerlink" title="4.5 overflow 与锚点定位"></a>4.5 overflow 与锚点定位</h4><ul>
+<li><p>锚点定位两种方式：</p>
+<ol>
+<li><p>使用<code>&lt;a&gt;</code>标签和name 属性</p>
+</li>
+<li><p>使用标签的id 属性</p>
+</li>
+</ol>
+<p>推荐2，因为干净无兼容性问题</p>
+</li>
+<li><p>锚点定位触发条件</p>
+<ol>
+<li><p>URL 地址中的锚链与锚点元素对应并有交互行为，让元素定位在浏览器窗体的上边缘。</p>
+</li>
+<li><p>可focus 的锚点元素处于focus 状态，让元素在浏览器窗体范围内显示。</p>
+</li>
+</ol>
+</li>
+<li><p>作用本质：通过改变容器滚动高度或者宽度实现。</p>
+<ul>
+<li><p>锚点定位也可发生在普通的容器元素上，而且定位行为的发生由内而外（普通元素和窗体同时可滚动的时候，会由内而外触发所有可滚动窗体的锚点定位行为）。</p>
+</li>
+<li><p>设置了overflow:hidden 的元素也可滚动。</p>
+</li>
+</ul>
+</li>
+<li><p>巧用：</p>
+<ul>
+<li><p>实现切换选项卡效果：<a href="http://demo.cssworld.cn/6/4-2.php">示例</a>，会出现窗体抖动。</p>
+</li>
+<li><p>改进：<a href="http://demo.cssworld.cn/6/4-2.php">示例</a></p>
+</li>
+<li><p>处理列表部分区域在浏览器外面时依然会跳动，改进：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$(&#x27;label.click&#x27;).removeAttr(&#x27;for&#x27;).on(&#x27;click&#x27;, function() &#123;</span><br><span class="line">$(&#x27;.box&#x27;).scrollTop(xxx); &#x27;xxx&#x27;表示滚动数值</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h2 id="5-position-absolute"><a href="#5-position-absolute" class="headerlink" title="5. position:absolute"></a>5. position:absolute</h2><p>absolute和float都具有“包裹性”、“块状化”、“破坏性”等特性。</p>
+<h4 id="5-1-absolute的包含块"><a href="#5-1-absolute的包含块" class="headerlink" title="5.1 absolute的包含块"></a>5.1 absolute的包含块</h4><p>包含块：元素用来计算和定位的一个框。</p>
+<ul>
+<li>元素包含块的规则：<ol>
+<li>根元素被称为“初始包含块”，其尺寸等同于浏览器可视窗口的大小。</li>
+<li>对于其他元素，如果position是reactive或static，则包含块由其最近的块容器祖先盒的content box边界组成。</li>
+<li>如果元素position为fixed，则包含块是初始包含块。</li>
+<li>如果元素position为absolute，则包含块由最近不为static的祖先元素建立：如果该祖先元素是纯inline元素，假设给内联元素的前后各生成一个宽度为0 的内联盒子，则这两个内联盒子的padding box外面的包围盒就是内联元素的包含块、如果该内联元素被跨行分割了，那么包含块是未定义的；否则，包含块由该祖先的padding box 边界形成。</li>
+</ol>
+</li>
+<li>和常规元素相比，absolute绝对定位元素包含块的差异：<ol>
+<li>内联元素可以作为包含块所在的元素。</li>
+<li>包含块所在的元素不是父级块元素。</li>
+<li>边界是padding box而不是content box。</li>
+</ol>
+</li>
+</ul>
+<h4 id="5-2-具有相对特性的无依赖absolute绝对定位"><a href="#5-2-具有相对特性的无依赖absolute绝对定位" class="headerlink" title="5.2 具有相对特性的无依赖absolute绝对定位"></a>5.2 具有相对特性的无依赖absolute绝对定位</h4><ul>
+<li>absolute 是非常独立的CSS 属性值，其样式和行为表现不依赖其他任何CSS 属性就可以完成。</li>
+<li>一个绝对定位元素，没有任何left/top/right/bottom 属性设置，并且其祖先元素全部都是非定位元素，其位置仍在当前位置。</li>
+<li>用途：<ol>
+<li>各类图标定位。借助margin负值。<a href="https://demo.cssworld.cn/6/5-5.php">例子</a></li>
+<li>超越常规布局的排版。<a href="https://demo.cssworld.cn/6/5-6.php">例子</a></li>
+<li>下拉列表定位。<a href="https://demo.cssworld.cn/6/5-7.php">例子</a></li>
+<li>占位符效果模拟。IE9 及其以下浏览器不支持placeholder 占位符效果，进行模拟</li>
+<li>比较好的做法是使用label标签和输入框关联并覆盖在输入框上面，好处是点击占位文字输入框天然focus，并且不会污染输入框的value。</li>
+</ol>
+</li>
+<li>浮动与绝对定位结合使用有时浏览器表现不一致，属于“未定义行为”。</li>
+</ul>
+<h4 id="5-3-absolute和text-align"><a href="#5-3-absolute和text-align" class="headerlink" title="5.3 absolute和text-align"></a>5.3 absolute和text-align</h4><p>只有原本是内联水平的元素绝对定位后可以受textalign属性影响。<a href="https://demo.cssworld.cn/6/5-9.php">例子</a></p>
+<h2 id="6-absolute与overflow"><a href="#6-absolute与overflow" class="headerlink" title="6. absolute与overflow"></a>6. absolute与overflow</h2><ol>
+<li>如果overflow不是定位元素，同时绝对定位元素和overflow容器之间也没有定位元素，则overflow无法对absolute元素进行剪裁。</li>
+<li>如果overflow的属性值不是hidden而是auto或者scroll，即使绝对定位元素高宽比overflow元素高宽还要大，也都不会出现滚动条。</li>
+<li>由于position:fixed固定定位元素的包含块是根元素，因此，除非是窗体滚动，否则上面讨论的所有overflow 剪裁规则对固定定位都不适用。</li>
+<li>transform除了改变overflow属性原有规则，对层叠上下文以及position:fixed的渲染都有影响。</li>
+</ol>
+<h2 id="7-absolute与clip"><a href="#7-absolute与clip" class="headerlink" title="7. absolute与clip"></a>7. absolute与clip</h2><p>clip属性要想起作用，元素必须是绝对定位或者固定定位，也就是position 属性值必须是absolute或者fixed。</p>
+<h4 id="7-1-clip属性"><a href="#7-1-clip属性" class="headerlink" title="7.1 clip属性"></a>7.1 clip属性</h4><p>clip剪裁非常有用，在以下两种场景下具有不可替代的地位：</p>
+<ol>
+<li><p>fixed 固定定位的剪裁：因为fixed固定定位元素的包含块是根元素，除非是根元素滚动条，普通元素的overflow是根本无法对其进行剪裁的。</p>
+</li>
+<li><p>最佳可访问性隐藏：指的是虽然内容肉眼看不见，但是其他辅助设备却能够进行识别和访问的隐藏。cilp具有更强的普遍适应性，任何元素、任何场景都可以无障碍使用。</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.clip</span> &#123;</span><br><span class="line"><span class="attribute">position</span>: absolute;</span><br><span class="line"><span class="attribute">clip</span>: <span class="built_in">rect</span>(<span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h4 id="7-2-深入了解clip的渲染"><a href="#7-2-深入了解clip的渲染" class="headerlink" title="7.2 深入了解clip的渲染"></a>7.2 深入了解clip的渲染</h4><p>clip隐藏仅仅是决定了哪部分是可见的，非可见部分无法响应点击事件等；然后，虽然视觉上隐藏，但是元素的尺寸依然是原本的尺寸，在IE浏览器和Firefox浏览器下抹掉了不可见区域尺寸对布局的影响，Chrome浏览器却保留了。</p>
+<h2 id="8-absolute的流体特性"><a href="#8-absolute的流体特性" class="headerlink" title="8.absolute的流体特性"></a>8.absolute的流体特性</h2><ul>
+<li>当 absolute遇到left/top/right/bottom属性的时候，absolute元素才真正变成绝对定位元素。如果我们仅设置了一个方向的绝对定位，另一个方向依然保持相对特性。</li>
+<li>对立方向同时发生定位的时候绝对定位元素也具有与普通块级元素类似的流体特性。</li>
+<li>当绝对定位元素处于流体状态的时候，各个盒模型相关属性的解析和普通流体元素都是一模一样的。绝对定位元素的margin:auto的填充规则和普通流体元素的一模一样。</li>
+</ul>
+<h2 id="9-position-relative"><a href="#9-position-relative" class="headerlink" title="9. position:relative"></a>9. position:relative</h2><h4 id="9-1-relative对absolute的限制"><a href="#9-1-relative对absolute的限制" class="headerlink" title="9.1 relative对absolute的限制"></a>9.1 relative对absolute的限制</h4><p>relative/absolute/fixed都能对absolute的“包裹性”以及“定位”产生限制，只有relative可以让元素依然保持在正常的文档流中。</p>
+<h4 id="9-2-reactive与定位"><a href="#9-2-reactive与定位" class="headerlink" title="9.2 reactive与定位"></a>9.2 reactive与定位</h4><p>reactive定位两大特性：</p>
+<ol>
+<li>相对自身：相对于自身位置进行偏移定位。（但百分比值相对于包含块）</li>
+<li>无侵入：当relative进行定位偏移的时候，一般情况下不会影响周围元素的布局。</li>
+</ol>
+<p>当相对定位元素同时应用对立方向定位值的时候，只有一个方向的属性会起作用。</p>
+<h4 id="9-3-relative的最小化影响原则"><a href="#9-3-relative的最小化影响原则" class="headerlink" title="9.3 relative的最小化影响原则"></a>9.3 relative的最小化影响原则</h4><ol>
+<li>尽量不使用relative，如果想定位某些元素，看看能否使用“无依赖的绝对定位”。</li>
+<li>如果场景受限，一定要使用relative，则该relative务必最小化。</li>
+</ol>
+<h2 id="10-position-fixed固定定位"><a href="#10-position-fixed固定定位" class="headerlink" title="10. position:fixed固定定位"></a>10. position:fixed固定定位</h2><h4 id="10-1-不一样的包含块"><a href="#10-1-不一样的包含块" class="headerlink" title="10.1 不一样的包含块"></a>10.1 不一样的包含块</h4><ul>
+<li>position:fixed固定定位元素的“包含块”是根元素，我们可以将其近似看成html元素。</li>
+<li>利用absolute/fixed元素没有设置left/top/right/bottom的相对定位特性，可以将目标元素定位到我们想要的位置。</li>
+</ul>
+<h4 id="10-2-position-fixed的absolute模拟"><a href="#10-2-position-fixed的absolute模拟" class="headerlink" title="10.2 position:fixed的absolute模拟"></a>10.2 position:fixed的absolute模拟</h4><p>我们希望元素既有不跟随滚动的固定定位效果，又能被定位元素限制和精准定位。原理：页面的滚动使用普通元素替代，此时滚动元素之外的其他元素就有了“固定定位”的效果。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;page&quot;</span>&gt;</span>固定定位元素<span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;fixed&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></span><br><span class="line"><span class="css"><span class="selector-tag">html</span>, <span class="selector-tag">body</span> &#123;</span></span><br><span class="line"><span class="css"><span class="attribute">height</span>: <span class="number">100%</span>;</span></span><br><span class="line"><span class="css"><span class="attribute">overflow</span>: hidden;</span></span><br><span class="line"><span class="css">&#125;</span></span><br><span class="line"><span class="css"><span class="selector-class">.page</span> &#123;</span></span><br><span class="line"><span class="css"><span class="attribute">height</span>: <span class="number">100%</span>;</span></span><br><span class="line"><span class="css"><span class="attribute">overflow</span>: auto;</span></span><br><span class="line"><span class="css">&#125;</span></span><br><span class="line"><span class="css"><span class="selector-class">.fixed</span> &#123;</span></span><br><span class="line"><span class="css"><span class="attribute">position</span>: absolute;</span></span><br><span class="line"><span class="css">&#125;</span></span><br><span class="line"><span class="css"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="10-3-position-fixed-与背景锁定"><a href="#10-3-position-fixed-与背景锁定" class="headerlink" title="10.3 position:fixed 与背景锁定"></a>10.3 position:fixed 与背景锁定</h4><p>蒙层弹窗是网页中常见的交互，黑色半透明全屏覆盖的蒙层基本上都是使用position:fixed 定位实现的。但是蒙层无法覆盖浏览器右侧的滚动栏，并且鼠标滚动的时候后面的背景内容依然可以被滚动，并没有被锁定，体验略打折扣。解决：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> widthBar = <span class="number">17</span>, root = <span class="built_in">document</span>.documentElement;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="built_in">window</span>.innerWidth == <span class="string">&#x27;number&#x27;</span>) &#123;</span><br><span class="line">widthBar = <span class="built_in">window</span>.innerWidth - root.clientWidth;</span><br><span class="line">&#125;</span><br><span class="line">root.style.overflow = <span class="string">&#x27;hidden&#x27;</span>;</span><br><span class="line">root.style.borderRight = widthBar + <span class="string">&#x27;px solid transparent&#x27;</span>;</span><br><span class="line"><span class="keyword">var</span> root = <span class="built_in">document</span>.documentElement;</span><br><span class="line">root.style.overflow = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">root.style.borderRight = <span class="string">&#x27;&#x27;</span>;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>读书笔记</category>
@@ -480,453 +1187,6 @@
 </ul>
 <h4 id="4-6-border-等高布局"><a href="#4-6-border-等高布局" class="headerlink" title="4.6 border 等高布局"></a>4.6 border 等高布局</h4><p><a href="http://demo.cssworld.cn/4/4-4.php">效果</a></p>
 <p>注：父级容器不能使用overflow:hidden 清除浮动，由于溢出隐藏基于padding-box，如果设置了overflow:hidden，则左浮动的导航列表元素会被隐藏掉。</p>
-]]></content>
-      <categories>
-        <category>读书笔记</category>
-      </categories>
-      <tags>
-        <tag>笔记</tag>
-        <tag>CSS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>CSS世界：内联元素与流</title>
-    <url>/2022/03/19/CSS%E4%B8%96%E7%95%8C%EF%BC%9A%E5%86%85%E8%81%94%E5%85%83%E7%B4%A0%E4%B8%8E%E6%B5%81/</url>
-    <content><![CDATA[<h2 id="1-字母x"><a href="#1-字母x" class="headerlink" title="1. 字母x"></a>1. 字母x</h2><h4 id="1-1-字母x与CSS世界基线"><a href="#1-1-字母x与CSS世界基线" class="headerlink" title="1.1 字母x与CSS世界基线"></a>1.1 字母x与CSS世界基线</h4><p>在各种内联相关模型中，凡是涉及垂直方向的排版或者对齐的，都离不开基线（baseline），如：line-height 行高就是两基线的间距，vertical-align 的默认值就是基线。基线：即字母x 的下边缘（线）</p>
-<h4 id="1-2-x与CSS中的x-height"><a href="#1-2-x与CSS中的x-height" class="headerlink" title="1.2 x与CSS中的x-height"></a>1.2 x与CSS中的x-height</h4><ul>
-<li>x-height：通俗地说指小写字母x 的高度，术语描述就是基线和等分线（mean line也称作中线，midline）之间的距离。</li>
-<li>在CSS 中，middle 指的是基线往上1/2 x-height 高度。由于某些字体下沉明显，vertical-align:middle 并不是绝对的垂直居中对齐。</li>
-</ul>
-<h4 id="1-3-x与CSS中的ex"><a href="#1-3-x与CSS中的ex" class="headerlink" title="1.3 x与CSS中的ex"></a>1.3 x与CSS中的ex</h4><ul>
-<li>ex是css中的尺寸单位，为相对单位，指字母x的高度，即x-height。</li>
-<li>巧用ex实现不受字体和字号影响的内联元素的垂直居中对齐<a href="http://demo.cssworld.cn/5/1-1.php">效果</a>。</li>
-</ul>
-<h2 id="2-line-height"><a href="#2-line-height" class="headerlink" title="2. line-height"></a>2. line-height</h2><h4 id="2-1-内联元素的高度之本"><a href="#2-1-内联元素的高度之本" class="headerlink" title="2.1 内联元素的高度之本"></a>2.1 内联元素的高度之本</h4><p>对于非替换元素的纯内联元素，其可视高度完全由line-height 决定，line-height作用于内联元素的细节：</p>
-<ul>
-<li>内联元素的高度由固定高度和不固定高度组成，不固定的部分就是“行距”。换句话说，line-height通过改变“行距”起作用。</li>
-<li>在CSS 中，“行距”分散在当前文字的上方和下方，即使是第一行文字，上方也有“行距”，这个“行距”高度仅仅是完整“行距”高度的一半，也被称为“半行距”。</li>
-<li>业界共识：行距 = 行高− em-box。转换成CSS语言：行距 = line-height - font-size。em-box无法有效感知，但其高度为1em，1em 等于当前font-size 大小。</li>
-<li>根据印刷字体宋体证明半行距。<a href="https://demo.cssworld.cn/5/2-2.php">示例</a>。</li>
-<li>半行距为小数时：如果是文字上边距，则向下取整；如果是文字下边距，则向上取整。</li>
-<li>line-height不影响替换元素（如图片）的高度。</li>
-<li>内联替换元素和内联非替换元素混合时：共同形成一个“行框盒子”，line-heigh决定这个行盒的最小高度。</li>
-</ul>
-<h4 id="2-2-内联元素“垂直居中”"><a href="#2-2-内联元素“垂直居中”" class="headerlink" title="2.2 内联元素“垂直居中”"></a>2.2 内联元素“垂直居中”</h4><ul>
-<li>line-height 可以让单行或多行元素近似垂直居中，说“近似”是因为文字字形的垂直中线位置普遍比真正的“行框盒子”的垂直中线位置低。</li>
-<li>多行文本或者替换元素的垂直居中需要vertical-align 属性帮助，<a href="https://demo.cssworld.cn/5/2-4.php">示例</a>。</li>
-</ul>
-<h4 id="2-3-line-height-的各类属性值"><a href="#2-3-line-height-的各类属性值" class="headerlink" title="2.3 line-height 的各类属性值"></a>2.3 line-height 的各类属性值</h4><p>默认值为normal，还支持数值、百分比值以及长度值。</p>
-<ul>
-<li><p>normal：实际上是一个和font-family 有着密切关联的变量值。</p>
-<table>
-<thead>
-<tr>
-<th>字体</th>
-<th>chrome</th>
-<th>firefox</th>
-<th>ie</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>微软雅黑</td>
-<td>1.32</td>
-<td>1.321</td>
-<td>1.32</td>
-</tr>
-<tr>
-<td>宋体</td>
-<td>1.141</td>
-<td>1.142</td>
-<td>1.141</td>
-</tr>
-</tbody></table>
-</li>
-<li><p>数值，如line-height:1.5，其最终的计算值是和当前font-size 相乘后的值。</p>
-</li>
-<li><p>百分比值，如line-height:150%，其最终的计算值是和当前font-size 相乘后的值。</p>
-</li>
-<li><p>长度值。</p>
-</li>
-<li><p>如果使用数值作为line-height 的属性值，那么所有的子元素继承的都是这个值；但是，如果使用百分比值或者长度值作为属性值，那么所有的子元素继承的是最终的计算值。<a href="https://demo.cssworld.cn/5/2-5.php">示例</a>。</p>
-</li>
-<li><p>可行的折中重置：</p>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">body</span> &#123;</span><br><span class="line"><span class="attribute">line-height</span>: <span class="number">1.5</span>; </span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">input</span>, <span class="selector-tag">button</span> &#123;</span><br><span class="line"><span class="attribute">line-height</span>: inherit;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h4 id="2-4-line-height-的“大值特性”"><a href="#2-4-line-height-的“大值特性”" class="headerlink" title="2.4 line-height 的“大值特性”"></a>2.4 line-height 的“大值特性”</h4><p>无论内联元素line-height 如何设置，最终父级元素的高度都是由数值大的line-height 决定的。原因：行框盒子的高度是由高度最高的那个“内联盒子”决定的。</p>
-<h2 id="3-vertical-align"><a href="#3-vertical-align" class="headerlink" title="3. vertical-align"></a>3. vertical-align</h2><p>凡是line-height 起作用的地方vertical-align 也一定起作用。</p>
-<h4 id="3-1-基本认识"><a href="#3-1-基本认识" class="headerlink" title="3.1 基本认识"></a>3.1 基本认识</h4><ul>
-<li>线类，如baseline（默认值）、top、middle、bottom；</li>
-<li>文本类，如text-top、text-bottom；</li>
-<li>上标下标类，如sub、super；</li>
-<li>数值百分比类，如20px、-2em、20%等。支持负值且兼容性好，百分比计算相对于行高。baseline相当于0。<a href="https://demo.cssworld.cn/5/3-2.php">示例</a>。</li>
-</ul>
-<h4 id="3-2-vertical-align-作用前提"><a href="#3-2-vertical-align-作用前提" class="headerlink" title="3.2 vertical-align 作用前提"></a>3.2 vertical-align 作用前提</h4><ul>
-<li>vertical-align 属性只能作用在display 计算值为inline、inline-block，inline-table 或table-cell 的元素上。</li>
-</ul>
-<h4 id="3-3-vertical-align和line-height的关系"><a href="#3-3-vertical-align和line-height的关系" class="headerlink" title="3.3 vertical-align和line-height的关系"></a>3.3 vertical-align和line-height的关系</h4><ol>
-<li><p>vertical-align 的百分比值相对于line-height 计算</p>
-</li>
-<li><p>line-height、vertical-align共同影响高度表现；很多时候相互作用会出现意外的效果，<a href="https://demo.cssworld.cn/5/3-5.php">示例</a>。</p>
-</li>
-</ol>
-<h4 id="3-4-vertical-align-线性类属性值"><a href="#3-4-vertical-align-线性类属性值" class="headerlink" title="3.4 vertical-align 线性类属性值"></a>3.4 vertical-align 线性类属性值</h4><h5 id="3-4-1-inline-block-与baseline"><a href="#3-4-1-inline-block-与baseline" class="headerlink" title="3.4.1 inline-block 与baseline"></a>3.4.1 inline-block 与baseline</h5><ul>
-<li><p>vertical-align 默认值baseline 在内联元素中是字符x 的下边缘，在替换元素中是替换元素的下边缘</p>
-</li>
-<li><p>inline-block 元素中：若里面没有内联元素，或者overflow 不是visible，则该元素的基线就是其margin 底边缘；否则其基线就是元素里面最后一行内联元素的基线。<a href="https://demo.cssworld.cn/5/3-6.php">综合示例</a>。</p>
-</li>
-<li><p>20px 图标对齐的处理技巧，<a href="https://demo.cssworld.cn/5/3-7.php">示例</a>。</p>
-<ol>
-<li><p>图标高度和当前行高都是20px</p>
-</li>
-<li><p>图标标签里面永远有字符</p>
-</li>
-<li><p>图标CSS 不使用overflow:hidden 保证基线为里面字符的基线，但是要让里面潜在的字符不可见</p>
-</li>
-</ol>
-</li>
-</ul>
-<h5 id="3-4-2-vertial-align-top-bottom"><a href="#3-4-2-vertial-align-top-bottom" class="headerlink" title="3.4.2 vertial-align:top/bottom"></a>3.4.2 vertial-align:top/bottom</h5><p>vertial-align:top 即垂直上边缘对齐，定义：</p>
-<ol>
-<li><p>内联元素：元素底部和当前行框盒子的顶部对齐。（和这一行位置最高的内联元素的顶部对齐）</p>
-</li>
-<li><p>table-cell 元素：元素底padding 边缘和表格行的顶部对齐。</p>
-</li>
-</ol>
-<p>vertial-align:bottom 声明类似</p>
-<p>注：内联元素的上下边缘对齐的“边缘”是当前“行框盒子”的上下边缘，并非块状容器的上下边缘。</p>
-<h5 id="3-4-3-vertial-align-middle-与近似垂直居中"><a href="#3-4-3-vertial-align-middle-与近似垂直居中" class="headerlink" title="3.4.3 vertial-align:middle 与近似垂直居中"></a>3.4.3 vertial-align:middle 与近似垂直居中</h5><ol>
-<li><p>内联元素：元素的垂直中心点和行框盒子基线往上1/2 x-height 处对齐。</p>
-</li>
-<li><p>table-cell 元素：单元格填充盒子相对于外面的表格行居中对齐。</p>
-</li>
-</ol>
-<p>注：基本上所有的字体中，字符x 的位置都偏下，因此，vertial-align:middle 实现的都是“近似垂直居中”。若要实现垂直居中，可以将字体大小设置为0。</p>
-<h4 id="3-5-vertical-align-文本类属性值"><a href="#3-5-vertical-align-文本类属性值" class="headerlink" title="3.5 vertical-align 文本类属性值"></a>3.5 vertical-align 文本类属性值</h4><ul>
-<li><p>文本类属性值指 text-top 和text-bottom：</p>
-<ol>
-<li><p>vertical-align:text-top：盒子的顶部和父级内容区域的顶部对齐。</p>
-</li>
-<li><p>vertical-align:text-bottom：盒子的底部和父级内容区域的底部对齐。</p>
-</li>
-</ol>
-</li>
-<li><p>父级内容区域：在父级元素当前font-size 和font-family 下应有的内容区域大小。<a href="https://demo.cssworld.cn/5/3-9.php">示例</a></p>
-</li>
-</ul>
-<h4 id="3-6-vertical-align-上标下标类属性值"><a href="#3-6-vertical-align-上标下标类属性值" class="headerlink" title="3.6 vertical-align 上标下标类属性值"></a>3.6 vertical-align 上标下标类属性值</h4><p>上标下标类属性值指的就是sub 和super：</p>
-<ol>
-<li><p>vertical-align:super：提高盒子的基线到父级合适的上标基线位置。</p>
-</li>
-<li><p>vertical-align:sub：降低盒子的基线到父级合适的下标基线位置。</p>
-</li>
-</ol>
-<h4 id="3-7-vertical-align无处不在"><a href="#3-7-vertical-align无处不在" class="headerlink" title="3.7 vertical-align无处不在"></a>3.7 vertical-align无处不在</h4><p>对于内联元素，若有不易理解的现象，考虑“幽灵空白节点”以及无处不在的vertical-align 属性。必要时，可以加一个字母x进行调试。</p>
-<h4 id="3-8-基于vertical-align-属性的水平垂直居中弹框"><a href="#3-8-基于vertical-align-属性的水平垂直居中弹框" class="headerlink" title="3.8 基于vertical-align 属性的水平垂直居中弹框"></a>3.8 基于vertical-align 属性的水平垂直居中弹框</h4><p><a href="https://demo.cssworld.cn/5/3-10.php">查看</a>。</p>
-<p>原理：</p>
-<ol>
-<li><p>由于font-size 设置为0，所以x 中心点位置就是.container 的上边缘，此时，高度100%的宽度为0 的伪元素和这个中心点对齐。如果中心点位置不动，这个伪元素上面一半的位置应该在.container 的外面，但是CSS 中默认是左上方排列对齐的，所以，伪元素和这个原本在容器上边缘的x 中心点一起往下移动了半个容器高度，也就是此时x 中心点就在容器的垂直中心线上。</p>
-</li>
-<li><p>弹框元素.dialog 也设置了vertical-align:middle。根据定义，弹框的垂直中心位置和x 中心点位置对齐，此时，x 中心点就在容器的垂直中心位置，于是.dialog 元素就和容器的垂直中心位置对齐了，从而实现了垂直居中效果。</p>
-</li>
-<li><p>水平居中就text-align:center 实现，非常好理解。按照初衷，块级元素负责布局，内联元素设置内容。但是，这里的弹框居中却是把块级元素内联化，利用一些内联属性实现垂直居中效果，这也是不得已而为之，因为vertical-align等内联属性确实比块级属性强悍。</p>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>读书笔记</category>
-      </categories>
-      <tags>
-        <tag>笔记</tag>
-        <tag>CSS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>CSS世界：流的破环与保护</title>
-    <url>/2022/09/29/CSS%E4%B8%96%E7%95%8C%EF%BC%9A%E6%B5%81%E7%9A%84%E7%A0%B4%E7%8E%AF%E4%B8%8E%E4%BF%9D%E6%8A%A4/</url>
-    <content><![CDATA[<h2 id="1-float"><a href="#1-float" class="headerlink" title="1. float"></a>1. float</h2><h4 id="1-1-float本质与特性"><a href="#1-1-float本质与特性" class="headerlink" title="1.1 float本质与特性"></a>1.1 float本质与特性</h4><ul>
-<li><p>CSS2 属性的设计都是为图文展示服务，浮动的本质就是为了实现文字环绕效果</p>
-</li>
-<li><p>特性：</p>
-<ol>
-<li><p>包裹性；</p>
-</li>
-<li><p>块状化并格式化上下文：，元素float 的属性值不为none，则其display 计算值就是block或者table；</p>
-</li>
-<li><p>破坏文档流；</p>
-</li>
-<li><p>没有任何margin 合并；</p>
-</li>
-</ol>
-</li>
-</ul>
-<h4 id="1-2-作用机制"><a href="#1-2-作用机制" class="headerlink" title="1.2 作用机制"></a>1.2 作用机制</h4><p>要使得内容可以和浮动元素在一个水平线上：</p>
-<ul>
-<li><p>“高度塌陷”</p>
-</li>
-<li><p>行框盒子和浮动元素的不可重叠性</p>
-</li>
-</ul>
-<h4 id="1-3-深入的作用机制"><a href="#1-3-深入的作用机制" class="headerlink" title="1.3 深入的作用机制"></a>1.3 深入的作用机制</h4><ul>
-<li><p>浮动锚点：float 元素所在的“流”中的一个点，这个点本身并不浮动，就表现而言更像一个没有margin、border 和padding 的空的内联元素。</p>
-</li>
-<li><p>浮动参考：浮动元素对齐参考的实体。float 元素的“浮动参考”是“行框盒子”，也就是float 元素在当前“行框盒子”内定位。</p>
-</li>
-</ul>
-<h4 id="1-4-float-与流体布局"><a href="#1-4-float-与流体布局" class="headerlink" title="1.4 float 与流体布局"></a>1.4 float 与流体布局</h4><ul>
-<li><p>一侧定宽的两栏自适应布局。<a href="https://demo.cssworld.cn/6/1-2.php">示例</a>。</p>
-</li>
-<li><p>多栏布局</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;box&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span> <span class="attr">class</span>=<span class="string">&quot;prev&quot;</span>&gt;</span>« 上一章<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span> <span class="attr">class</span>=<span class="string">&quot;next&quot;</span>&gt;</span>下一章 »<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h3</span> <span class="attr">class</span>=<span class="string">&quot;title&quot;</span>&gt;</span>第112 章 动物环绕<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.prev</span> &#123;</span><br><span class="line"><span class="attribute">float</span>: left;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.next</span> &#123;</span><br><span class="line"><span class="attribute">float</span>: right;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.title</span> &#123;</span><br><span class="line"><span class="attribute">margin</span>: <span class="number">0</span> <span class="number">70px</span>;</span><br><span class="line"><span class="attribute">text-align</span>: center;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h2 id="2-clear"><a href="#2-clear" class="headerlink" title="2. clear"></a>2. clear</h2><h4 id="2-1-clear属性"><a href="#2-1-clear属性" class="headerlink" title="2.1 clear属性"></a>2.1 clear属性</h4><ul>
-<li><p>none：默认值，左右浮动来就来。</p>
-</li>
-<li><p>left：左侧抗浮动。</p>
-</li>
-<li><p>right：右侧抗浮动。</p>
-</li>
-<li><p>both：两侧抗浮动。</p>
-</li>
-</ul>
-<p>clear 属性让自身不能和前面的浮动元素相邻，凡是可以用left和right的地方，都能用both代替</p>
-<h4 id="2-2-clear缺陷"><a href="#2-2-clear缺陷" class="headerlink" title="2.2 clear缺陷"></a>2.2 clear缺陷</h4><ul>
-<li><p>如果clear:both 元素前面的元素就是float 元素，则margin-top 负值即使设成-9999px，也不见任何效果。</p>
-</li>
-<li><p>clear:both 后面的元素依旧可能会发生文字环绕的现象。</p>
-</li>
-</ul>
-<h2 id="3-BFC"><a href="#3-BFC" class="headerlink" title="3. BFC"></a>3. BFC</h2><h4 id="3-1-BFC定义"><a href="#3-1-BFC定义" class="headerlink" title="3.1 BFC定义"></a>3.1 BFC定义</h4><ul>
-<li><p>BFC全称为block formatting context，即块级格式化上下文。表现规则：BFC 特性的元素的子元素不会受外部元素影响，也不会影响外部元素。</p>
-</li>
-<li><p>常见的触发BFC的情况：</p>
-<ul>
-<li><p>html根元素；</p>
-</li>
-<li><p>float 的值不为none；</p>
-</li>
-<li><p>overflow 的值为auto、scroll 或hidden；</p>
-</li>
-<li><p>display 的值为table-cell、table-caption 和inline-block 中的任何一个；</p>
-</li>
-<li><p>position 的值不为relative 和static。</p>
-</li>
-</ul>
-</li>
-</ul>
-<h4 id="3-2-BFC与流体布局"><a href="#3-2-BFC与流体布局" class="headerlink" title="3.2 BFC与流体布局"></a>3.2 BFC与流体布局</h4><p>和基于纯流体特性实现的两栏或多栏自适应布局相比，基于BFC 特性的自适应布局有如下优点：</p>
-<ol>
-<li><p>自适应内容由于封闭而更健壮，容错性更强</p>
-</li>
-<li><p>自适应内容自动填满浮动以外区域，无须关心浮动元素宽度，可以整站大规模应用</p>
-</li>
-</ol>
-<p>能兼顾流体特性和BFC 特性来实现自适应布局的属性：</p>
-<ol>
-<li><p>float:left。浮动元素本身BFC 化，然而浮动元素有破坏性和包裹性，失去了元素本身的流体自适应性，因此，无法用来实现自动填满容器的自适应布局。</p>
-</li>
-<li><p>position:absolute。难以使用</p>
-</li>
-<li><p>overflow:hidden。常用，但如果子元素要定位到父元素的外面可能会被隐藏</p>
-</li>
-<li><p>display:inline-block。会让元素尺寸包裹收缩，不是我们想要的block 水平的流动特性。</p>
-</li>
-<li><p>display:table-cell。需要IE8 及以上版本的浏览器；对连续英文字符不友好，解决：</p>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.word-break</span> &#123;</span><br><span class="line"><span class="attribute">display</span>: table;</span><br><span class="line"><span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line"><span class="attribute">table-layout</span>: fixed;</span><br><span class="line"><span class="attribute">word-break</span>: break-all;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><p>display:table-row。对width 无感，无法自适应剩余容器空间。</p>
-</li>
-<li><p>display:table-caption。此属性一无是处。</p>
-</li>
-</ol>
-<p>总结：有两套IE7 及以上版本浏览器适配的自适应解决方案：</p>
-<ol>
-<li><p><code>.lbf-content &#123; overflow: hidden; &#125;</code></p>
-</li>
-<li><p>```css<br>.lbf-content {<br>display: table-cell; width: 9999px;<br>/* 如果不需要兼容IE7，下面样式可以省略 */<br>*display: inline-block; *width: auto;<br>}</p>
-<figure class="highlight scss"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">## 4<span class="selector-class">.overflow</span></span><br><span class="line"></span><br><span class="line">#### 4<span class="selector-class">.1</span> <span class="attribute">overflow</span> 剪裁界线</span><br><span class="line"></span><br><span class="line">当子元素内容超出容器宽度高度限制的时候，剪裁的边界是<span class="attribute">border</span> box 的内边缘。</span><br><span class="line"></span><br><span class="line">#### 4<span class="selector-class">.2</span> <span class="attribute">overflow-x</span> 和<span class="attribute">overflow-y</span></span><br><span class="line"></span><br><span class="line">+ 属性值：</span><br><span class="line">  </span><br><span class="line">  1. visible：默认值。</span><br><span class="line">  </span><br><span class="line">  2. hidden：剪裁。</span><br><span class="line">  </span><br><span class="line">  3. scroll：滚动条区域一直在。</span><br><span class="line">  </span><br><span class="line">  4. <span class="attribute">auto</span>：不足以滚动时没有滚动条，可以滚动时滚动条出现。</span><br><span class="line"></span><br><span class="line">+ 如果<span class="attribute">overflow-x</span> 和<span class="attribute">overflow-y</span> 属性中的一个值设置为visible 而另外一个设置为scroll、<span class="attribute">auto</span> 或hidden，则visible 的样式表现会如同<span class="attribute">auto</span>。</span><br><span class="line"></span><br><span class="line">#### 4<span class="selector-class">.3</span> <span class="attribute">overflow</span> 与滚动条</span><br><span class="line"></span><br><span class="line">+ 在PC 端，无论是什么浏览器，默认滚动条均来自&lt;<span class="selector-tag">html</span>&gt;，而不是&lt;<span class="selector-tag">body</span>&gt;标签。</span><br><span class="line">+ 滚动条会占用容器的可用宽度或高度。</span><br><span class="line"></span><br><span class="line">#### 4<span class="selector-class">.4</span> 依赖<span class="attribute">overflow</span> 的样式表现</span><br><span class="line"></span><br><span class="line">+ 单行文字溢出点点点效果</span><br><span class="line">  </span><br><span class="line">  ```css</span><br><span class="line">  <span class="selector-class">.ell</span> &#123;</span><br><span class="line">  <span class="attribute">text-overflow</span>: ellipsis;</span><br><span class="line">  <span class="attribute">white-space</span>: nowrap;</span><br><span class="line">  <span class="attribute">overflow</span>: hidden;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></li>
-</ol>
-<ul>
-<li>-webkit-私有前缀支持良好的浏览器可以实现多行文字打点效果<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.ell-rows-2</span> &#123;</span><br><span class="line"><span class="attribute">display</span>: -webkit-box;</span><br><span class="line">-webkit-box-orient: vertical;</span><br><span class="line">-webkit-line-clamp: <span class="number">2</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h4 id="4-5-overflow-与锚点定位"><a href="#4-5-overflow-与锚点定位" class="headerlink" title="4.5 overflow 与锚点定位"></a>4.5 overflow 与锚点定位</h4><ul>
-<li><p>锚点定位两种方式：</p>
-<ol>
-<li><p>使用<code>&lt;a&gt;</code>标签和name 属性</p>
-</li>
-<li><p>使用标签的id 属性</p>
-</li>
-</ol>
-<p>推荐2，因为干净无兼容性问题</p>
-</li>
-<li><p>锚点定位触发条件</p>
-<ol>
-<li><p>URL 地址中的锚链与锚点元素对应并有交互行为，让元素定位在浏览器窗体的上边缘。</p>
-</li>
-<li><p>可focus 的锚点元素处于focus 状态，让元素在浏览器窗体范围内显示。</p>
-</li>
-</ol>
-</li>
-<li><p>作用本质：通过改变容器滚动高度或者宽度实现。</p>
-<ul>
-<li><p>锚点定位也可发生在普通的容器元素上，而且定位行为的发生由内而外（普通元素和窗体同时可滚动的时候，会由内而外触发所有可滚动窗体的锚点定位行为）。</p>
-</li>
-<li><p>设置了overflow:hidden 的元素也可滚动。</p>
-</li>
-</ul>
-</li>
-<li><p>巧用：</p>
-<ul>
-<li><p>实现切换选项卡效果：<a href="http://demo.cssworld.cn/6/4-2.php">示例</a>，会出现窗体抖动。</p>
-</li>
-<li><p>改进：<a href="http://demo.cssworld.cn/6/4-2.php">示例</a></p>
-</li>
-<li><p>处理列表部分区域在浏览器外面时依然会跳动，改进：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$(&#x27;label.click&#x27;).removeAttr(&#x27;for&#x27;).on(&#x27;click&#x27;, function() &#123;</span><br><span class="line">$(&#x27;.box&#x27;).scrollTop(xxx); &#x27;xxx&#x27;表示滚动数值</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></li>
-</ul>
-</li>
-</ul>
-<h2 id="5-position-absolute"><a href="#5-position-absolute" class="headerlink" title="5. position:absolute"></a>5. position:absolute</h2><p>absolute和float都具有“包裹性”、“块状化”、“破坏性”等特性。</p>
-<h4 id="5-1-absolute的包含块"><a href="#5-1-absolute的包含块" class="headerlink" title="5.1 absolute的包含块"></a>5.1 absolute的包含块</h4><p>包含块：元素用来计算和定位的一个框。</p>
-<ul>
-<li>元素包含块的规则：<ol>
-<li>根元素被称为“初始包含块”，其尺寸等同于浏览器可视窗口的大小。</li>
-<li>对于其他元素，如果position是reactive或static，则包含块由其最近的块容器祖先盒的content box边界组成。</li>
-<li>如果元素position为fixed，则包含块是初始包含块。</li>
-<li>如果元素position为absolute，则包含块由最近不为static的祖先元素建立：如果该祖先元素是纯inline元素，假设给内联元素的前后各生成一个宽度为0 的内联盒子，则这两个内联盒子的padding box外面的包围盒就是内联元素的包含块、如果该内联元素被跨行分割了，那么包含块是未定义的；否则，包含块由该祖先的padding box 边界形成。</li>
-</ol>
-</li>
-<li>和常规元素相比，absolute绝对定位元素包含块的差异：<ol>
-<li>内联元素可以作为包含块所在的元素。</li>
-<li>包含块所在的元素不是父级块元素。</li>
-<li>边界是padding box而不是content box。</li>
-</ol>
-</li>
-</ul>
-<h4 id="5-2-具有相对特性的无依赖absolute绝对定位"><a href="#5-2-具有相对特性的无依赖absolute绝对定位" class="headerlink" title="5.2 具有相对特性的无依赖absolute绝对定位"></a>5.2 具有相对特性的无依赖absolute绝对定位</h4><ul>
-<li>absolute 是非常独立的CSS 属性值，其样式和行为表现不依赖其他任何CSS 属性就可以完成。</li>
-<li>一个绝对定位元素，没有任何left/top/right/bottom 属性设置，并且其祖先元素全部都是非定位元素，其位置仍在当前位置。</li>
-<li>用途：<ol>
-<li>各类图标定位。借助margin负值。<a href="https://demo.cssworld.cn/6/5-5.php">例子</a></li>
-<li>超越常规布局的排版。<a href="https://demo.cssworld.cn/6/5-6.php">例子</a></li>
-<li>下拉列表定位。<a href="https://demo.cssworld.cn/6/5-7.php">例子</a></li>
-<li>占位符效果模拟。IE9 及其以下浏览器不支持placeholder 占位符效果，进行模拟</li>
-<li>比较好的做法是使用label标签和输入框关联并覆盖在输入框上面，好处是点击占位文字输入框天然focus，并且不会污染输入框的value。</li>
-</ol>
-</li>
-<li>浮动与绝对定位结合使用有时浏览器表现不一致，属于“未定义行为”。</li>
-</ul>
-<h4 id="5-3-absolute和text-align"><a href="#5-3-absolute和text-align" class="headerlink" title="5.3 absolute和text-align"></a>5.3 absolute和text-align</h4><p>只有原本是内联水平的元素绝对定位后可以受textalign属性影响。<a href="https://demo.cssworld.cn/6/5-9.php">例子</a></p>
-<h2 id="6-absolute与overflow"><a href="#6-absolute与overflow" class="headerlink" title="6. absolute与overflow"></a>6. absolute与overflow</h2><ol>
-<li>如果overflow不是定位元素，同时绝对定位元素和overflow容器之间也没有定位元素，则overflow无法对absolute元素进行剪裁。</li>
-<li>如果overflow的属性值不是hidden而是auto或者scroll，即使绝对定位元素高宽比overflow元素高宽还要大，也都不会出现滚动条。</li>
-<li>由于position:fixed固定定位元素的包含块是根元素，因此，除非是窗体滚动，否则上面讨论的所有overflow 剪裁规则对固定定位都不适用。</li>
-<li>transform除了改变overflow属性原有规则，对层叠上下文以及position:fixed的渲染都有影响。</li>
-</ol>
-<h2 id="7-absolute与clip"><a href="#7-absolute与clip" class="headerlink" title="7. absolute与clip"></a>7. absolute与clip</h2><p>clip属性要想起作用，元素必须是绝对定位或者固定定位，也就是position 属性值必须是absolute或者fixed。</p>
-<h4 id="7-1-clip属性"><a href="#7-1-clip属性" class="headerlink" title="7.1 clip属性"></a>7.1 clip属性</h4><p>clip剪裁非常有用，在以下两种场景下具有不可替代的地位：</p>
-<ol>
-<li><p>fixed 固定定位的剪裁：因为fixed固定定位元素的包含块是根元素，除非是根元素滚动条，普通元素的overflow是根本无法对其进行剪裁的。</p>
-</li>
-<li><p>最佳可访问性隐藏：指的是虽然内容肉眼看不见，但是其他辅助设备却能够进行识别和访问的隐藏。cilp具有更强的普遍适应性，任何元素、任何场景都可以无障碍使用。</p>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.clip</span> &#123;</span><br><span class="line"><span class="attribute">position</span>: absolute;</span><br><span class="line"><span class="attribute">clip</span>: <span class="built_in">rect</span>(<span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h4 id="7-2-深入了解clip的渲染"><a href="#7-2-深入了解clip的渲染" class="headerlink" title="7.2 深入了解clip的渲染"></a>7.2 深入了解clip的渲染</h4><p>clip隐藏仅仅是决定了哪部分是可见的，非可见部分无法响应点击事件等；然后，虽然视觉上隐藏，但是元素的尺寸依然是原本的尺寸，在IE浏览器和Firefox浏览器下抹掉了不可见区域尺寸对布局的影响，Chrome浏览器却保留了。</p>
-<h2 id="8-absolute的流体特性"><a href="#8-absolute的流体特性" class="headerlink" title="8.absolute的流体特性"></a>8.absolute的流体特性</h2><ul>
-<li>当 absolute遇到left/top/right/bottom属性的时候，absolute元素才真正变成绝对定位元素。如果我们仅设置了一个方向的绝对定位，另一个方向依然保持相对特性。</li>
-<li>对立方向同时发生定位的时候绝对定位元素也具有与普通块级元素类似的流体特性。</li>
-<li>当绝对定位元素处于流体状态的时候，各个盒模型相关属性的解析和普通流体元素都是一模一样的。绝对定位元素的margin:auto的填充规则和普通流体元素的一模一样。</li>
-</ul>
-<h2 id="9-position-relative"><a href="#9-position-relative" class="headerlink" title="9. position:relative"></a>9. position:relative</h2><h4 id="9-1-relative对absolute的限制"><a href="#9-1-relative对absolute的限制" class="headerlink" title="9.1 relative对absolute的限制"></a>9.1 relative对absolute的限制</h4><p>relative/absolute/fixed都能对absolute的“包裹性”以及“定位”产生限制，只有relative可以让元素依然保持在正常的文档流中。</p>
-<h4 id="9-2-reactive与定位"><a href="#9-2-reactive与定位" class="headerlink" title="9.2 reactive与定位"></a>9.2 reactive与定位</h4><p>reactive定位两大特性：</p>
-<ol>
-<li>相对自身：相对于自身位置进行偏移定位。（但百分比值相对于包含块）</li>
-<li>无侵入：当relative进行定位偏移的时候，一般情况下不会影响周围元素的布局。</li>
-</ol>
-<p>当相对定位元素同时应用对立方向定位值的时候，只有一个方向的属性会起作用。</p>
-<h4 id="9-3-relative的最小化影响原则"><a href="#9-3-relative的最小化影响原则" class="headerlink" title="9.3 relative的最小化影响原则"></a>9.3 relative的最小化影响原则</h4><ol>
-<li>尽量不使用relative，如果想定位某些元素，看看能否使用“无依赖的绝对定位”。</li>
-<li>如果场景受限，一定要使用relative，则该relative务必最小化。</li>
-</ol>
-<h2 id="10-position-fixed固定定位"><a href="#10-position-fixed固定定位" class="headerlink" title="10. position:fixed固定定位"></a>10. position:fixed固定定位</h2><h4 id="10-1-不一样的包含块"><a href="#10-1-不一样的包含块" class="headerlink" title="10.1 不一样的包含块"></a>10.1 不一样的包含块</h4><ul>
-<li>position:fixed固定定位元素的“包含块”是根元素，我们可以将其近似看成html元素。</li>
-<li>利用absolute/fixed元素没有设置left/top/right/bottom的相对定位特性，可以将目标元素定位到我们想要的位置。</li>
-</ul>
-<h4 id="10-2-position-fixed的absolute模拟"><a href="#10-2-position-fixed的absolute模拟" class="headerlink" title="10.2 position:fixed的absolute模拟"></a>10.2 position:fixed的absolute模拟</h4><p>我们希望元素既有不跟随滚动的固定定位效果，又能被定位元素限制和精准定位。原理：页面的滚动使用普通元素替代，此时滚动元素之外的其他元素就有了“固定定位”的效果。</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;page&quot;</span>&gt;</span>固定定位元素<span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;fixed&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></span><br><span class="line"><span class="css"><span class="selector-tag">html</span>, <span class="selector-tag">body</span> &#123;</span></span><br><span class="line"><span class="css"><span class="attribute">height</span>: <span class="number">100%</span>;</span></span><br><span class="line"><span class="css"><span class="attribute">overflow</span>: hidden;</span></span><br><span class="line"><span class="css">&#125;</span></span><br><span class="line"><span class="css"><span class="selector-class">.page</span> &#123;</span></span><br><span class="line"><span class="css"><span class="attribute">height</span>: <span class="number">100%</span>;</span></span><br><span class="line"><span class="css"><span class="attribute">overflow</span>: auto;</span></span><br><span class="line"><span class="css">&#125;</span></span><br><span class="line"><span class="css"><span class="selector-class">.fixed</span> &#123;</span></span><br><span class="line"><span class="css"><span class="attribute">position</span>: absolute;</span></span><br><span class="line"><span class="css">&#125;</span></span><br><span class="line"><span class="css"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="10-3-position-fixed-与背景锁定"><a href="#10-3-position-fixed-与背景锁定" class="headerlink" title="10.3 position:fixed 与背景锁定"></a>10.3 position:fixed 与背景锁定</h4><p>蒙层弹窗是网页中常见的交互，黑色半透明全屏覆盖的蒙层基本上都是使用position:fixed 定位实现的。但是蒙层无法覆盖浏览器右侧的滚动栏，并且鼠标滚动的时候后面的背景内容依然可以被滚动，并没有被锁定，体验略打折扣。解决：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> widthBar = <span class="number">17</span>, root = <span class="built_in">document</span>.documentElement;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="built_in">window</span>.innerWidth == <span class="string">&#x27;number&#x27;</span>) &#123;</span><br><span class="line">widthBar = <span class="built_in">window</span>.innerWidth - root.clientWidth;</span><br><span class="line">&#125;</span><br><span class="line">root.style.overflow = <span class="string">&#x27;hidden&#x27;</span>;</span><br><span class="line">root.style.borderRight = widthBar + <span class="string">&#x27;px solid transparent&#x27;</span>;</span><br><span class="line"><span class="keyword">var</span> root = <span class="built_in">document</span>.documentElement;</span><br><span class="line">root.style.overflow = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">root.style.borderRight = <span class="string">&#x27;&#x27;</span>;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>读书笔记</category>
-      </categories>
-      <tags>
-        <tag>笔记</tag>
-        <tag>CSS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>CSS世界：CSS世界的层叠顺序</title>
-    <url>/2023/03/02/CSS%E4%B8%96%E7%95%8C%EF%BC%9ACSS%20%E4%B8%96%E7%95%8C%E7%9A%84%E5%B1%82%E5%8F%A0%E8%A7%84%E5%88%99/</url>
-    <content><![CDATA[<h2 id="1-z-index只是CSS层叠规则中的一叶小舟"><a href="#1-z-index只是CSS层叠规则中的一叶小舟" class="headerlink" title="1.z-index只是CSS层叠规则中的一叶小舟"></a>1.z-index只是CSS层叠规则中的一叶小舟</h2><ul>
-<li>在CSS世界中，z-index属性只有和定位元素（position不为static的元素）在一起的时候才有作用，可以是正数也可以是负数。</li>
-<li>随着CSS3新世界的到来，z-index已经并非只对定位元素有效，flex盒子的子元素也可以设置z-index属性。</li>
-</ul>
-<h2 id="2-CSS世界的层叠上下文和层叠水平"><a href="#2-CSS世界的层叠上下文和层叠水平" class="headerlink" title="2.CSS世界的层叠上下文和层叠水平"></a>2.CSS世界的层叠上下文和层叠水平</h2><h4 id="2-1-层叠上下文"><a href="#2-1-层叠上下文" class="headerlink" title="2.1 层叠上下文"></a>2.1 层叠上下文</h4><p>如果一个元素含有层叠上下文，我们可以理解为这个元素在z轴上就“高人一等”。</p>
-<h4 id="2-2-层叠水平"><a href="#2-2-层叠水平" class="headerlink" title="2.2 层叠水平"></a>2.2 层叠水平</h4><ul>
-<li>层叠水平，英文称作 stacking level，决定了同一个层叠上下文中元素在z轴上的显示顺序。</li>
-<li>尽管某些情况下z-index确实可以影响层叠水平，但是只限于定位元素以及flex盒子的孩子元素；而层叠水平所有的元素都存在。</li>
-</ul>
-<h2 id="3-元素的层叠顺序"><a href="#3-元素的层叠顺序" class="headerlink" title="3.元素的层叠顺序"></a>3.元素的层叠顺序</h2><p>css2.1层叠顺序从低到高：层叠上下文（background/border）、负z-index、block水平盒子、float浮动盒子、inline水平盒子、z-index为0/auto、正z-index。</p>
-<ul>
-<li>位于最下面的background/border特指层叠上下文元素的边框和背景色。每一个层叠顺序规则仅适用于当前层叠上下文元素的小世界。</li>
-<li>inline水平盒子指的是包括inline/inline-block/inline-table元素的“层叠顺序”，它们都是同等级别的。</li>
-<li>单纯从层叠水平上看，实际上z-index:0和z-index:auto是可以看成是一样的。实际上，两者在层叠上下文领域有着根本性的差异。</li>
-</ul>
-<p>浮动元素和文字重叠时文字在上面。</p>
-<h2 id="4-层叠准则"><a href="#4-层叠准则" class="headerlink" title="4.层叠准则"></a>4.层叠准则</h2><ul>
-<li>谁大谁上：当具有明显的层叠水平标识的时候，如生效的z-index属性值，在同一个层叠上下文领域，层叠水平值大的那一个覆盖小的那一个。</li>
-<li>后来居上：当元素的层叠水平一致、层叠顺序相同的时候，在DOM流中处于后面的元素会覆盖前面的元素。</li>
-</ul>
-<h2 id="5-深入了解层叠上下文"><a href="#5-深入了解层叠上下文" class="headerlink" title="5.深入了解层叠上下文"></a>5.深入了解层叠上下文</h2><h4 id="5-1-层叠上下文的特性"><a href="#5-1-层叠上下文的特性" class="headerlink" title="5.1 层叠上下文的特性"></a>5.1 层叠上下文的特性</h4><ul>
-<li>层叠上下文的层叠水平要比普通元素高。</li>
-<li>层叠上下文可以阻断元素的混合模式（参考<a href="http://www.zhangxinxu.com/wordpress/?p=5155">此文章</a>第二部分说明）</li>
-<li>层叠上下文可以嵌套，内部层叠上下文及其所有子元素均受制于外部的“层叠上下文”。</li>
-<li>每个层叠上下文和兄弟元素独立，也就是说，当进行层叠变化或渲染的时候，只需要考虑后代元素。</li>
-<li>每个层叠上下文是自成体系的，当元素发生层叠的时候，整个元素被认为是在父层叠上下文的层叠顺序中</li>
-</ul>
-<h4 id="5-2-层叠上下文的创建"><a href="#5-2-层叠上下文的创建" class="headerlink" title="5.2 层叠上下文的创建"></a>5.2 层叠上下文的创建</h4><p>层叠上下文基本上是由一些特定的CSS属性创建</p>
-<ul>
-<li>根层叠上下文：指的是页面根元素，可以看成是<code>&lt;html&gt;</code>元素。因此，页面中所有的元素一定处于至少一个“层叠结界”中。</li>
-<li>定位元素与传统层叠上下文：对于position值为relative/absolute以及Firefox/IE浏览器（不包括Chrome浏览器）下含有position:fixed声明的定位元素，当其z-index值不是auto的时候，会创建层叠上下文。</li>
-<li>CSS3与新时代的层叠上下文：<ol>
-<li>元素为flex布局元素（父元素display:flex|inline-flex），同时z-index值不是auto。</li>
-<li>元素的opacity值不是1。</li>
-<li>元素的transform值不是none。</li>
-<li>元素mix-blend-mode值不是normal。</li>
-<li>元素的filter值不是none。</li>
-<li>元素的isolation值是isolate。</li>
-<li>元素的will-change属性值为上面2～6的任意一个（如will-change:opacity、will-chang:transform等）。</li>
-<li>元素的-webkit-overflow-scrolling设为touch。</li>
-</ol>
-</li>
-</ul>
-<h4 id="5-3-层叠上下文与层叠顺序"><a href="#5-3-层叠上下文与层叠顺序" class="headerlink" title="5.3 层叠上下文与层叠顺序"></a>5.3 层叠上下文与层叠顺序</h4><ol>
-<li>如果层叠上下文元素不依赖z-index数值，则其层叠顺序是z-index:auto，可看成z:index:0级别。<a href="https://demo.cssworld.cn/7/5-2.php">示例</a></li>
-<li>如果层叠上下文元素依赖z-index数值，则其层叠顺序由z-index值决定。</li>
-</ol>
-<h2 id="6-z-index-负值"><a href="#6-z-index-负值" class="headerlink" title="6.z-index 负值"></a>6.z-index 负值</h2><p>作用：</p>
-<ol>
-<li>可访问性隐藏：z-index负值可以隐藏元素，只需要层叠上下文内的某一个父元素加个背景色就可以。与clip隐藏相比的一个优势是，元素无须绝对定位，设置position:relative也可以隐藏，另一个优势是它对原来的布局以及元素的行为没有任何影响，而clip隐藏会导致控件focus的焦点发生细微的变化，在特定条件下有体验问题。不足之处就是不具有普遍适用性，需要其他元素配合进行隐藏。</li>
-<li>IE8下的多背景模拟。</li>
-<li>定位在元素的后面。<a href="https://demo.cssworld.cn/7/6-2.php">模拟纸张效果</a></li>
-</ol>
-<h2 id="7-z-index“不犯二”准则"><a href="#7-z-index“不犯二”准则" class="headerlink" title="7.z-index“不犯二”准则"></a>7.z-index“不犯二”准则</h2><p>对于非浮层元素，避免设置z-index值，z-index值没有任何道理需要超过2</p>
-<ol>
-<li>定位元素一旦设置了z-index值，就从普通定位元素变成了层叠上下文元素，相互间的层叠顺序就发生了根本的变化，很容易出现设置了巨大的z-index值也无法覆盖其他元素的问题。</li>
-<li>避免z-index“一山比一山高”的样式混乱问题。</li>
-</ol>
 ]]></content>
       <categories>
         <category>读书笔记</category>

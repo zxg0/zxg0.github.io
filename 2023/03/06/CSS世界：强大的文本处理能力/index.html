@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"zxg0.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="对《CSS世界》第八章知识点的简要总结">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS世界：强大的文本处理能力">
+<meta property="og:url" content="https://zxg0.github.io/2023/03/06/CSS%E4%B8%96%E7%95%8C%EF%BC%9A%E5%BC%BA%E5%A4%A7%E7%9A%84%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86%E8%83%BD%E5%8A%9B/index.html">
+<meta property="og:site_name" content="昧的个人博客">
+<meta property="og:description" content="对《CSS世界》第八章知识点的简要总结">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-03-06T09:25:56.567Z">
+<meta property="article:modified_time" content="2023-03-06T09:28:45.413Z">
+<meta property="article:author" content="昧">
+<meta property="article:tag" content="笔记">
+<meta property="article:tag" content="CSS">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://zxg0.github.io/2023/03/06/CSS%E4%B8%96%E7%95%8C%EF%BC%9A%E5%BC%BA%E5%A4%A7%E7%9A%84%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86%E8%83%BD%E5%8A%9B/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://zxg0.github.io/2023/03/06/CSS%E4%B8%96%E7%95%8C%EF%BC%9A%E5%BC%BA%E5%A4%A7%E7%9A%84%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86%E8%83%BD%E5%8A%9B/","path":"2023/03/06/CSS世界：强大的文本处理能力/","title":"CSS世界：强大的文本处理能力"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>CSS世界：强大的文本处理能力 | 昧的个人博客</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="昧的个人博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">昧的个人博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">一邂逅，终难忘</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-line-height%E7%9A%84%E5%8F%A6%E4%B8%80%E4%B8%AA%E6%9C%8B%E5%8F%8Bfont-size"><span class="nav-number">1.</span> <span class="nav-text">1. line-height的另一个朋友font-size</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-font-size-%E5%92%8C-vertical-align%EF%BC%9A%E6%9C%8B%E5%8F%8B%E7%9A%84%E6%9C%8B%E5%8F%8B%E4%B9%9F%E6%98%AF%E6%9C%8B%E5%8F%8B"><span class="nav-number">1.0.1.</span> <span class="nav-text">1.1 font-size 和 vertical-align：朋友的朋友也是朋友</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-font-size-%E4%B8%8E-ex%E3%80%81em-%E5%92%8C-rem-%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">1.0.2.</span> <span class="nav-text">1.2 font-size 与 ex、em 和 rem 的关系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-font-size%E5%85%B3%E9%94%AE%E5%AD%97%E5%B1%9E%E6%80%A7"><span class="nav-number">1.0.3.</span> <span class="nav-text">1.3 font-size关键字属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-font-size-0%E4%B8%8E%E6%96%87%E6%9C%AC%E7%9A%84%E9%9A%90%E8%97%8F"><span class="nav-number">1.0.4.</span> <span class="nav-text">1.4 font-size: 0与文本的隐藏</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%AD%97%E4%BD%93%E5%B1%9E%E6%80%A7%E5%AE%B6%E6%97%8F%E7%9A%84%E5%A4%A7%E5%AE%B6%E9%95%BF-font-family"><span class="nav-number">2.</span> <span class="nav-text">2. 字体属性家族的大家长 font-family</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-%E8%A1%AC%E7%BA%BF%E5%AD%97%E4%BD%93%E5%92%8C%E6%97%A0%E8%A1%AC%E7%BA%BF%E5%AD%97%E4%BD%93"><span class="nav-number">2.0.1.</span> <span class="nav-text">2.1 衬线字体和无衬线字体</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-%E7%AD%89%E5%AE%BD%E5%AD%97%E4%BD%93"><span class="nav-number">2.0.2.</span> <span class="nav-text">2.2 等宽字体</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-%E4%B8%AD%E6%96%87%E5%AD%97%E4%BD%93%E5%92%8C%E8%8B%B1%E6%96%87%E5%90%8D%E7%A7%B0"><span class="nav-number">2.0.3.</span> <span class="nav-text">2.3 中文字体和英文名称</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-%E8%A1%A5%E5%85%85%E8%AF%B4%E6%98%8E"><span class="nav-number">2.0.4.</span> <span class="nav-text">2.4 补充说明</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%AD%97%E4%BD%93%E5%AE%B6%E6%97%8F%E5%85%B6%E4%BB%96%E6%88%90%E5%91%98"><span class="nav-number">3.</span> <span class="nav-text">3.  字体家族其他成员</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-font-weight"><span class="nav-number">3.0.1.</span> <span class="nav-text">3.1 font-weight</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-font-style"><span class="nav-number">3.0.2.</span> <span class="nav-text">3.2  font-style</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-%E4%B8%8D%E9%80%82%E5%90%88%E5%9B%BD%E6%83%85%E7%9A%84-font-variant%EF%BC%88%E5%87%A0%E4%B9%8E%E6%B2%A1%E7%94%A8%EF%BC%89"><span class="nav-number">3.0.3.</span> <span class="nav-text">3.3 不适合国情的 font-variant（几乎没用）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-font"><span class="nav-number">4.</span> <span class="nav-text">4. font</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-%E7%BC%A9%E5%86%99%E5%B1%9E%E6%80%A7"><span class="nav-number">4.0.1.</span> <span class="nav-text">4.1 缩写属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-%E4%BD%BF%E7%94%A8%E5%85%B3%E9%94%AE%E5%AD%97%E5%80%BC%E7%9A%84-font-%E5%B1%9E%E6%80%A7"><span class="nav-number">4.0.2.</span> <span class="nav-text">4.2 使用关键字值的 font 属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-%E5%85%B3%E9%94%AE%E5%AD%97%E5%B1%9E%E6%80%A7%E5%80%BC%E7%9A%84%E5%BA%94%E7%94%A8%E4%BB%B7%E5%80%BC"><span class="nav-number">4.0.3.</span> <span class="nav-text">4.3 关键字属性值的应用价值</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-font-face-%E8%A7%84%E5%88%99"><span class="nav-number">5.</span> <span class="nav-text">5. @font face 规则</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-font-face-%E7%9A%84%E6%9C%AC%E8%B4%A8%E6%98%AF%E5%8F%98%E9%87%8F"><span class="nav-number">5.0.1.</span> <span class="nav-text">5.1 @font face 的本质是变量</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#5-1-1-font-family"><span class="nav-number">5.0.1.1.</span> <span class="nav-text">5.1.1 font-family</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-1-2-src"><span class="nav-number">5.0.1.2.</span> <span class="nav-text">5.1.2 src</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-1-3-font-style"><span class="nav-number">5.0.1.3.</span> <span class="nav-text">5.1.3 font-style</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-1-4-font-weight"><span class="nav-number">5.0.1.4.</span> <span class="nav-text">5.1.4 font-weight</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-1-5-unicode-range"><span class="nav-number">5.0.1.5.</span> <span class="nav-text">5.1.5 unicode-range</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-font-face-%E4%B8%8E%E5%AD%97%E4%BD%93%E5%9B%BE%E6%A0%87%E6%8A%80%E6%9C%AF"><span class="nav-number">5.0.2.</span> <span class="nav-text">5.2 @font face 与字体图标技术</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E6%96%87%E6%9C%AC%E7%9A%84%E6%8E%A7%E5%88%B6"><span class="nav-number">6.</span> <span class="nav-text">6. 文本的控制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-text-indent-%E4%B8%8E%E5%86%85%E8%81%94%E5%85%83%E7%B4%A0%E7%BC%A9%E8%BF%9B"><span class="nav-number">6.0.1.</span> <span class="nav-text">6.1 text-indent 与内联元素缩进</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-2-letter-spacing-%E4%B8%8E%E5%AD%97%E7%AC%A6%E9%97%B4%E8%B7%9D"><span class="nav-number">6.0.2.</span> <span class="nav-text">6.2 letter-spacing 与字符间距</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-3-word-spacing-%E4%B8%8E%E5%8D%95%E8%AF%8D%E9%97%B4%E8%B7%9D"><span class="nav-number">6.0.3.</span> <span class="nav-text">6.3 word-spacing 与单词间距</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-4-word-break-%E5%92%8C-word-wrap-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">6.0.4.</span> <span class="nav-text">6.4 word-break 和 word-wrap 的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-5-white-space-%E4%B8%8E%E6%8D%A2%E8%A1%8C%E5%92%8C%E7%A9%BA%E6%A0%BC%E7%9A%84%E6%8E%A7%E5%88%B6"><span class="nav-number">6.0.5.</span> <span class="nav-text">6.5 white-space 与换行和空格的控制</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#6-5-1-white-space-%E7%9A%84%E5%A4%84%E7%90%86%E6%A8%A1%E5%9E%8B"><span class="nav-number">6.0.5.1.</span> <span class="nav-text">6.5.1 white-space 的处理模型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-5-2-white-space-%E4%B8%8E%E6%9C%80%E5%A4%A7%E5%8F%AF%E7%94%A8%E5%AE%BD%E5%BA%A6"><span class="nav-number">6.0.5.2.</span> <span class="nav-text">6.5.2 white-space 与最大可用宽度</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-6-text-align-%E4%B8%8E%E5%85%83%E7%B4%A0%E5%AF%B9%E9%BD%90"><span class="nav-number">6.0.6.</span> <span class="nav-text">6.6 text-align 与元素对齐</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-7-text-decoration-%E4%B8%8B%E5%88%92%E7%BA%BF%E5%92%8C%E6%96%87%E6%9C%AC%E9%87%8D%E5%8F%A0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">6.0.7.</span> <span class="nav-text">6.7 text-decoration 下划线和文本重叠的问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-8-text-transform-%E5%AD%97%E7%AC%A6%E5%A4%A7%E5%B0%8F%E5%86%99"><span class="nav-number">6.0.8.</span> <span class="nav-text">6.8 text-transform 字符大小写</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-first-letter-first-line-%E4%BC%AA%E5%85%83%E7%B4%A0"><span class="nav-number">7.</span> <span class="nav-text">7. :first-letter :first-line 伪元素</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#7-1-first-letter"><span class="nav-number">7.0.1.</span> <span class="nav-text">7.1 ::first-letter</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#7-1-1%E7%94%9F%E6%95%88%E5%89%8D%E6%8F%90"><span class="nav-number">7.0.1.1.</span> <span class="nav-text">7.1.1生效前提</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7-1-2-first-letter-%E4%BC%AA%E5%85%83%E7%B4%A0%E5%8F%AF%E4%BB%A5%E7%94%9F%E6%95%88%E7%9A%84-CSS-%E5%B1%9E%E6%80%A7"><span class="nav-number">7.0.1.2.</span> <span class="nav-text">7.1.2 ::first-letter 伪元素可以生效的 CSS 属性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7-1-3-first-letter-%E4%BC%AA%E5%85%83%E7%B4%A0%E7%9A%84%E7%89%B9%E7%82%B9"><span class="nav-number">7.0.1.3.</span> <span class="nav-text">7.1.3 ::first-letter 伪元素的特点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7-1-4-first-letter-%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8%E4%B8%BE%E4%BE%8B"><span class="nav-number">7.0.1.4.</span> <span class="nav-text">7.1.4 ::first-letter 实际应用举例</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-2-first-line-%E4%BC%AA%E5%85%83%E7%B4%A0"><span class="nav-number">7.0.2.</span> <span class="nav-text">7.2 :first-line 伪元素</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="昧"
+      src="/images/-424f50defabe407b.jpg">
+  <p class="site-author-name" itemprop="name">昧</p>
+  <div class="site-description" itemprop="description">不相识，又何妨</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zxg0" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zxg0" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:1697414153@qq.com" title="E-Mail → mailto:1697414153@qq.com" rel="noopener external nofollow noreferrer" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+          </div>
+        </div>
+      </div>
+      
+        
+      
+      <div style="">
+  <canvas id="canvas" style="width:60%;">当前浏览器不支持canvas，请更换浏览器后再试</canvas>
+</div>
+<script>
+(function(){
+
+   var digit=
+    [
+        [
+            [0,0,1,1,1,0,0],
+            [0,1,1,0,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,0,1,1,0],
+            [0,0,1,1,1,0,0]
+        ],//0
+        [
+            [0,0,0,1,1,0,0],
+            [0,1,1,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [1,1,1,1,1,1,1]
+        ],//1
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,0,0,0],
+            [0,1,1,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,0,0,0,1,1],
+            [1,1,1,1,1,1,1]
+        ],//2
+        [
+            [1,1,1,1,1,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//3
+        [
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,1,0],
+            [0,0,1,1,1,1,0],
+            [0,1,1,0,1,1,0],
+            [1,1,0,0,1,1,0],
+            [1,1,1,1,1,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,1,1]
+        ],//4
+        [
+            [1,1,1,1,1,1,1],
+            [1,1,0,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,1,1,1,1,0],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//5
+        [
+            [0,0,0,0,1,1,0],
+            [0,0,1,1,0,0,0],
+            [0,1,1,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,0,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//6
+        [
+            [1,1,1,1,1,1,1],
+            [1,1,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0]
+        ],//7
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//8
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,1,1,0,0,0,0]
+        ],//9
+        [
+            [0,0,0,0,0,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,0,0,0]
+        ]//:
+    ];
+
+var canvas = document.getElementById('canvas');
+
+if(canvas.getContext){
+    var cxt = canvas.getContext('2d');
+    //声明canvas的宽高
+    var H = 100,W = 700;
+    canvas.height = H;
+    canvas.width = W;
+    cxt.fillStyle = '#f00';
+    cxt.fillRect(10,10,50,50);
+
+    //存储时间数据
+    var data = [];
+    //存储运动的小球
+    var balls = [];
+    //设置粒子半径
+    var R = canvas.height/20-1;
+    (function(){
+        var temp = /(\d)(\d):(\d)(\d):(\d)(\d)/.exec(new Date());
+        //存储时间数字，由十位小时、个位小时、冒号、十位分钟、个位分钟、冒号、十位秒钟、个位秒钟这7个数字组成
+        data.push(temp[1],temp[2],10,temp[3],temp[4],10,temp[5],temp[6]);
+    })();
+
+    /*生成点阵数字*/
+    function renderDigit(index,num){
+        for(var i = 0; i < digit[num].length; i++){
+            for(var j = 0; j < digit[num][i].length; j++){
+                if(digit[num][i][j] == 1){
+                    cxt.beginPath();
+                    cxt.arc(14*(R+2)*index + j*2*(R+1)+(R+1),i*2*(R+1)+(R+1),R,0,2*Math.PI);
+                    cxt.closePath();
+                    cxt.fill();
+                }
+            }
+        }
+    }
+
+    /*更新时钟*/
+    function updateDigitTime(){
+        var changeNumArray = [];
+        var temp = /(\d)(\d):(\d)(\d):(\d)(\d)/.exec(new Date());
+        var NewData = [];
+        NewData.push(temp[1],temp[2],10,temp[3],temp[4],10,temp[5],temp[6]);
+        for(var i = data.length-1; i >=0 ; i--){
+            //时间发生变化
+            if(NewData[i] !== data[i]){
+                //将变化的数字值和在data数组中的索引存储在changeNumArray数组中
+                changeNumArray.push(i+'_'+(Number(data[i])+1)%10);
+            }
+        }
+        //增加小球
+        for(var i = 0; i< changeNumArray.length; i++){
+            addBalls.apply(this,changeNumArray[i].split('_'));
+        }
+        data = NewData.concat();
+    }
+
+    /*更新小球状态*/
+    function updateBalls(){
+        for(var i = 0; i < balls.length; i++){
+            balls[i].stepY += balls[i].disY;
+            balls[i].x += balls[i].stepX;
+            balls[i].y += balls[i].stepY;
+            if(balls[i].x > W + R || balls[i].y > H + R){
+                balls.splice(i,1);
+                i--;
+            }
+        }
+    }
+
+    /*增加要运动的小球*/
+    function addBalls(index,num){
+        var numArray = [1,2,3];
+        var colorArray =  ["#3BE","#09C","#A6C","#93C","#9C0","#690","#FB3","#F80","#F44","#C00"];
+        for(var i = 0; i < digit[num].length; i++){
+            for(var j = 0; j < digit[num][i].length; j++){
+                if(digit[num][i][j] == 1){
+                    var ball = {
+                        x:14*(R+2)*index + j*2*(R+1)+(R+1),
+                        y:i*2*(R+1)+(R+1),
+                        stepX:Math.floor(Math.random() * 4 -2),
+                        stepY:-2*numArray[Math.floor(Math.random()*numArray.length)],
+                        color:colorArray[Math.floor(Math.random()*colorArray.length)],
+                        disY:1
+                    };
+                    balls.push(ball);
+                }
+            }
+        }
+    }
+
+    /*渲染*/
+    function render(){
+        //重置画布宽度，达到清空画布的效果
+        canvas.height = 100;
+        //渲染时钟
+        for(var i = 0; i < data.length; i++){
+            renderDigit(i,data[i]);
+        }
+        //渲染小球
+        for(var i = 0; i < balls.length; i++){
+            cxt.beginPath();
+            cxt.arc(balls[i].x,balls[i].y,R,0,2*Math.PI);
+            cxt.fillStyle = balls[i].color;
+            cxt.closePath();
+            cxt.fill();
+        }
+    }
+
+    clearInterval(oTimer);
+    var oTimer = setInterval(function(){
+        //更新时钟
+        updateDigitTime();
+        //更新小球状态
+        updateBalls();
+        //渲染
+        render();
+    },50);
+}
+
+})();
+</script>
+
+
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zxg0.github.io/2023/03/06/CSS%E4%B8%96%E7%95%8C%EF%BC%9A%E5%BC%BA%E5%A4%A7%E7%9A%84%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86%E8%83%BD%E5%8A%9B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/-424f50defabe407b.jpg">
+      <meta itemprop="name" content="昧">
+      <meta itemprop="description" content="不相识，又何妨">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="昧的个人博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CSS世界：强大的文本处理能力
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2023-03-06 17:25:56 / 修改时间：17:28:45" itemprop="dateCreated datePublished" datetime="2023-03-06T17:25:56+08:00">2023-03-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">读书笔记</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>8.6k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>8 分钟</span>
+    </span>
+</div>
+
+            <div class="post-description">对《CSS世界》第八章知识点的简要总结</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="1-line-height的另一个朋友font-size"><a href="#1-line-height的另一个朋友font-size" class="headerlink" title="1. line-height的另一个朋友font-size"></a>1. line-height的另一个朋友font-size</h2><p>line-height 的数值属性值和 百分比值属性值都是相对于 font-size 计算的。</p>
+<h4 id="1-1-font-size-和-vertical-align：朋友的朋友也是朋友"><a href="#1-1-font-size-和-vertical-align：朋友的朋友也是朋友" class="headerlink" title="1.1 font-size 和 vertical-align：朋友的朋友也是朋友"></a>1.1 font-size 和 vertical-align：朋友的朋友也是朋友</h4><p>line-height 的部分类别属性值是相对于 font-size 计算的，vertical-align 百分比值属性值又是相对于 line-height 计算的。</p>
+<h4 id="1-2-font-size-与-ex、em-和-rem-的关系"><a href="#1-2-font-size-与-ex、em-和-rem-的关系" class="headerlink" title="1.2 font-size 与 ex、em 和 rem 的关系"></a>1.2 font-size 与 ex、em 和 rem 的关系</h4><ul>
+<li>ex ：字符 x 高度，font-size 值越大，自然 ex 也越大。</li>
+<li>em：传统排版中指一个字模的高度，其一般由’M’的宽度决 定（因为宽高相同），所以叫 em。汉字的一个字（宋体效果最为明显）。CSS 中，1em 的计算值等同于当前元素所在的 font-size 计算值，可以将 其想象成当前元素中（如果有）汉字的高度。</li>
+<li>rem：em 相对于当前元素，rem 相对于根元素。</li>
+</ul>
+<p>使用svg图标时：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">svg &#123; </span><br><span class="line"> <span class="attribute">width</span>: <span class="number">1em</span>; <span class="attribute">height</span>: <span class="number">1em</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>无论图标是个大号文字混在一起还是和小号文字混在一起，都能和当前文字大小保持一 致。</p>
+<h4 id="1-3-font-size关键字属性"><a href="#1-3-font-size关键字属性" class="headerlink" title="1.3 font-size关键字属性"></a>1.3 font-size关键字属性</h4><p>font-size 支持长度值，如 1em，也支持百分比值（相对于父元素的font-size），关键字值：</p>
+<ol>
+<li>相对尺寸关键字：相对于当前元素 font-size 计算<ul>
+<li>larger：是元素<code>&lt;big&gt;</code>的默认 font-size 属性值。</li>
+<li>smaller：是元素<code>&lt;small&gt;</code>的默认 font-size 属性值。</li>
+</ul>
+</li>
+<li>绝对尺寸关键字：仅受浏览器设置的字号影响。<ul>
+<li>xx-large：与h1元素计算值一样。</li>
+<li>x-large：与h2元素计算值一样。</li>
+<li>large：与h3元素计算值近似。（近似：偏差在1px内）</li>
+<li>medium：是 font-size 的初始值，和h4元素计算值一样。</li>
+<li>small：与h5元素计算值近似。</li>
+<li>x-small：与h6元素计算值近似。</li>
+<li>xx-small：很小很小</li>
+</ul>
+</li>
+</ol>
+<p>权衡“易于实现维护”“视觉还原”“可访问性”三者的两个小建议：</p>
+<ol>
+<li>即使是定宽的传统桌面端网页，也需要做响应式处理，尤其是针对 1200 像素宽度设计的网页，但只需要响应到 800 像素即可，可以保证至少有 1.5 倍的缩放空间，做到这一步，那么是否需要响应浏览器的字号设置这一点就可以忽略。</li>
+<li>如果困各种原因无法做响应式处理，也没有必要全局都使用相对单位。只需要在图文内容为主的重要局部区域使用可缩放的 font-size处理即可。例如，小说网站的阅读页、微信公众号文章展示区、评论区等，都强烈建议摒弃 px 单位。而采用下面的实践策略：<ul>
+<li>容器设置 font-size:medium。</li>
+<li>容器内的文字字号全部使用相对单位，如百分比值或者 em 都可以，然后基于 16px 进 行转换。同时使用自适应流体布局，间距什么的也使用相对单位。</li>
+</ul>
+</li>
+</ol>
+<h4 id="1-4-font-size-0与文本的隐藏"><a href="#1-4-font-size-0与文本的隐藏" class="headerlink" title="1.4 font-size: 0与文本的隐藏"></a>1.4 font-size: 0与文本的隐藏</h4><p>桌面 Chrome 浏览器字号限制：</p>
+<ul>
+<li><p>文字的 font-size 计算值不能小于 12px</p>
+</li>
+<li><p>并不是所有小于12px的font-size都会被当作12px 处理，、如果 font-size:0 的字号表现就是 0，那么文字会直接被隐藏掉。</p>
+</li>
+</ul>
+<h2 id="2-字体属性家族的大家长-font-family"><a href="#2-字体属性家族的大家长-font-family" class="headerlink" title="2. 字体属性家族的大家长 font-family"></a>2. 字体属性家族的大家长 font-family</h2><ul>
+<li>font-family 默认值由操作系统和浏览器共同决定、</li>
+<li>font-family 支持两类属性值，一类是“字体名”，一类是“字体族”。字体名：如果字体名包含空格，需要使用引号包起来。</li>
+</ul>
+<p>字体族分类：</p>
+<ul>
+<li> serif：衬线字体。</li>
+<li>sans-serif：无衬线字体。</li>
+<li>monospace：等宽字体。</li>
+<li>cursive：手写字体。</li>
+<li>fantasy：奇幻字体。</li>
+<li>system-ui：系统 UI 字体。</li>
+</ul>
+<h4 id="2-1-衬线字体和无衬线字体"><a href="#2-1-衬线字体和无衬线字体" class="headerlink" title="2.1 衬线字体和无衬线字体"></a>2.1 衬线字体和无衬线字体</h4><ul>
+<li>衬线字体：通俗讲就是笔画开始、结束的地方有额外装饰而且笔画的粗细会有所不同的字体。网页中常用中文衬线字体是“宋体”，常用英文衬线字 体有 Times New Roman、Georgia 等。</li>
+<li>无衬线字体：没有额外的装饰，而且笔画的粗细差不多， 如中文的“雅黑”字体，英文包括 Arial、Verdana、Tahoma、Helivetica、Calibri 等。</li>
+<li>在移动端 Web 开发的时候，虽然设备的默认中文字体不一样，但都是无衬线。</li>
+<li>实现时，serif 和 sans-serif 一定要写在最后，因为在大多数浏览器下， 写在 serif 和 sans-serif 后面的所有字体都会被忽略。</li>
+</ul>
+<h4 id="2-2-等宽字体"><a href="#2-2-等宽字体" class="headerlink" title="2.2 等宽字体"></a>2.2 等宽字体</h4><p>等宽字体，一般是针对英文字体而言的。</p>
+<ol>
+<li>等宽字体与代码呈现： 等宽字体利于代码呈现。因此，一般编辑器使用的字体或者 Web 上需要呈 现源代码的字体都是等宽字体。</li>
+<li>等宽字体与图形呈现：使用等宽字体可以模拟 borderStyle：solid、dashed 和 dotted。</li>
+<li>ch 单位（CSS3 单位）与等宽字体布局 ：1ch 表示一个 0 字符的宽度。用于：11位手机号输入的等宽布局、等宽代码的显隐等</li>
+</ol>
+<h4 id="2-3-中文字体和英文名称"><a href="#2-3-中文字体和英文名称" class="headerlink" title="2.3 中文字体和英文名称"></a>2.3 中文字体和英文名称</h4><p>常见中文字体，如宋体、微软雅黑等，直接使用中文名称作为 CSS font-family 的属性值也能生效，一般不推荐中文名称，而是使用英文名称，主要是为了规避乱码的风险。</p>
+<h4 id="2-4-补充说明"><a href="#2-4-补充说明" class="headerlink" title="2.4 补充说明"></a>2.4 补充说明</h4><ul>
+<li>虽然说 CSS font-family 对名称的大小写不怎么敏感，但最好至少首字母要大写，否则在使用 CSS  unicode-range 的时候可能会遇到一些麻烦。</li>
+<li>常见付费的字体对应的英文名称：<a target="_blank" rel="noopener external nofollow noreferrer" href="http://www.zhangxinxu.com/wordpress/?p=5474">查看</a></li>
+</ul>
+<h2 id="3-字体家族其他成员"><a href="#3-字体家族其他成员" class="headerlink" title="3.  字体家族其他成员"></a>3.  字体家族其他成员</h2><h4 id="3-1-font-weight"><a href="#3-1-font-weight" class="headerlink" title="3.1 font-weight"></a>3.1 font-weight</h4><ol>
+<li>属性值：<ul>
+<li>常用：normal、bold</li>
+<li>相对于父级元素：lighter、bolder</li>
+<li>精细控制：100、200、……、900。400等同于normal，700等同于bold</li>
+</ul>
+</li>
+<li>渲染：400 和 700 是文字粗细与否的重要临界点，加上最小的 100 和最大的 900， 就构成了 font-weight 完整的字重临界点。而lighter 和 bolder 这两个具有相对特定的关键字就是基于这 4 个临界点进行解析和渲染的。</li>
+<li>表现：设置300、500等数值时有时并没有变化，因为系统没有安装该字体家族的对应字重字体。</li>
+</ol>
+<h4 id="3-2-font-style"><a href="#3-2-font-style" class="headerlink" title="3.2  font-style"></a>3.2  font-style</h4><ul>
+<li>属性值：normal、oblique、italic。</li>
+<li>italic 是使用当前字体的斜体字体，而 oblique 只是单纯地让文字倾斜。 如果当前字体没有对应的斜体字体，则退而求其次，解析为 oblique，也就是单纯形状倾斜。</li>
+<li>由于单纯倾斜的字体不好看，在实际开发的 时候，几乎没有任何理由需要使用 font-style:oblique。</li>
+</ul>
+<h4 id="3-3-不适合国情的-font-variant（几乎没用）"><a href="#3-3-不适合国情的-font-variant（几乎没用）" class="headerlink" title="3.3 不适合国情的 font-variant（几乎没用）"></a>3.3 不适合国情的 font-variant（几乎没用）</h4><ul>
+<li>属性值：normal、small-caps。</li>
+<li>small-caps ：让英文字符表现为小体型大写字母。</li>
+</ul>
+<h2 id="4-font"><a href="#4-font" class="headerlink" title="4. font"></a>4. font</h2><h4 id="4-1-缩写属性"><a href="#4-1-缩写属性" class="headerlink" title="4.1 缩写属性"></a>4.1 缩写属性</h4><ul>
+<li>font-size 和font-family 是必需的，是不可以省略的。</li>
+<li>font 缩写会破坏部分属性的继承性：在使用 font 缩写的时候，如果不设定行高值，一定会出现不兼容的问题。</li>
+<li>是 font 缩写必须要带上 font-family，解决方法：<ol>
+<li>随便找一个系统根本不存在的字体名占位</li>
+<li>利用@font face 规则将我们的字体列表重定义为一个字体</li>
+</ol>
+</li>
+</ul>
+<h4 id="4-2-使用关键字值的-font-属性"><a href="#4-2-使用关键字值的-font-属性" class="headerlink" title="4.2 使用关键字值的 font 属性"></a>4.2 使用关键字值的 font 属性</h4><ul>
+<li>caption：活动窗口标题栏使用的字体。</li>
+<li>icon：包含图标内容所使用的字体，如所有文件夹名称、文件名称所使用的字体。</li>
+<li>menu：菜单使用的字体，如文件夹菜单。</li>
+<li>message-box：消息盒里面使用的字体。</li>
+<li>small-caption：调色板标题所使用的字体。</li>
+<li>status-bar：窗体状态栏使用的字体。</li>
+<li>非标准的关键字：button、checkbox、checkbox-group、combo-box、 desktop、dialog、document等，但浏览器大多不支持。</li>
+</ul>
+<p>font 关键字属性值本质上也是一种缩写，里面已经包含了诸如 font-size 等</p>
+<h4 id="4-3-关键字属性值的应用价值"><a href="#4-3-关键字属性值的应用价值" class="headerlink" title="4.3 关键字属性值的应用价值"></a>4.3 关键字属性值的应用价值</h4><p>使得不同的操作系统下能够使用对应的系统字体。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">html</span> &#123; <span class="attribute">font</span>: menu; &#125; //还可以是 small-<span class="selector-tag">caption</span>、status-bar</span><br><span class="line"><span class="selector-tag">body</span> &#123; <span class="attribute">font-size</span>: <span class="number">16px</span>; &#125; </span><br></pre></td></tr></table></figure>
+
+<h2 id="5-font-face-规则"><a href="#5-font-face-规则" class="headerlink" title="5. @font face 规则"></a>5. @font face 规则</h2><h4 id="5-1-font-face-的本质是变量"><a href="#5-1-font-face-的本质是变量" class="headerlink" title="5.1 @font face 的本质是变量"></a>5.1 @font face 的本质是变量</h4><p>@font face 规则支持的 CSS 属性有 font-family、src、font-style、font-weigh、 unicode-range、font-variant、font-stretch 和 font-feature-settings。</p>
+<h5 id="5-1-1-font-family"><a href="#5-1-1-font-family" class="headerlink" title="5.1.1 font-family"></a>5.1.1 font-family</h5><ul>
+<li>font-family 可以看成是一个字体变量，名称可以非常随意</li>
+<li>非 IE 浏览器下甚至可以直接使用纯空格’ ‘</li>
+<li>使用稀奇古怪的字符或者空格的时候，一定要加引号</li>
+</ul>
+<h5 id="5-1-2-src"><a href="#5-1-2-src" class="headerlink" title="5.1.2 src"></a>5.1.2 src</h5><ul>
+<li>如果是使用系统安装字体， 则使用 local()功能符</li>
+<li>如果是使用外链字体，则使用 url()功能符</li>
+<li>format()功能符的作用是让浏览器提前知道字体的格式，以决定是否需要加载这个字体</li>
+</ul>
+<p><a target="_blank" rel="noopener external nofollow noreferrer" href="http://www.zhangxinxu.com/wordpress/?p=6063">详解</a></p>
+<p>字体格式权衡：</p>
+<ul>
+<li>svg 格式果断舍弃。</li>
+<li>如果无须兼容 IE8 浏览器，eot 格式果断舍弃。</li>
+<li>如果无须兼容 Android 4.3 之前版本手机，ttf 格式果断舍弃。</li>
+</ul>
+<h5 id="5-1-3-font-style"><a href="#5-1-3-font-style" class="headerlink" title="5.1.3 font-style"></a>5.1.3 font-style</h5><p>@font face 规则中的 font-style 和 font-weight 类似，都是用来设置对应字体样式或字重下该使用什么字体</p>
+<h5 id="5-1-4-font-weight"><a href="#5-1-4-font-weight" class="headerlink" title="5.1.4 font-weight"></a>5.1.4 font-weight</h5><p>它定义了不同字重、使用不同字体。<a target="_blank" rel="noopener external nofollow noreferrer" href="http://demo.cssworld.cn/8/5-1.php">根据具体场景细化图标显示细节</a></p>
+<h5 id="5-1-5-unicode-range"><a href="#5-1-5-unicode-range" class="headerlink" title="5.1.5 unicode-range"></a>5.1.5 unicode-range</h5><p>以让特定的字符或者特定范围的字符使用指定的字体。<a target="_blank" rel="noopener external nofollow noreferrer" href="http://www.zhangxinxu.com/wordpress/?p=6063">详解</a></p>
+<h4 id="5-2-font-face-与字体图标技术"><a href="#5-2-font-face-与字体图标技术" class="headerlink" title="5.2 @font face 与字体图标技术"></a>5.2 @font face 与字体图标技术</h4><ul>
+<li>和 SVG 图标技术相比， 字体图标技术唯一的优势就是兼容一些老的 IE 浏览器。</li>
+<li>SVG 图标同样是矢量的，同样颜色可控，但资源占用更少，加载体验更好，呈现效果更佳， 更加符合语义。</li>
+</ul>
+<h2 id="6-文本的控制"><a href="#6-文本的控制" class="headerlink" title="6. 文本的控制"></a>6. 文本的控制</h2><h4 id="6-1-text-indent-与内联元素缩进"><a href="#6-1-text-indent-与内联元素缩进" class="headerlink" title="6.1 text-indent 与内联元素缩进"></a>6.1 text-indent 与内联元素缩进</h4><ul>
+<li>text-indent 的百分比值是相对于当前元素的“包含块”计算的，而不是当前元素。</li>
+<li>text-indent 仅对第一行内联盒子内容有效。</li>
+<li>非替换元素以外的 display 计算值为 inline 的内联元素设置 text-indent 值无效，如果计算值是 inline-block/inline-table 则会生效。因此，如果父级块状元素设置 了 text-indent 属性值，子 inline-block/inline-table 需要设置 text-indent:0 重置。</li>
+<li>input标签按钮 text-indent 值无效。</li>
+<li>button标签按钮 text-indent 值有效，但是存在兼容性差异。</li>
+<li>input和textarea输入框的 text-indent 在低版本 IE 浏览器下有兼容问题。</li>
+</ul>
+<h4 id="6-2-letter-spacing-与字符间距"><a href="#6-2-letter-spacing-与字符间距" class="headerlink" title="6.2 letter-spacing 与字符间距"></a>6.2 letter-spacing 与字符间距</h4><p>letter-spacing 可以用来控制字符之间的间距，具有以下一些特性：</p>
+<ul>
+<li>继承性。</li>
+<li>默认值是 normal 而不是 0。</li>
+<li>支持负值（<a target="_blank" rel="noopener external nofollow noreferrer" href="http://demo.cssworld.cn/8/6-4.php">文字依次飞入的效果</a>）、支持小数值、暂不支持百分比值。</li>
+<li>无论值多大或多小，第一行一定会保留至少一个字符。在默认的左对齐情况下，无论值如何设置，第一个字符的位置一定是不动的。</li>
+</ul>
+<h4 id="6-3-word-spacing-与单词间距"><a href="#6-3-word-spacing-与单词间距" class="headerlink" title="6.3 word-spacing 与单词间距"></a>6.3 word-spacing 与单词间距</h4><p>word-spacing 和 letter-spacing 特性也有很多共通之处：</p>
+<ul>
+<li>都具有继承性。</li>
+<li>默认值都是 normal 而不是 0。</li>
+<li>都支持负值，都可以让字符重叠，但是对于 inline-block 和 inline-table 元素存在兼容性差异、都支持小数值</li>
+<li>在目前的 CSS2.1 规范中，并不支持百分比值，但新的草案中新增了对百分值的支持</li>
+<li>间隔算法都会受到 text-align:justify 两端对齐的影响</li>
+</ul>
+<p>差异：letter-spacing 作用于所有字符，但 word-spacing 仅作用于空格字符。</p>
+<h4 id="6-4-word-break-和-word-wrap-的区别"><a href="#6-4-word-break-和-word-wrap-的区别" class="headerlink" title="6.4 word-break 和 word-wrap 的区别"></a>6.4 word-break 和 word-wrap 的区别</h4><p>word-break 属性：</p>
+<ul>
+<li>normal：使用默认的换行规则。</li>
+<li>break-all：允许任意非 CJK（Chinese/Japanese/Korean）文本间的单词断行。</li>
+<li>keep-all：不允许 CJK 文本中的单词换行，只能在半角空格或连字符处换行。非 CJK 文本的行为实际上和 normal 一致。</li>
+</ul>
+<p>word-wrap属性：</p>
+<ul>
+<li>normal：正常的换行规则。</li>
+<li>break-word：一行单词中实在没有其他靠谱的换行点的时候换行</li>
+</ul>
+<p>word-break:break-all 的作用是所有的都换行，毫不留情，一点儿空隙都不放过，而 word-wrap:break-word则是如果这一行文字有可以换行的点，在这些换行点换行，至于对不对齐、好不好看则不关心。<a target="_blank" rel="noopener external nofollow noreferrer" href="http://demo.cssworld.cn/8/6-5.php">示例</a></p>
+<h4 id="6-5-white-space-与换行和空格的控制"><a href="#6-5-white-space-与换行和空格的控制" class="headerlink" title="6.5 white-space 与换行和空格的控制"></a>6.5 white-space 与换行和空格的控制</h4><h5 id="6-5-1-white-space-的处理模型"><a href="#6-5-1-white-space-的处理模型" class="headerlink" title="6.5.1 white-space 的处理模型"></a>6.5.1 white-space 的处理模型</h5><p>white-space 属性声明了如何处理元素内的空白字符，包括 Space（空格） 键、Enter（回车）键、Tab（制表符）键产生的空白。</p>
+<ul>
+<li>normal：合并空白字符和换行符。</li>
+<li>pre：空白字符不合并，并且内容只在有换行符的地方换行。</li>
+<li>nowrap：该值和 normal 一样会合并空白字符，但不允许文本环绕。</li>
+<li>pre-wrap：空白字符不合并，并且内容只在有换行符的地方换行，同时允许文本环绕。</li>
+<li>pre-line：合并空白字符，但只在有换行符的地方换行，允许文本环绕。</li>
+</ul>
+<p>文本环绕：一行文字内容超出容器宽度时，会自动从下一行开始显示。</p>
+<h5 id="6-5-2-white-space-与最大可用宽度"><a href="#6-5-2-white-space-与最大可用宽度" class="headerlink" title="6.5.2 white-space 与最大可用宽度"></a>6.5.2 white-space 与最大可用宽度</h5><p> white-space 设置为 nowrap 的时候，元素的宽度此时表现为“最大可用宽度”，换 行符和一些空格全部合并，文本一行显示。应用：</p>
+<ol>
+<li>“包含块”尺寸过小处理。</li>
+<li>单行文字溢出点点点效果。</li>
+<li>水平列表切换效果。<a target="_blank" rel="noopener external nofollow noreferrer" href="https://demo.cssworld.cn/8/6-6.php">示例</a></li>
+</ol>
+<p>使用 white-space:nowrap 而不是使用一个绝对安全的固定宽度值 的好处在于没有多余的空间浪费，同时通过一行简单的 box.clientWidth  - box.scrollWidth 代码就可以知道最大的滚动宽度。</p>
+<h4 id="6-6-text-align-与元素对齐"><a href="#6-6-text-align-与元素对齐" class="headerlink" title="6.6 text-align 与元素对齐"></a>6.6 text-align 与元素对齐</h4><p>全部浏览器都兼容的中文 两端对齐效果：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.justify</span> &#123; </span><br><span class="line"> <span class="attribute">text-align</span>: justify; </span><br><span class="line"> text-justify: inter-ideograph;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<p>text-align:justify 要想有两端对齐的效果，需要满足两点：一是有分隔点，如空格；二是要超过一行，此时非最后一行内容会两端对齐。</p>
+<p>单行图文实现两端对齐<a target="_blank" rel="noopener external nofollow noreferrer" href="https://demo.cssworld.cn/8/6-8.php">效果</a>。</p>
+<h4 id="6-7-text-decoration-下划线和文本重叠的问题"><a href="#6-7-text-decoration-下划线和文本重叠的问题" class="headerlink" title="6.7 text-decoration 下划线和文本重叠的问题"></a>6.7 text-decoration 下划线和文本重叠的问题</h4><p>使用border代替：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">a</span> &#123; </span><br><span class="line"> <span class="attribute">text-decoration</span>: none; </span><br><span class="line"> <span class="attribute">border-bottom</span>: <span class="number">1px</span> solid; </span><br><span class="line"> <span class="attribute">padding-bottom</span>: <span class="number">5px</span>; </span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<h4 id="6-8-text-transform-字符大小写"><a href="#6-8-text-transform-字符大小写" class="headerlink" title="6.8 text-transform 字符大小写"></a>6.8 text-transform 字符大小写</h4><p>多种实用场景：</p>
+<ol>
+<li>身份证输入：身份证最后一位有可能是字母 X，且各种场合都是指定必须大写，给input设置<code>text-transform: uppercase</code>。</li>
+<li>验证码输入：用户不确定是否区分大小写，设置为统一大写或者小写消除用户揣测心理。</li>
+</ol>
+<h2 id="7-first-letter-first-line-伪元素"><a href="#7-first-letter-first-line-伪元素" class="headerlink" title="7. :first-letter :first-line 伪元素"></a>7. :first-letter :first-line 伪元素</h2><h4 id="7-1-first-letter"><a href="#7-1-first-letter" class="headerlink" title="7.1 ::first-letter"></a>7.1 ::first-letter</h4><h5 id="7-1-1生效前提"><a href="#7-1-1生效前提" class="headerlink" title="7.1.1生效前提"></a>7.1.1生效前提</h5><ol>
+<li>元素的 display 计算值必须是 block、inline-block、list-item、tablecell 或者 table-caption。</li>
+<li>常见的标点符号、各类括号和引号 在::first-letter 伪元素眼中全部都是“辅助类”字符。不当作首字符。</li>
+<li>字符前面不能有图片或者 inline-block/inline-table 之类的元素</li>
+</ol>
+<h5 id="7-1-2-first-letter-伪元素可以生效的-CSS-属性"><a href="#7-1-2-first-letter-伪元素可以生效的-CSS-属性" class="headerlink" title="7.1.2 ::first-letter 伪元素可以生效的 CSS 属性"></a>7.1.2 ::first-letter 伪元素可以生效的 CSS 属性</h5><ul>
+<li>所有字体相关属性：font、font-style、font-variant、font-weight、 font-size、line-height 和 font-family。</li>
+<li>所有背景相关属性：background-color、background-image、backgroundposition、background-repeat、background-size 和 background-attachment。</li>
+<li>所有 margin 相关属性：margin、margin-top、margin-right、margin-bottom 和 margin-left。</li>
+<li>所有 padding 相关属性：padding、padding-top、padding-right、paddingbottom 和 padding-left。</li>
+<li>所有 border 相关属性：缩写的 border、border-style、border-color、 border-width 和普通书写的属性。</li>
+<li>color 属性。</li>
+<li>text-decoration、text-transform、letter-spacing、word-spacing（合 适情境下）、line-height、float 和 vertical-align（只有当 float 为 none 的时候）等属性</li>
+</ul>
+<h5 id="7-1-3-first-letter-伪元素的特点"><a href="#7-1-3-first-letter-伪元素的特点" class="headerlink" title="7.1.3 ::first-letter 伪元素的特点"></a>7.1.3 ::first-letter 伪元素的特点</h5><ol>
+<li><p>支持部分 display 属性值标签嵌套。display 值如果是 inline、block、table、table-row、table-caption、table-cell、list-item 都是可以的，但是不能是 inline-block 和 inline-table，否则::first-letter 伪元素会直接无效；而 display:flex 则 改变了规则，直接选择下一行的字符内容。</p>
+</li>
+<li><p>颜色等权重总是多了一层。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></span><br><span class="line"><span class="css"><span class="selector-tag">p</span><span class="selector-pseudo">:first</span>-letter &#123; </span></span><br><span class="line"><span class="css"> <span class="attribute">color</span>: red; </span></span><br><span class="line"><span class="css">&#125; </span></span><br><span class="line"><span class="css"><span class="selector-tag">p</span> &gt; <span class="selector-tag">span</span> &#123; </span></span><br><span class="line"><span class="css"> <span class="attribute">color</span>: blue<span class="meta">!important</span>; </span></span><br><span class="line"><span class="css">&#125;</span></span><br><span class="line"><span class="css"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>第一个<span class="tag">&lt;/<span class="name">span</span>&gt;</span>字符看看会不会变红？<span class="tag">&lt;/<span class="name">p</span>&gt;</span> </span><br></pre></td></tr></table></figure>
+
+<p>第变红。因为::first-letter 伪元素其实 是作为子元素存在的。相当于选择了span的子元素。</p>
+</li>
+</ol>
+<h5 id="7-1-4-first-letter-实际应用举例"><a href="#7-1-4-first-letter-实际应用举例" class="headerlink" title="7.1.4 ::first-letter 实际应用举例"></a>7.1.4 ::first-letter 实际应用举例</h5><p>电商产品价格前面的¥符号：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></span><br><span class="line"><span class="css"><span class="selector-class">.price</span><span class="selector-pseudo">:first</span>-letter &#123; </span></span><br><span class="line"><span class="css"> <span class="attribute">margin-right</span>: <span class="number">5px</span>; </span></span><br><span class="line"><span class="css"> <span class="attribute">font-size</span>: xx-large; </span></span><br><span class="line"><span class="css"> <span class="attribute">vertical-align</span>: -<span class="number">2px</span>; </span></span><br><span class="line"><span class="css">&#125; </span></span><br><span class="line"><span class="css"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">&quot;price&quot;</span>&gt;</span>¥399<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="7-2-first-line-伪元素"><a href="#7-2-first-line-伪元素" class="headerlink" title="7.2 :first-line 伪元素"></a>7.2 :first-line 伪元素</h4><ul>
+<li>:first-line 和:first-letter 伪元素一样，IE9 及以上版本浏览器支持双冒 号::first-line{}写法，IE8 浏览器只认识单冒号写法。</li>
+<li>:first-line 和:first-letter 伪元素一样，只能作用在块级元素上，也就是 display 为 block、inline-block、list-item、table-cell 或者 tablecaption 的元素设置:first-line 才有效，table、flex 之类都是无效的。</li>
+<li>:first-line 和:first-letter 伪元素一样，仅支持部分 CSS 属性:<ol>
+<li>所有字体相关属性</li>
+<li>color 属性</li>
+<li>所有背景相关属性</li>
+<li>text-decoration、text-transfor、letter-spacing、word-spacing、 line-height 和 vertical-align 等属性。</li>
+</ol>
+</li>
+<li>:first-line 和:first-letter 伪元素一样，color 等继承属性的权重总是多了 一层。如果:first-line 和:firstletter 同时设置颜色，:first-letter 级别比:first-line 高，即使:firstline 写在后面，甚至加!important（如果浏览器支持）也是如此。</li>
+<li>:first-line 和:first-letter 伪元素一样，也支持标签嵌套，但是具体细则 和:first-letter 出入较大。</li>
+</ul>
+<p>::first-line 实际应用举例：网站小标签、线框按钮和实色按钮全部都可以使用 color 颜色控制：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span> <span class="attr">class</span>=<span class="string">&quot;btn-normal red&quot;</span> <span class="attr">role</span>=<span class="string">&quot;button&quot;</span>&gt;</span>红色按钮<span class="tag">&lt;/<span class="name">a</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span> <span class="attr">class</span>=<span class="string">&quot;btn-normal blue&quot;</span> <span class="attr">role</span>=<span class="string">&quot;button&quot;</span>&gt;</span>蓝色按钮<span class="tag">&lt;/<span class="name">a</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span> <span class="attr">class</span>=<span class="string">&quot;btn-normal green&quot;</span> <span class="attr">role</span>=<span class="string">&quot;button&quot;</span>&gt;</span>绿色按钮<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></span><br><span class="line"><span class="css"><span class="selector-class">.btn-normal</span> &#123; </span></span><br><span class="line"><span class="css"> <span class="attribute">background-color</span>: currentColor; </span></span><br><span class="line"><span class="css">&#125;</span></span><br><span class="line"><span class="css"><span class="selector-class">.btn-normal</span><span class="selector-pseudo">::first-line</span> &#123; </span></span><br><span class="line"><span class="css"> <span class="attribute">color</span>: <span class="number">#fff</span>; </span></span><br><span class="line"><span class="css">&#125;</span></span><br><span class="line"><span class="css"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>昧
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://zxg0.github.io/2023/03/06/CSS%E4%B8%96%E7%95%8C%EF%BC%9A%E5%BC%BA%E5%A4%A7%E7%9A%84%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86%E8%83%BD%E5%8A%9B/" title="CSS世界：强大的文本处理能力">https://zxg0.github.io/2023/03/06/CSS世界：强大的文本处理能力/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener external nofollow noreferrer" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E7%AC%94%E8%AE%B0/" rel="tag"># 笔记</a>
+              <a href="/tags/CSS/" rel="tag"># CSS</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/03/02/CSS%E4%B8%96%E7%95%8C%EF%BC%9ACSS%20%E4%B8%96%E7%95%8C%E7%9A%84%E5%B1%82%E5%8F%A0%E8%A7%84%E5%88%99/" rel="prev" title="CSS世界：CSS世界的层叠顺序">
+                  <i class="fa fa-chevron-left"></i> CSS世界：CSS世界的层叠顺序
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+<div class="translate-style">
+繁/简：<a id="translateLink" href="javascript:translatePage();" rel="external nofollow noreferrer">繁体
+</a>
+</div>
+<script type="text/javascript" src="/js/tw_cn.js"></script>
+<script type="text/javascript">
+var defaultEncoding = 2; //网站编写字体是否繁体，1-繁体，2-简体
+var translateDelay = 0; //延迟时间,若不在前, 要设定延迟翻译时间, 如100表示100ms,默认为0
+var cookieDomain = "https://tding.top/"; //Cookie地址, 一定要设定, 通常为你的网址
+var msgToTraditionalChinese = "繁体"; //此处可以更改为你想要显示的文字
+var msgToSimplifiedChinese = "简体"; //同上，但两处均不建议更改
+var translateButtonId = "translateLink"; //默认互换id
+translateInitilization();
+</script>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">33k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">30 分钟</span>
+  </span>
+</div>
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">昧</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener external nofollow noreferrer" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener external nofollow noreferrer" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+
+</body>
+</html>
